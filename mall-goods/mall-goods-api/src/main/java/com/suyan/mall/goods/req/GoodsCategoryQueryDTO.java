@@ -4,7 +4,7 @@ import com.suyan.query.QueryDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -36,6 +36,12 @@ public class GoodsCategoryQueryDTO extends QueryDTO {
     @ApiModelProperty("类目名称模糊字段")
     private String categoryNameLike;
 
+    @ApiModelProperty("类型 1.前台 2.后台")
+    private Byte categoryType;
+
+    @ApiModelProperty("类型 1.前台 2.后台列表")
+    private List<Byte> categoryTypeList;
+
     @ApiModelProperty("是否启用")
     private Boolean isEnable;
 
@@ -43,17 +49,16 @@ public class GoodsCategoryQueryDTO extends QueryDTO {
     private List<Boolean> isEnableList;
 
     @ApiModelProperty("创建时间起")
-    private Date createTimeFrom;
+    private LocalDateTime createTimeFrom;
 
     @ApiModelProperty("创建时间止")
-    private Date createTimeTo;
+    private LocalDateTime createTimeTo;
 
     @ApiModelProperty("更新时间起")
-    private Date updateTimeFrom;
+    private LocalDateTime updateTimeFrom;
 
     @ApiModelProperty("更新时间止")
-    private Date updateTimeTo;
-
+    private LocalDateTime updateTimeTo;
 
 
     /**

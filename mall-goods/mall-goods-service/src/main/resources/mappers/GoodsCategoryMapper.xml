@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="category_type" jdbcType="TINYINT" property="categoryType" />
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, parent_id, category_name, is_enable, create_time, update_time
+    id, parent_id, category_name, category_type, is_enable, create_time, update_time
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.goods.model.GoodsCategoryExample" resultMap="BaseResultMap">
     select
@@ -105,10 +106,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       select LAST_INSERT_ID()
     </selectKey>
-    insert into tb_goods_category (parent_id, category_name, is_enable, 
-      create_time, update_time)
-    values (#{parentId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{isEnable,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    insert into tb_goods_category (parent_id, category_name, category_type, 
+      is_enable, create_time, update_time
+      )
+    values (#{parentId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{categoryType,jdbcType=TINYINT}, 
+      #{isEnable,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.goods.model.GoodsCategory">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -121,6 +124,9 @@
       </if>
       <if test="categoryName != null">
         category_name,
+      </if>
+      <if test="categoryType != null">
+        category_type,
       </if>
       <if test="isEnable != null">
         is_enable,
@@ -138,6 +144,9 @@
       </if>
       <if test="categoryName != null">
         #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryType != null">
+        #{categoryType,jdbcType=TINYINT},
       </if>
       <if test="isEnable != null">
         #{isEnable,jdbcType=BIT},
@@ -168,6 +177,9 @@
       <if test="record.categoryName != null">
         category_name = #{record.categoryName,jdbcType=VARCHAR},
       </if>
+      <if test="record.categoryType != null">
+        category_type = #{record.categoryType,jdbcType=TINYINT},
+      </if>
       <if test="record.isEnable != null">
         is_enable = #{record.isEnable,jdbcType=BIT},
       </if>
@@ -187,6 +199,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       parent_id = #{record.parentId,jdbcType=INTEGER},
       category_name = #{record.categoryName,jdbcType=VARCHAR},
+      category_type = #{record.categoryType,jdbcType=TINYINT},
       is_enable = #{record.isEnable,jdbcType=BIT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP}
@@ -202,6 +215,9 @@
       </if>
       <if test="categoryName != null">
         category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryType != null">
+        category_type = #{categoryType,jdbcType=TINYINT},
       </if>
       <if test="isEnable != null">
         is_enable = #{isEnable,jdbcType=BIT},
@@ -219,6 +235,7 @@
     update tb_goods_category
     set parent_id = #{parentId,jdbcType=INTEGER},
       category_name = #{categoryName,jdbcType=VARCHAR},
+      category_type = #{categoryType,jdbcType=TINYINT},
       is_enable = #{isEnable,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
@@ -258,6 +275,10 @@
             <if test="categoryNameList != null and categoryNameList.size > 0">
                 <foreach item="item" separator="," open="AND category_name in (" close=")" collection="categoryNameList">#{item,jdbcType=VARCHAR}</foreach>
             </if>
+            <if test="categoryType!=null">AND category_type = #{categoryType,jdbcType=TINYINT}</if>
+            <if test="categoryTypeList != null and categoryTypeList.size > 0">
+                <foreach item="item" separator="," open="AND category_type in (" close=")" collection="categoryTypeList">#{item,jdbcType=TINYINT}</foreach>
+            </if>
             <if test="isEnable!=null">AND is_enable = #{isEnable,jdbcType=BOOLEAN}</if>
             <if test="isEnableList != null and isEnableList.size > 0">
                 <foreach item="item" separator="," open="AND is_enable in (" close=")" collection="isEnableList">#{item,jdbcType=BOOLEAN}</foreach>
@@ -277,6 +298,7 @@
         insert into tb_goods_category (
             parent_id,
             category_name,
+            category_type,
             is_enable
         )
         values
@@ -284,6 +306,7 @@
         (
             #{bean.parentId,jdbcType=INTEGER} ,
             #{bean.categoryName,jdbcType=VARCHAR} ,
+            #{bean.categoryType,jdbcType=TINYINT} ,
             #{bean.isEnable,jdbcType=BOOLEAN}
         )
         </foreach>

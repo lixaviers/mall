@@ -2,42 +2,47 @@ package com.suyan.mall.goods.model;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class GoodsCategory {
 
-    
+
     /**
      * id
      */
     private Integer id;
-    
+
     /**
      * 父类id
      */
     private Integer parentId;
-    
+
     /**
      * 类目名称
      */
     private String categoryName;
-    
+
+    /**
+     * 类型 1.前台 2.后台
+     */
+    private Byte categoryType;
+
     /**
      * 是否启用
      */
     private Boolean isEnable;
-    
+
     /**
      * 创建时间
      */
-    private Date createTime;
-    
+    private LocalDateTime createTime;
+
     /**
      * 更新时间
      */
-    private Date updateTime;
-    
+    private LocalDateTime updateTime;
+
 
     /**
      * -------------------------------------------------

@@ -6,17 +6,17 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
 @ApiModel("商品类目")
 public class GoodsCategoryVO implements Serializable {
 
-    /**   
+    /**
      * serialVersionUID
-     */ 
+     */
     private static final long serialVersionUID = 1L;
 
 
@@ -39,6 +39,12 @@ public class GoodsCategoryVO implements Serializable {
     private String categoryName;
 
     /**
+     * 类型 1.前台 2.后台
+     */
+    @ApiModelProperty("类型 1.前台 2.后台")
+    private Byte categoryType;
+
+    /**
      * 是否启用
      */
     @ApiModelProperty("是否启用")
@@ -48,13 +54,13 @@ public class GoodsCategoryVO implements Serializable {
      * 创建时间
      */
     @ApiModelProperty("创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
     @ApiModelProperty("更新时间")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
 
     /**
