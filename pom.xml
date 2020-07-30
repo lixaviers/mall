@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.suyan</groupId>
+    <artifactId>mall</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>mall-component</module>
+        <module>mall-user</module>
+        <module>mall-message</module>
+        <module>mall-operation</module>
+        <module>mall-gateway</module>
+        <module>mall-goods</module>
+        <module>mall-file</module>
+        <module>mall-mmc</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <properties>
+
+        <mall.component.version>1.0-SNAPSHOT</mall.component.version>
+        <mall.user.api.version>1.0-SNAPSHOT</mall.user.api.version>
+        <mall.message.api.version>1.0-SNAPSHOT</mall.message.api.version>
+        <mall.operation.api.version>1.0-SNAPSHOT</mall.operation.api.version>
+        <mall.goods.api.version>1.0-SNAPSHOT</mall.goods.api.version>
+        <mall.mmc.api.version>1.0-SNAPSHOT</mall.mmc.api.version>
+
+        <mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
+        <pagehelper-spring-boot-starter.version>1.2.12</pagehelper-spring-boot-starter.version>
+        <pagehelper.version>5.1.10</pagehelper.version>
+
+        <knife4j-spring-boot-starter.version>2.0.1</knife4j-spring-boot-starter.version>
+        <spring-cloud-alibaba-dependencies.version>2.1.0.RELEASE</spring-cloud-alibaba-dependencies.version>
+        <spring-cloud-dependencies.version>Greenwich.RELEASE</spring-cloud-dependencies.version>
+        <spring-boot-dependencies.version>2.1.7.RELEASE</spring-boot-dependencies.version>
+        <fastjson.version>1.2.70</fastjson.version>
+        <lombok.version>1.18.2</lombok.version>
+        <springfox-swagger-ui.version>2.7.0</springfox-swagger-ui.version>
+        <druid-spring-boot-starter.version>1.1.21</druid-spring-boot-starter.version>
+        <sharding-jdbc-spring-boot-starter.version>4.0.0-RC1</sharding-jdbc-spring-boot-starter.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.suyan</groupId>
+                <artifactId>mall-component</artifactId>
+                <version>${mall.component.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.suyan</groupId>
+                <artifactId>mall-user-api</artifactId>
+                <version>${mall.user.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.suyan</groupId>
+                <artifactId>mall-message-api</artifactId>
+                <version>${mall.message.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.suyan</groupId>
+                <artifactId>mall-operation-api</artifactId>
+                <version>${mall.operation.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.suyan</groupId>
+                <artifactId>mall-goods-api</artifactId>
+                <version>${mall.goods.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.suyan</groupId>
+                <artifactId>mall-mmc-api</artifactId>
+                <version>${mall.mmc.api.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!--swagger相关依赖-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox-swagger-ui.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox-swagger-ui.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j-spring-boot-starter.version}</version>
+            </dependency>
+
+            <!--mybatis-->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid-spring-boot-starter.version}</version>
+            </dependency>
+
+            <!--sharding sphere-->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-spring-boot-starter.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+
+    <build>
+        <plugins>
+            <!-- 指定maven编译的jdk版本 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

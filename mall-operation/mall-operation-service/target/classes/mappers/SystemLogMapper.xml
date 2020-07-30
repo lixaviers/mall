@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suyan.mall.operation.dao.SystemLogMapper">
+    <resultMap id="BaseResultMap" type="com.suyan.mall.operation.model.SystemLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="unique_user_id" jdbcType="VARCHAR" property="uniqueUserId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="shop_id" jdbcType="BIGINT" property="shopId" />
+    <result column="operate" jdbcType="VARCHAR" property="operate" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="params" jdbcType="VARCHAR" property="params" />
+    <result column="execution_time" jdbcType="BIGINT" property="executionTime" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, unique_user_id, user_name, nick_name, shop_id, operate, method, params, execution_time, 
+    ip, create_time
+  </sql>
+  <select id="selectByExample" parameterType="com.suyan.mall.operation.model.SystemLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_system_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_system_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_system_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.suyan.mall.operation.model.SystemLogExample">
+    delete from tb_system_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.suyan.mall.operation.model.SystemLog">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      select LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_system_log (unique_user_id, user_name, nick_name, 
+      shop_id, operate, method, 
+      params, execution_time, ip, 
+      create_time)
+    values (#{uniqueUserId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+      #{shopId,jdbcType=BIGINT}, #{operate,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, 
+      #{params,jdbcType=VARCHAR}, #{executionTime,jdbcType=BIGINT}, #{ip,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suyan.mall.operation.model.SystemLog">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      select LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_system_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uniqueUserId != null">
+        unique_user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="operate != null">
+        operate,
+      </if>
+      <if test="method != null">
+        method,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="executionTime != null">
+        execution_time,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uniqueUserId != null">
+        #{uniqueUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="operate != null">
+        #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="executionTime != null">
+        #{executionTime,jdbcType=BIGINT},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.suyan.mall.operation.model.SystemLogExample" resultType="java.lang.Long">
+    select count(*) from tb_system_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_system_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.uniqueUserId != null">
+        unique_user_id = #{record.uniqueUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickName != null">
+        nick_name = #{record.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId,jdbcType=BIGINT},
+      </if>
+      <if test="record.operate != null">
+        operate = #{record.operate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.method != null">
+        method = #{record.method,jdbcType=VARCHAR},
+      </if>
+      <if test="record.params != null">
+        params = #{record.params,jdbcType=VARCHAR},
+      </if>
+      <if test="record.executionTime != null">
+        execution_time = #{record.executionTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_system_log
+    set id = #{record.id,jdbcType=BIGINT},
+      unique_user_id = #{record.uniqueUserId,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      nick_name = #{record.nickName,jdbcType=VARCHAR},
+      shop_id = #{record.shopId,jdbcType=BIGINT},
+      operate = #{record.operate,jdbcType=VARCHAR},
+      method = #{record.method,jdbcType=VARCHAR},
+      params = #{record.params,jdbcType=VARCHAR},
+      execution_time = #{record.executionTime,jdbcType=BIGINT},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suyan.mall.operation.model.SystemLog">
+    update tb_system_log
+    <set>
+      <if test="uniqueUserId != null">
+        unique_user_id = #{uniqueUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="operate != null">
+        operate = #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="executionTime != null">
+        execution_time = #{executionTime,jdbcType=BIGINT},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suyan.mall.operation.model.SystemLog">
+    update tb_system_log
+    set unique_user_id = #{uniqueUserId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      shop_id = #{shopId,jdbcType=BIGINT},
+      operate = #{operate,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      params = #{params,jdbcType=VARCHAR},
+      execution_time = #{executionTime,jdbcType=BIGINT},
+      ip = #{ip,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+
+    <select id="selectByPrimaryKeyForUpdate" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_system_log
+        WHERE id = #{id,jdbcType=BIGINT} 
+        FOR UPDATE
+    </select>
+    
+    <select id="querySystemLog" resultMap="BaseResultMap" parameterType="com.suyan.mall.operation.req.SystemLogQueryDTO">
+        SELECT
+         <choose>
+          <when test="returnFields!=null">${returnFields}</when>
+          <otherwise>
+            <include refid="Base_Column_List" />
+          </otherwise>
+        </choose>
+        FROM tb_system_log
+        <where>
+            <if test="id!=null">AND id = #{id,jdbcType=BIGINT}</if>
+            <if test="idList != null and idList.size > 0">
+                <foreach item="item" separator="," open="AND id in (" close=")" collection="idList">#{item,jdbcType=BIGINT}</foreach>
+            </if>
+            <if test="uniqueUserId!=null and uniqueUserId!=''">AND unique_user_id = #{uniqueUserId,jdbcType=VARCHAR}</if>
+            <if test="uniqueUserIdLike != null and uniqueUserIdLike != '' ">AND unique_user_id LIKE concat(#{uniqueUserIdLike,jdbcType=VARCHAR},'%')</if>
+            <if test="uniqueUserIdList != null and uniqueUserIdList.size > 0">
+                <foreach item="item" separator="," open="AND unique_user_id in (" close=")" collection="uniqueUserIdList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
+            <if test="userName!=null and userName!=''">AND user_name = #{userName,jdbcType=VARCHAR}</if>
+            <if test="userNameLike != null and userNameLike != '' ">AND user_name LIKE concat(#{userNameLike,jdbcType=VARCHAR},'%')</if>
+            <if test="userNameList != null and userNameList.size > 0">
+                <foreach item="item" separator="," open="AND user_name in (" close=")" collection="userNameList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
+            <if test="nickName!=null and nickName!=''">AND nick_name = #{nickName,jdbcType=VARCHAR}</if>
+            <if test="nickNameLike != null and nickNameLike != '' ">AND nick_name LIKE concat(#{nickNameLike,jdbcType=VARCHAR},'%')</if>
+            <if test="nickNameList != null and nickNameList.size > 0">
+                <foreach item="item" separator="," open="AND nick_name in (" close=")" collection="nickNameList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
+            <if test="shopId!=null">AND shop_id = #{shopId,jdbcType=BIGINT}</if>
+            <if test="shopIdList != null and shopIdList.size > 0">
+                <foreach item="item" separator="," open="AND shop_id in (" close=")" collection="shopIdList">#{item,jdbcType=BIGINT}</foreach>
+            </if>
+            <if test="operate!=null and operate!=''">AND operate = #{operate,jdbcType=VARCHAR}</if>
+            <if test="operateLike != null and operateLike != '' ">AND operate LIKE concat(#{operateLike,jdbcType=VARCHAR},'%')</if>
+            <if test="operateList != null and operateList.size > 0">
+                <foreach item="item" separator="," open="AND operate in (" close=")" collection="operateList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
+            <if test="method!=null and method!=''">AND method = #{method,jdbcType=VARCHAR}</if>
+            <if test="methodLike != null and methodLike != '' ">AND method LIKE concat(#{methodLike,jdbcType=VARCHAR},'%')</if>
+            <if test="methodList != null and methodList.size > 0">
+                <foreach item="item" separator="," open="AND method in (" close=")" collection="methodList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
+            <if test="executionTimeFrom != null"><![CDATA[AND execution_time >= #{executionTimeFrom,jdbcType=BIGINT}]]></if>
+            <if test="executionTimeTo != null"><![CDATA[AND execution_time <= #{executionTimeTo,jdbcType=BIGINT}]]></if>
+            <if test="ip!=null and ip!=''">AND ip = #{ip,jdbcType=VARCHAR}</if>
+            <if test="ipLike != null and ipLike != '' ">AND ip LIKE concat(#{ipLike,jdbcType=VARCHAR},'%')</if>
+            <if test="ipList != null and ipList.size > 0">
+                <foreach item="item" separator="," open="AND ip in (" close=")" collection="ipList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
+            <if test="createTimeFrom != null"><![CDATA[AND create_time >= #{createTimeFrom,jdbcType=TIMESTAMP}]]></if>
+            <if test="createTimeTo != null"><![CDATA[AND create_time <= #{createTimeTo,jdbcType=TIMESTAMP}]]></if>
+        </where>
+        <choose>
+            <when test="orderBy!=null and orderBy!=''">order by ${orderBy}</when>
+            <otherwise>order by id</otherwise>
+        </choose>
+    </select>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into tb_system_log (
+            unique_user_id,
+            user_name,
+            nick_name,
+            shop_id,
+            operate,
+            method,
+            params,
+            execution_time,
+            ip
+        )
+        values
+        <foreach collection="modelList" item="bean" index="index" separator=",">
+        (
+            #{bean.uniqueUserId,jdbcType=VARCHAR} ,
+            #{bean.userName,jdbcType=VARCHAR} ,
+            #{bean.nickName,jdbcType=VARCHAR} ,
+            #{bean.shopId,jdbcType=BIGINT} ,
+            #{bean.operate,jdbcType=VARCHAR} ,
+            #{bean.method,jdbcType=VARCHAR} ,
+            #{bean.params,jdbcType=VARCHAR} ,
+            #{bean.executionTime,jdbcType=BIGINT} ,
+            #{bean.ip,jdbcType=VARCHAR}
+        )
+        </foreach>
+    </insert>
+
+    <select id="selectByShopId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_system_log
+        WHERE  shop_id = #{shopId,jdbcType=BIGINT}
+    </select>
+
+</mapper>

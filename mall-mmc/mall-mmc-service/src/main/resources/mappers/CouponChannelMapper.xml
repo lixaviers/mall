@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suyan.mall.mmc.dao.CouponChannelMapper">
+    <resultMap id="BaseResultMap" type="com.suyan.mall.mmc.model.CouponChannel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="coupon_id" jdbcType="BIGINT" property="couponId" />
+    <result column="channel_id" jdbcType="TINYINT" property="channelId" />
+    <result column="inventory" jdbcType="INTEGER" property="inventory" />
+    <result column="is_issue_time" jdbcType="BIT" property="isIssueTime" />
+    <result column="issue_start_time" jdbcType="TIMESTAMP" property="issueStartTime" />
+    <result column="issue_end_time" jdbcType="TIMESTAMP" property="issueEndTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, coupon_id, channel_id, inventory, is_issue_time, issue_start_time, issue_end_time, 
+    create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.suyan.mall.mmc.model.CouponChannelExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_coupon_channel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_coupon_channel
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_coupon_channel
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.suyan.mall.mmc.model.CouponChannelExample">
+    delete from tb_coupon_channel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.suyan.mall.mmc.model.CouponChannel">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      select LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_coupon_channel (coupon_id, channel_id, inventory, 
+      is_issue_time, issue_start_time, issue_end_time, 
+      create_time, update_time)
+    values (#{couponId,jdbcType=BIGINT}, #{channelId,jdbcType=TINYINT}, #{inventory,jdbcType=INTEGER}, 
+      #{isIssueTime,jdbcType=BIT}, #{issueStartTime,jdbcType=TIMESTAMP}, #{issueEndTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suyan.mall.mmc.model.CouponChannel">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      select LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_coupon_channel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="couponId != null">
+        coupon_id,
+      </if>
+      <if test="channelId != null">
+        channel_id,
+      </if>
+      <if test="inventory != null">
+        inventory,
+      </if>
+      <if test="isIssueTime != null">
+        is_issue_time,
+      </if>
+      <if test="issueStartTime != null">
+        issue_start_time,
+      </if>
+      <if test="issueEndTime != null">
+        issue_end_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="couponId != null">
+        #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=TINYINT},
+      </if>
+      <if test="inventory != null">
+        #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="isIssueTime != null">
+        #{isIssueTime,jdbcType=BIT},
+      </if>
+      <if test="issueStartTime != null">
+        #{issueStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issueEndTime != null">
+        #{issueEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.suyan.mall.mmc.model.CouponChannelExample" resultType="java.lang.Long">
+    select count(*) from tb_coupon_channel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_coupon_channel
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.couponId != null">
+        coupon_id = #{record.couponId,jdbcType=BIGINT},
+      </if>
+      <if test="record.channelId != null">
+        channel_id = #{record.channelId,jdbcType=TINYINT},
+      </if>
+      <if test="record.inventory != null">
+        inventory = #{record.inventory,jdbcType=INTEGER},
+      </if>
+      <if test="record.isIssueTime != null">
+        is_issue_time = #{record.isIssueTime,jdbcType=BIT},
+      </if>
+      <if test="record.issueStartTime != null">
+        issue_start_time = #{record.issueStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.issueEndTime != null">
+        issue_end_time = #{record.issueEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_coupon_channel
+    set id = #{record.id,jdbcType=BIGINT},
+      coupon_id = #{record.couponId,jdbcType=BIGINT},
+      channel_id = #{record.channelId,jdbcType=TINYINT},
+      inventory = #{record.inventory,jdbcType=INTEGER},
+      is_issue_time = #{record.isIssueTime,jdbcType=BIT},
+      issue_start_time = #{record.issueStartTime,jdbcType=TIMESTAMP},
+      issue_end_time = #{record.issueEndTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suyan.mall.mmc.model.CouponChannel">
+    update tb_coupon_channel
+    <set>
+      <if test="couponId != null">
+        coupon_id = #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="channelId != null">
+        channel_id = #{channelId,jdbcType=TINYINT},
+      </if>
+      <if test="inventory != null">
+        inventory = #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="isIssueTime != null">
+        is_issue_time = #{isIssueTime,jdbcType=BIT},
+      </if>
+      <if test="issueStartTime != null">
+        issue_start_time = #{issueStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issueEndTime != null">
+        issue_end_time = #{issueEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suyan.mall.mmc.model.CouponChannel">
+    update tb_coupon_channel
+    set coupon_id = #{couponId,jdbcType=BIGINT},
+      channel_id = #{channelId,jdbcType=TINYINT},
+      inventory = #{inventory,jdbcType=INTEGER},
+      is_issue_time = #{isIssueTime,jdbcType=BIT},
+      issue_start_time = #{issueStartTime,jdbcType=TIMESTAMP},
+      issue_end_time = #{issueEndTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+
+    <select id="selectByPrimaryKeyForUpdate" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_coupon_channel
+        WHERE id = #{id,jdbcType=BIGINT} 
+        FOR UPDATE
+    </select>
+    
+    <select id="queryCouponChannel" resultMap="BaseResultMap" parameterType="com.suyan.mall.mmc.req.CouponChannelQueryDTO">
+        SELECT
+         <choose>
+          <when test="returnFields!=null">${returnFields}</when>
+          <otherwise>
+            <include refid="Base_Column_List" />
+          </otherwise>
+        </choose>
+        FROM tb_coupon_channel
+        <where>
+            <if test="id!=null">AND id = #{id,jdbcType=BIGINT}</if>
+            <if test="idList != null and idList.size > 0">
+                <foreach item="item" separator="," open="AND id in (" close=")" collection="idList">#{item,jdbcType=BIGINT}</foreach>
+            </if>
+            <if test="couponId!=null">AND coupon_id = #{couponId,jdbcType=BIGINT}</if>
+            <if test="couponIdList != null and couponIdList.size > 0">
+                <foreach item="item" separator="," open="AND coupon_id in (" close=")" collection="couponIdList">#{item,jdbcType=BIGINT}</foreach>
+            </if>
+            <if test="channelId!=null">AND channel_id = #{channelId,jdbcType=TINYINT}</if>
+            <if test="channelIdList != null and channelIdList.size > 0">
+                <foreach item="item" separator="," open="AND channel_id in (" close=")" collection="channelIdList">#{item,jdbcType=TINYINT}</foreach>
+            </if>
+            <if test="inventory!=null">AND inventory = #{inventory,jdbcType=INTEGER}</if>
+            <if test="inventoryList != null and inventoryList.size > 0">
+                <foreach item="item" separator="," open="AND inventory in (" close=")" collection="inventoryList">#{item,jdbcType=INTEGER}</foreach>
+            </if>
+            <if test="isIssueTimeFrom != null"><![CDATA[AND is_issue_time >= #{isIssueTimeFrom,jdbcType=BOOLEAN}]]></if>
+            <if test="isIssueTimeTo != null"><![CDATA[AND is_issue_time <= #{isIssueTimeTo,jdbcType=BOOLEAN}]]></if>
+            <if test="issueStartTimeFrom != null"><![CDATA[AND issue_start_time >= #{issueStartTimeFrom,jdbcType=TIMESTAMP}]]></if>
+            <if test="issueStartTimeTo != null"><![CDATA[AND issue_start_time <= #{issueStartTimeTo,jdbcType=TIMESTAMP}]]></if>
+            <if test="issueEndTimeFrom != null"><![CDATA[AND issue_end_time >= #{issueEndTimeFrom,jdbcType=TIMESTAMP}]]></if>
+            <if test="issueEndTimeTo != null"><![CDATA[AND issue_end_time <= #{issueEndTimeTo,jdbcType=TIMESTAMP}]]></if>
+            <if test="createTimeFrom != null"><![CDATA[AND create_time >= #{createTimeFrom,jdbcType=TIMESTAMP}]]></if>
+            <if test="createTimeTo != null"><![CDATA[AND create_time <= #{createTimeTo,jdbcType=TIMESTAMP}]]></if>
+            <if test="updateTimeFrom != null"><![CDATA[AND update_time >= #{updateTimeFrom,jdbcType=TIMESTAMP}]]></if>
+            <if test="updateTimeTo != null"><![CDATA[AND update_time <= #{updateTimeTo,jdbcType=TIMESTAMP}]]></if>
+        </where>
+        <choose>
+            <when test="orderBy!=null and orderBy!=''">order by ${orderBy}</when>
+            <otherwise>order by id</otherwise>
+        </choose>
+    </select>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into tb_coupon_channel (
+            coupon_id,
+            channel_id,
+            inventory,
+            is_issue_time,
+            issue_start_time,
+            issue_end_time
+        )
+        values
+        <foreach collection="modelList" item="bean" index="index" separator=",">
+        (
+            #{bean.couponId,jdbcType=BIGINT} ,
+            #{bean.channelId,jdbcType=TINYINT} ,
+            #{bean.inventory,jdbcType=INTEGER} ,
+            #{bean.isIssueTime,jdbcType=BOOLEAN} ,
+            #{bean.issueStartTime,jdbcType=TIMESTAMP} ,
+            #{bean.issueEndTime,jdbcType=TIMESTAMP}
+        )
+        </foreach>
+    </insert>
+
+    <select id="selectByCouponId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_coupon_channel
+        WHERE  coupon_id = #{couponId,jdbcType=BIGINT}
+    </select>
+
+</mapper>
