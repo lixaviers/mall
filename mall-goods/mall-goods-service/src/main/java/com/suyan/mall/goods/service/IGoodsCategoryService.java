@@ -59,5 +59,5 @@ public interface IGoodsCategoryService {
      *
      * @return
      */
-    List<GoodsCategoryVO> getTree();
+    List<GoodsCategoryVO> getTree(byte type);
 }

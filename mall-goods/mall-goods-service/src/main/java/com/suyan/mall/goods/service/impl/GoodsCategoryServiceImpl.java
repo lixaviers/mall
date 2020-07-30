@@ -55,7 +55,7 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService {
     }
 
     @Override
-    public List<GoodsCategoryVO> getTree() {
-        return GoodsCategoryConvertor.toTree(goodsCategoryBiz.getTree());
+    public List<GoodsCategoryVO> getTree(byte type) {
+        return GoodsCategoryConvertor.toTree(goodsCategoryBiz.getTree(type));
     }
 }

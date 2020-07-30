@@ -54,20 +54,20 @@ public class GoodsCategoryBiz {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer createGoodsCategory(GoodsCategory goodsCategory) {
         // TODO: Describe business logic and implement it
-        goodsCategoryMapper.insertSelective( goodsCategory );
+        goodsCategoryMapper.insertSelective(goodsCategory);
         return goodsCategory.getId();
     }
 
     /**
-    * 批量创建
-    *
-    * @param goodsCategoryList
-    * @return
-    */
+     * 批量创建
+     *
+     * @param goodsCategoryList
+     * @return
+     */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public int batchCreateGoodsCategory(List<GoodsCategory> goodsCategoryList) {
         // TODO: Describe business logic and implement it
-        return goodsCategoryMapper.insertBatch( goodsCategoryList );
+        return goodsCategoryMapper.insertBatch(goodsCategoryList);
     }
 
     /**
@@ -96,7 +96,7 @@ public class GoodsCategoryBiz {
     @Transactional(readOnly = true)
     public GoodsCategory getBaseGoodsCategory(Integer id) {
         GoodsCategory goodsCategory = goodsCategoryMapper.selectByPrimaryKey(id);
-        if(goodsCategory == null) {
+        if (goodsCategory == null) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品类目");
         }
         return goodsCategory;
@@ -123,9 +123,9 @@ public class GoodsCategoryBiz {
         return queryResult;
     }
 
-    public List<GoodsCategory> getTree() {
+    public List<GoodsCategory> getTree(byte type) {
         GoodsCategoryExample example = new GoodsCategoryExample();
-        example.createCriteria().andIsEnableEqualTo(true);
+        example.createCriteria().andCategoryTypeEqualTo(type).andIsEnableEqualTo(true);
         return goodsCategoryMapper.selectByExample(example);
     }
 }

@@ -23,6 +23,7 @@ CREATE TABLE `tb_goods_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `parent_id` int(11) unsigned NOT NULL COMMENT '父类id',
   `category_name` varchar(32) NOT NULL COMMENT '类目名称',
+  `category_type` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '类型 1.前台 2.后台',
   `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
