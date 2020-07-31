@@ -101,6 +101,9 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
             UserInfoVO userInfoVO = UserSessionUtil.getUserInfo(systemPlatform.getCode(), token);
             // 根据token获取用户信息
             log.info("根据token获取用户信息token={},systemPlatform={},result={}", token, systemPlatform.getCode(), JsonUtil.toJsonStringNullValue(userInfoVO));
+            if (userInfoVO == null) {
+                return ResponseUtil.returnAuthFail(exchange, Result.newError(ResultCode.SESSION_INVALID_ERROR));
+            }
 
             if (!userInfoVO.getSystemPlatform().equals(systemPlatform)) {
                 // 登录失效

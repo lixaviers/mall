@@ -75,7 +75,7 @@ public class UserServiceImpl implements IUserService {
     public UserInfoVO shopLogin(UserDTO userDTO) {
         User user = UserConvertor.toUser(userDTO);
         UserInfoVO userInfoVO = UserConvertor.toUserInfoVO(userBiz.shopLogin(user));
-        /*try {
+        try {
             // 获取用户店铺
             log.info("调用[operation-b]获取用户店铺入参={}", userInfoVO.getUniqueUserId());
             Result<List<ShopVO>> result = shopFeignClient.getUserShopList(userInfoVO.getUniqueUserId());
@@ -87,7 +87,7 @@ public class UserServiceImpl implements IUserService {
             }
         } catch (Exception e) {
             log.error("调用[operation-b]获取用户店铺出错", e);
-        }*/
+        }
         return userInfoVO;
     }
 

@@ -37,12 +37,6 @@ public class WebConfig implements WebMvcConfigurer {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    @Bean
-    public MappingJackson2HttpMessageConverter converter() {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        return converter;
-    }
-
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
@@ -53,30 +47,8 @@ public class WebConfig implements WebMvcConfigurer {
         configurer.defaultContentType(MediaType.APPLICATION_JSON_UTF8);
     }
 
-    /**
-     * 自定义String转LocalDateTime方法，此方法将会作用于url所携带的参数上
-     */
-    static class StringToLocalDateTimeConverter implements Converter<String, LocalDateTime> {
-        @Override
-        public LocalDateTime convert(String s) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            return LocalDateTime.parse(s, formatter);
-        }
-    }
-
-    /**
-     * 将上述自定义方法进行添加
-     */
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(new StringToLocalDateTimeConverter());
-    }
-
-    /**
-     * 增加序列化与反序列化器，它们将作用于实体类的LocalDateTime属性。
-     */
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+    @Bean
+    public MappingJackson2HttpMessageConverter converter() {
         DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         ObjectMapper objectMapper = new ObjectMapper();
         JavaTimeModule module = new JavaTimeModule();
@@ -85,7 +57,16 @@ public class WebConfig implements WebMvcConfigurer {
         objectMapper.registerModule(module);
         // 忽略目标对象没有的属性
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        converters.add(new MappingJackson2HttpMessageConverter(objectMapper));
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(objectMapper);
+        return converter;
+    }
+
+    /**
+     * 增加序列化与反序列化器，它们将作用于实体类的LocalDateTime属性。
+     */
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(0, converter());
     }
 
 }

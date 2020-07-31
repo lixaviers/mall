@@ -7,11 +7,8 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.suyan.mall.user.interceptor.UserBInterceptor;
 import com.suyan.utils.IDGenerator;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.convert.converter.Converter;
@@ -19,8 +16,10 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -47,12 +46,6 @@ public class WebConfig implements WebMvcConfigurer {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    @Bean
-    public MappingJackson2HttpMessageConverter converter() {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        return converter;
-    }
-
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
@@ -66,7 +59,7 @@ public class WebConfig implements WebMvcConfigurer {
     /**
      * 自定义String转LocalDateTime方法，此方法将会作用于url所携带的参数上
      */
-    static class StringToLocalDateTimeConverter implements Converter<String, LocalDateTime> {
+    /*static class StringToLocalDateTimeConverter implements Converter<String, LocalDateTime> {
         @Override
         public LocalDateTime convert(String s) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -74,19 +67,16 @@ public class WebConfig implements WebMvcConfigurer {
         }
     }
 
-    /**
+    *//**
      * 将上述自定义方法进行添加
-     */
+     *//*
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new StringToLocalDateTimeConverter());
-    }
+    }*/
 
-    /**
-     * 增加序列化与反序列化器，它们将作用于实体类的LocalDateTime属性。
-     */
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+    @Bean
+    public MappingJackson2HttpMessageConverter converter() {
         DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         ObjectMapper objectMapper = new ObjectMapper();
         JavaTimeModule module = new JavaTimeModule();
@@ -94,7 +84,17 @@ public class WebConfig implements WebMvcConfigurer {
         module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(pattern));
         objectMapper.registerModule(module);
         // 忽略目标对象没有的属性
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
-        converters.add(new MappingJackson2HttpMessageConverter(objectMapper));
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(objectMapper);
+        return converter;
     }
+
+    /**
+     * 增加序列化与反序列化器，它们将作用于实体类的LocalDateTime属性。
+     */
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(0, converter());
+    }
+
 }
