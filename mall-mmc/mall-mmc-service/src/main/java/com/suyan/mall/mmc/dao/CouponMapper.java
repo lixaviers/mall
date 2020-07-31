@@ -5,11 +5,10 @@ import com.suyan.mall.mmc.model.CouponExample;
 import com.suyan.mall.mmc.req.CouponQueryDTO;
 import org.apache.ibatis.annotations.Param;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CouponMapper {
-    
+
     long countByExample(CouponExample example);
 
     int deleteByExample(CouponExample example);
@@ -41,7 +40,6 @@ public interface CouponMapper {
     List<Coupon> queryCoupon(CouponQueryDTO couponQuery);
 
     int insertBatch(@Param("modelList") List<Coupon> modelList);
-
 
 
 }

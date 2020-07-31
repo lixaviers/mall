@@ -9,6 +9,10 @@ import com.suyan.mall.mmc.enums.CommonStatusMmcEnum;
 import com.suyan.mall.mmc.enums.PromotionTypeEnum;
 import com.suyan.mall.mmc.model.Coupon;
 import com.suyan.mall.mmc.req.CouponQueryDTO;
+import com.suyan.mall.user.resp.b.UserInfoVO;
+import com.suyan.mall.user.utils.UserContainer;
+import com.suyan.mall.user.utils.UserSessionUtil;
+import com.suyan.mall.user.utils.UserUtil;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +56,8 @@ public class CouponBiz {
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Long createCoupon(Coupon coupon) {
+        UserInfoVO shopUser = UserUtil.getShopUser();
+        coupon.setShopId(shopUser.getShopId());
         // 已保存
         coupon.setCouponStatus(CommonStatusMmcEnum.SAVED.getValue());
         if (PromotionTypeEnum.FULL_LADDER_COUPON.equal(coupon.getCouponType())) {
@@ -70,7 +76,12 @@ public class CouponBiz {
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer updateCoupon(Coupon coupon) {
-        getBaseCoupon(coupon.getId());
+        Coupon couponLast = getBaseCoupon(coupon.getId());
+        UserInfoVO shopUser = UserUtil.getShopUser();
+        if (!couponLast.getShopId().equals(shopUser.getShopId())) {
+            // 非本店铺优惠券
+            throw new CommonException(ResultCode.NO_PERMISSION_OPERATE, "此优惠券");
+        }
         return couponMapper.updateByPrimaryKeySelective(coupon);
     }
 

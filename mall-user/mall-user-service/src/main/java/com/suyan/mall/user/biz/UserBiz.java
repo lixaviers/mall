@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @CopyRright (c): <素焉代码生成工具>
@@ -141,7 +142,7 @@ public class UserBiz {
     @Transactional(readOnly = true)
     public User userLogin(User user) {
         User userLast = getUserByUserName(UserSourceEnum.USER.getValue(), user.getMobile());
-        if (userLast == null) {
+        if (Objects.isNull(userLast)) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "手机号");
         }
         if (!passwordEncoderUtil.matches(user.getUserPwd(), userLast.getUserPwd())) {

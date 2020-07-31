@@ -49,6 +49,7 @@ public class CouponController extends BaseController {
     @ApiOperation(value = "获取优惠券列表信息", notes = "分页获取优惠券列表信息")
     @PostMapping("query")
     public Result<QueryResultVO<CouponVO>> queryCoupon(@Validated @RequestBody CouponQueryDTO couponQueryDTO) {
+        couponQueryDTO.setShopId(getUser().getShopId());
         couponQueryDTO.setIsDeleted(false);
         return Result.newSuccess(couponService.queryCoupon(couponQueryDTO));
     }

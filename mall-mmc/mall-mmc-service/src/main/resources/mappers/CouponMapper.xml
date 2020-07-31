@@ -3,6 +3,7 @@
 <mapper namespace="com.suyan.mall.mmc.dao.CouponMapper">
     <resultMap id="BaseResultMap" type="com.suyan.mall.mmc.model.Coupon">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="shop_id" jdbcType="BIGINT" property="shopId" />
     <result column="coupon_name" jdbcType="VARCHAR" property="couponName" />
     <result column="coupon_package_id" jdbcType="BIGINT" property="couponPackageId" />
     <result column="use_type" jdbcType="TINYINT" property="useType" />
@@ -83,8 +84,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, coupon_name, coupon_package_id, use_type, price, person_limit, order_limit, start_time, 
-    end_time, pending_time, inventory, coupon_type, promotion_amount, order_full_amount, 
+    id, shop_id, coupon_name, coupon_package_id, use_type, price, person_limit, order_limit, 
+    start_time, end_time, pending_time, inventory, coupon_type, promotion_amount, order_full_amount, 
     promotion_max_amount, discount_amount, promotion_scope_amount, coupon_status, create_time, 
     update_time, is_deleted
   </sql>
@@ -123,20 +124,22 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       select LAST_INSERT_ID()
     </selectKey>
-    insert into tb_coupon (coupon_name, coupon_package_id, use_type, 
-      price, person_limit, order_limit, 
-      start_time, end_time, pending_time, 
-      inventory, coupon_type, promotion_amount, 
-      order_full_amount, promotion_max_amount, discount_amount, 
-      promotion_scope_amount, coupon_status, create_time, 
-      update_time, is_deleted)
-    values (#{couponName,jdbcType=VARCHAR}, #{couponPackageId,jdbcType=BIGINT}, #{useType,jdbcType=TINYINT}, 
-      #{price,jdbcType=DECIMAL}, #{personLimit,jdbcType=INTEGER}, #{orderLimit,jdbcType=INTEGER}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{pendingTime,jdbcType=TIMESTAMP}, 
-      #{inventory,jdbcType=INTEGER}, #{couponType,jdbcType=TINYINT}, #{promotionAmount,jdbcType=DECIMAL}, 
-      #{orderFullAmount,jdbcType=DECIMAL}, #{promotionMaxAmount,jdbcType=DECIMAL}, #{discountAmount,jdbcType=DECIMAL}, 
-      #{promotionScopeAmount,jdbcType=VARCHAR}, #{couponStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT})
+    insert into tb_coupon (shop_id, coupon_name, coupon_package_id, 
+      use_type, price, person_limit, 
+      order_limit, start_time, end_time, 
+      pending_time, inventory, coupon_type, 
+      promotion_amount, order_full_amount, promotion_max_amount, 
+      discount_amount, promotion_scope_amount, coupon_status, 
+      create_time, update_time, is_deleted
+      )
+    values (#{shopId,jdbcType=BIGINT}, #{couponName,jdbcType=VARCHAR}, #{couponPackageId,jdbcType=BIGINT}, 
+      #{useType,jdbcType=TINYINT}, #{price,jdbcType=DECIMAL}, #{personLimit,jdbcType=INTEGER}, 
+      #{orderLimit,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{pendingTime,jdbcType=TIMESTAMP}, #{inventory,jdbcType=INTEGER}, #{couponType,jdbcType=TINYINT}, 
+      #{promotionAmount,jdbcType=DECIMAL}, #{orderFullAmount,jdbcType=DECIMAL}, #{promotionMaxAmount,jdbcType=DECIMAL}, 
+      #{discountAmount,jdbcType=DECIMAL}, #{promotionScopeAmount,jdbcType=VARCHAR}, #{couponStatus,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.mmc.model.Coupon">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -144,6 +147,9 @@
     </selectKey>
     insert into tb_coupon
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shopId != null">
+        shop_id,
+      </if>
       <if test="couponName != null">
         coupon_name,
       </if>
@@ -206,6 +212,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shopId != null">
+        #{shopId,jdbcType=BIGINT},
+      </if>
       <if test="couponName != null">
         #{couponName,jdbcType=VARCHAR},
       </if>
@@ -280,6 +289,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId,jdbcType=BIGINT},
+      </if>
       <if test="record.couponName != null">
         coupon_name = #{record.couponName,jdbcType=VARCHAR},
       </if>
@@ -348,6 +360,7 @@
   <update id="updateByExample" parameterType="map">
     update tb_coupon
     set id = #{record.id,jdbcType=BIGINT},
+      shop_id = #{record.shopId,jdbcType=BIGINT},
       coupon_name = #{record.couponName,jdbcType=VARCHAR},
       coupon_package_id = #{record.couponPackageId,jdbcType=BIGINT},
       use_type = #{record.useType,jdbcType=TINYINT},
@@ -375,6 +388,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.suyan.mall.mmc.model.Coupon">
     update tb_coupon
     <set>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=BIGINT},
+      </if>
       <if test="couponName != null">
         coupon_name = #{couponName,jdbcType=VARCHAR},
       </if>
@@ -440,7 +456,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.suyan.mall.mmc.model.Coupon">
     update tb_coupon
-    set coupon_name = #{couponName,jdbcType=VARCHAR},
+    set shop_id = #{shopId,jdbcType=BIGINT},
+      coupon_name = #{couponName,jdbcType=VARCHAR},
       coupon_package_id = #{couponPackageId,jdbcType=BIGINT},
       use_type = #{useType,jdbcType=TINYINT},
       price = #{price,jdbcType=DECIMAL},
@@ -493,6 +510,10 @@
             <if test="id!=null">AND id = #{id,jdbcType=BIGINT}</if>
             <if test="idList != null and idList.size > 0">
                 <foreach item="item" separator="," open="AND id in (" close=")" collection="idList">#{item,jdbcType=BIGINT}</foreach>
+            </if>
+            <if test="shopId!=null">AND shop_id = #{shopId,jdbcType=BIGINT}</if>
+            <if test="shopIdList != null and shopIdList.size > 0">
+                <foreach item="item" separator="," open="AND shop_id in (" close=")" collection="shopIdList">#{item,jdbcType=BIGINT}</foreach>
             </if>
             <if test="couponName!=null and couponName!=''">AND coupon_name = #{couponName,jdbcType=VARCHAR}</if>
             <if test="couponNameLike != null and couponNameLike != '' ">AND coupon_name LIKE concat(#{couponNameLike,jdbcType=VARCHAR},'%')</if>
@@ -560,6 +581,7 @@
 
     <insert id="insertBatch" parameterType="java.util.List">
         insert into tb_coupon (
+            shop_id,
             coupon_name,
             coupon_package_id,
             use_type,
@@ -581,6 +603,7 @@
         values
         <foreach collection="modelList" item="bean" index="index" separator=",">
         (
+            #{bean.shopId,jdbcType=BIGINT} ,
             #{bean.couponName,jdbcType=VARCHAR} ,
             #{bean.couponPackageId,jdbcType=BIGINT} ,
             #{bean.useType,jdbcType=TINYINT} ,

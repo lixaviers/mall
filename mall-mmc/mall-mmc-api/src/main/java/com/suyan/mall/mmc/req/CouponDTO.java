@@ -29,6 +29,12 @@ public class CouponDTO implements Serializable {
     private Long id;
 
     /**
+     * 店铺id
+     */
+    @ApiModelProperty("店铺id")
+    private Long shopId;
+
+    /**
      * 优惠券名称
      */
     @ApiModelProperty("优惠券名称")

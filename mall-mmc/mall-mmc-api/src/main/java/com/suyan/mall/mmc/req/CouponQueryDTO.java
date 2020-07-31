@@ -22,6 +22,12 @@ public class CouponQueryDTO extends QueryDTO {
     @ApiModelProperty("主键id列表")
     private List<Long> idList;
 
+    @ApiModelProperty("店铺id")
+    private Long shopId;
+
+    @ApiModelProperty("店铺id列表")
+    private List<Long> shopIdList;
+
     @ApiModelProperty("优惠券名称")
     private String couponName;
 
@@ -138,7 +144,6 @@ public class CouponQueryDTO extends QueryDTO {
 
     @ApiModelProperty("是否删除: 0.未删除 1.已删除列表")
     private List<Boolean> isDeletedList;
-
 
 
     /**
