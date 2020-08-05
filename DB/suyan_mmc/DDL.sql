@@ -1,6 +1,7 @@
 USE `suyan_mmc`;
 CREATE TABLE `tb_coupon` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `shop_id` bigint(20) unsigned NOT NULL COMMENT '店铺id',
   `coupon_name` varchar(64) CHARACTER SET utf8 NOT NULL COMMENT '优惠券名称',
   `coupon_package_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '券包id',
   `use_type` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '使用类型 1.免费 2.付费',
@@ -17,6 +18,7 @@ CREATE TABLE `tb_coupon` (
   `promotion_max_amount` decimal(12,2) DEFAULT NULL COMMENT '促销封顶金额',
   `discount_amount` decimal(4,2) DEFAULT NULL COMMENT '折扣金额',
   `promotion_scope_amount` varchar(1024) CHARACTER SET utf8 DEFAULT NULL COMMENT '订单金额范围及促销金额json',
+  `coupon_scope` tinyint(2) NOT NULL COMMENT '使用范围',
   `coupon_status` tinyint(2) unsigned NOT NULL COMMENT '优惠券状态',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -36,3 +38,50 @@ CREATE TABLE `tb_coupon_channel` (
   PRIMARY KEY (`id`),
   KEY `idx_coupon_id` (`coupon_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='优惠券渠道表';
+CREATE TABLE `tb_promotion_scope` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `promotion_type` tinyint(2) unsigned NOT NULL COMMENT '促销类型 1.优惠券 2.订单促销',
+  `promotion_id` bigint(20) unsigned NOT NULL COMMENT '促销id',
+  `goods_category_id` int(11) unsigned NOT NULL COMMENT '商品类目id',
+  `goods_category_name` varchar(32) DEFAULT NULL COMMENT '商品类目名称',
+  `goods_sku_code` varchar(32) DEFAULT NULL COMMENT '商品sku编码',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=277 DEFAULT CHARSET=utf8mb4 COMMENT='促销适用范围表';
+CREATE TABLE `tb_sub_promotion` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `shop_id` bigint(20) NOT NULL COMMENT '店铺id',
+  `sub_promotion_name` varchar(64) CHARACTER SET utf8 NOT NULL COMMENT '订单促销名称',
+  `start_time` datetime NOT NULL COMMENT '生效时间',
+  `end_time` datetime NOT NULL COMMENT '失效时间',
+  `sub_promotion_type` tinyint(2) unsigned NOT NULL COMMENT '订单促销类型',
+  `promotion_amount` decimal(12,2) DEFAULT NULL COMMENT '促销金额',
+  `order_full_amount` decimal(12,2) DEFAULT NULL COMMENT '订单满金额',
+  `promotion_max_amount` decimal(12,2) DEFAULT NULL COMMENT '促销封顶金额',
+  `discount_amount` decimal(4,2) DEFAULT NULL COMMENT '折扣金额',
+  `promotion_scope_amount` varchar(1024) DEFAULT NULL COMMENT '订单金额范围及促销金额json',
+  `sub_promotion_scope` tinyint(2) unsigned NOT NULL COMMENT '使用范围',
+  `sub_promotion_status` tinyint(2) unsigned NOT NULL COMMENT '订单促销状态',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除: 0.未删除 1.已删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单促销表';
+CREATE TABLE `tb_user_coupon` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `coupon_id` bigint(20) unsigned NOT NULL COMMENT '优惠券id',
+  `coupon_code` varchar(32) NOT NULL COMMENT '券码',
+  `user_open_id` varchar(32) NOT NULL COMMENT '用户openId',
+  `mobile` varchar(16) NOT NULL COMMENT '手机号',
+  `order_no` varchar(32) NOT NULL COMMENT '订单号',
+  `coupon_status` tinyint(4) unsigned NOT NULL COMMENT '状态',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_user` varchar(32) NOT NULL COMMENT '创建人',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_user_name` varchar(64) DEFAULT NULL COMMENT '创建人名称',
+  `update_user` varchar(32) NOT NULL COMMENT '更新人',
+  `update_user_name` varchar(64) DEFAULT NULL COMMENT '更新人名称',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_coupon_code` (`coupon_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户优惠券表';

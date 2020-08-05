@@ -1,9 +1,14 @@
 package com.suyan.mall.mmc.convertor;
 
+import com.alibaba.fastjson.JSON;
+import com.suyan.mall.mmc.enums.PromotionUseTypeEnum;
+import com.suyan.mall.mmc.model.PromotionAmountScope;
 import com.suyan.mall.mmc.model.SubPromotion;
 import com.suyan.mall.mmc.req.SubPromotionDTO;
+import com.suyan.mall.mmc.resp.PromotionAmountScopeVO;
 import com.suyan.mall.mmc.resp.SubPromotionVO;
 import com.suyan.query.QueryResultVO;
+import com.suyan.utils.BeanUtil;
 import org.springframework.cglib.beans.BeanCopier;
 
 import java.util.ArrayList;
@@ -24,12 +29,17 @@ public abstract class SubPromotionConvertor {
         }
         SubPromotionVO subPromotionVO = new SubPromotionVO();
         beanCopierForSubPromotionVO.copy(subPromotion, subPromotionVO, null);
+        subPromotionVO.setSubPormotionTypeDesc(PromotionUseTypeEnum.getDescByValue(subPromotion.getSubPromotionType()));
+        subPromotionVO.setPromotionAmountScopeList(JSON.parseArray(subPromotion.getPromotionScopeAmount(), PromotionAmountScopeVO.class));
+        subPromotionVO.setPromotionScopeList(PromotionScopeConvertor.toPromotionScopeVOList(subPromotion.getPromotionScopeList()));
         return subPromotionVO;
     }
 
     public static SubPromotion toSubPromotion(SubPromotionDTO subPromotionDTO) {
         SubPromotion subPromotion = new SubPromotion();
         beanCopierForSubPromotion.copy(subPromotionDTO, subPromotion, null);
+        subPromotion.setPromotionAmountScopeList(BeanUtil.fastBeanCopy(subPromotionDTO.getPromotionScopeList(), PromotionAmountScope.class));
+        subPromotion.setPromotionScopeList(PromotionScopeConvertor.toPromotionScopeList(subPromotionDTO.getPromotionScopeList()));
         return subPromotion;
     }
 

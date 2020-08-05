@@ -1,13 +1,22 @@
 package com.suyan.mall.mmc.biz;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
 import com.suyan.mall.mmc.dao.SubPromotionMapper;
+import com.suyan.mall.mmc.enums.CommonStatusMmcEnum;
+import com.suyan.mall.mmc.enums.PromotionScopeEnum;
+import com.suyan.mall.mmc.enums.PromotionTypeEnum;
+import com.suyan.mall.mmc.enums.PromotionUseTypeEnum;
+import com.suyan.mall.mmc.model.PromotionScope;
 import com.suyan.mall.mmc.model.SubPromotion;
 import com.suyan.mall.mmc.req.SubPromotionQueryDTO;
+import com.suyan.mall.user.resp.b.UserInfoVO;
+import com.suyan.mall.user.utils.UserUtil;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.ResultCode;
+import com.suyan.utils.CollectionsUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +25,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @CopyRright (c): <素焉代码生成工具>
@@ -27,6 +37,9 @@ public class SubPromotionBiz {
 
     @Autowired
     private SubPromotionMapper subPromotionMapper;
+
+    @Autowired
+    private PromotionScopeBiz promotionScopeBiz;
 
 
     /**
@@ -49,21 +62,20 @@ public class SubPromotionBiz {
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Long createSubPromotion(SubPromotion subPromotion) {
-        // TODO: Describe business logic and implement it
+        UserInfoVO shopUser = UserUtil.getShopUser();
+        subPromotion.setShopId(shopUser.getShopId());
+        // 已保存
+        subPromotion.setSubPromotionStatus(CommonStatusMmcEnum.SAVED.getValue());
+        if (PromotionUseTypeEnum.FULL_LADDER_COUPON.equal(subPromotion.getSubPromotionType())) {
+            // 阶梯满减
+            subPromotion.setPromotionScopeAmount(JSON.toJSONString(subPromotion.getPromotionAmountScopeList()));
+        }
         subPromotionMapper.insertSelective(subPromotion);
+        if (PromotionScopeEnum.GOODS_CATEGORY.equal(subPromotion.getSubPromotionScope())) {
+            // 按商品类目
+            promotionScopeBiz.batchCreatePromotionScope(PromotionTypeEnum.SUB_PROMOTION.getValue(), subPromotion.getId(), subPromotion.getPromotionScopeList());
+        }
         return subPromotion.getId();
-    }
-
-    /**
-     * 批量创建
-     *
-     * @param subPromotionList
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public int batchCreateSubPromotion(List<SubPromotion> subPromotionList) {
-        // TODO: Describe business logic and implement it
-        return subPromotionMapper.insertBatch(subPromotionList);
     }
 
     /**
@@ -74,7 +86,41 @@ public class SubPromotionBiz {
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer updateSubPromotion(SubPromotion subPromotion) {
-        getBaseSubPromotion(subPromotion.getId());
+        SubPromotion subPromotionLast = getBaseSubPromotion(subPromotion.getId());
+        UserInfoVO shopUser = UserUtil.getShopUser();
+        if (!subPromotionLast.getShopId().equals(shopUser.getShopId())) {
+            // 非本店铺订单促销
+            throw new CommonException(ResultCode.NO_PERMISSION_OPERATE, "此订单促销");
+        }
+        if (subPromotion.getSubPromotionScope().equals(subPromotionLast.getSubPromotionScope())) {
+            if (PromotionScopeEnum.GOODS_CATEGORY.equal(subPromotion.getSubPromotionScope())) {
+                // 按商品类目 对比类目
+                List<PromotionScope> oldPromotionScopeList = promotionScopeBiz.getPromotionScopeListByPromotion(PromotionTypeEnum.SUB_PROMOTION.getValue(), subPromotion.getId());
+                List<Integer> oldGoodsCategoryIdIdList = oldPromotionScopeList.stream().map(PromotionScope::getGoodsCategoryId).collect(Collectors.toList());
+
+                List<Integer> newGoodsCategoryIdIdList = subPromotion.getPromotionScopeList().stream().map(PromotionScope::getGoodsCategoryId).collect(Collectors.toList());
+
+                // 删除的列表
+                List<Long> deleteIdList = oldPromotionScopeList.stream().filter(item -> !newGoodsCategoryIdIdList.contains(item.getGoodsCategoryId()))
+                        .map(PromotionScope::getId).collect(Collectors.toList());
+                if (CollectionsUtil.isNotEmpty(deleteIdList)) {
+                    promotionScopeBiz.deletePromotionScope(deleteIdList);
+                }
+                // 新增的列表
+                List<PromotionScope> addList = subPromotion.getPromotionScopeList().stream().filter(item -> !oldGoodsCategoryIdIdList.contains(item.getGoodsCategoryId())).collect(Collectors.toList());
+                if (CollectionsUtil.isNotEmpty(addList)) {
+                    promotionScopeBiz.batchCreatePromotionScope(PromotionTypeEnum.SUB_PROMOTION.getValue(), subPromotion.getId(), addList);
+                }
+            }
+        } else {
+            if (PromotionScopeEnum.GOODS_CATEGORY.equal(subPromotion.getSubPromotionScope())) {
+                // 新增为[按商品类目]
+                promotionScopeBiz.batchCreatePromotionScope(PromotionTypeEnum.SUB_PROMOTION.getValue(), subPromotion.getId(), subPromotion.getPromotionScopeList());
+            } else if (PromotionScopeEnum.SHOP.equal(subPromotion.getSubPromotionScope())) {
+                // 新增为[全店通用]
+                promotionScopeBiz.deletePromotionScopeByPromotion(PromotionTypeEnum.SUB_PROMOTION.getValue(), subPromotion.getId());
+            }
+        }
         return subPromotionMapper.updateByPrimaryKeySelective(subPromotion);
     }
 
@@ -86,7 +132,9 @@ public class SubPromotionBiz {
      */
     @Transactional(readOnly = true)
     public SubPromotion getSubPromotion(Long id) {
-        return getBaseSubPromotion(id);
+        SubPromotion subPromotion = getBaseSubPromotion(id);
+        subPromotion.setPromotionScopeList(promotionScopeBiz.getPromotionScopeListByPromotion(PromotionTypeEnum.SUB_PROMOTION.getValue(), id));
+        return subPromotion;
     }
 
     @Transactional(readOnly = true)

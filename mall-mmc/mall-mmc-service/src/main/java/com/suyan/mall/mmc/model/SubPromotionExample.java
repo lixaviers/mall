@@ -167,133 +167,73 @@ public class SubPromotionExample {
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNull() {
-            addCriterion("name is null");
+        public Criteria andSubPromotionNameIsNull() {
+            addCriterion("sub_promotion_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNotNull() {
-            addCriterion("name is not null");
+        public Criteria andSubPromotionNameIsNotNull() {
+            addCriterion("sub_promotion_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNameEqualTo(String value) {
-            addCriterion("name =", value, "name");
+        public Criteria andSubPromotionNameEqualTo(String value) {
+            addCriterion("sub_promotion_name =", value, "subPromotionName");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotEqualTo(String value) {
-            addCriterion("name <>", value, "name");
+        public Criteria andSubPromotionNameNotEqualTo(String value) {
+            addCriterion("sub_promotion_name <>", value, "subPromotionName");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThan(String value) {
-            addCriterion("name >", value, "name");
+        public Criteria andSubPromotionNameGreaterThan(String value) {
+            addCriterion("sub_promotion_name >", value, "subPromotionName");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThanOrEqualTo(String value) {
-            addCriterion("name >=", value, "name");
+        public Criteria andSubPromotionNameGreaterThanOrEqualTo(String value) {
+            addCriterion("sub_promotion_name >=", value, "subPromotionName");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThan(String value) {
-            addCriterion("name <", value, "name");
+        public Criteria andSubPromotionNameLessThan(String value) {
+            addCriterion("sub_promotion_name <", value, "subPromotionName");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThanOrEqualTo(String value) {
-            addCriterion("name <=", value, "name");
+        public Criteria andSubPromotionNameLessThanOrEqualTo(String value) {
+            addCriterion("sub_promotion_name <=", value, "subPromotionName");
             return (Criteria) this;
         }
 
-        public Criteria andNameLike(String value) {
-            addCriterion("name like", value, "name");
+        public Criteria andSubPromotionNameLike(String value) {
+            addCriterion("sub_promotion_name like", value, "subPromotionName");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotLike(String value) {
-            addCriterion("name not like", value, "name");
+        public Criteria andSubPromotionNameNotLike(String value) {
+            addCriterion("sub_promotion_name not like", value, "subPromotionName");
             return (Criteria) this;
         }
 
-        public Criteria andNameIn(List<String> values) {
-            addCriterion("name in", values, "name");
+        public Criteria andSubPromotionNameIn(List<String> values) {
+            addCriterion("sub_promotion_name in", values, "subPromotionName");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotIn(List<String> values) {
-            addCriterion("name not in", values, "name");
+        public Criteria andSubPromotionNameNotIn(List<String> values) {
+            addCriterion("sub_promotion_name not in", values, "subPromotionName");
             return (Criteria) this;
         }
 
-        public Criteria andNameBetween(String value1, String value2) {
-            addCriterion("name between", value1, value2, "name");
+        public Criteria andSubPromotionNameBetween(String value1, String value2) {
+            addCriterion("sub_promotion_name between", value1, value2, "subPromotionName");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotBetween(String value1, String value2) {
-            addCriterion("name not between", value1, value2, "name");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdIsNull() {
-            addCriterion("type_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdIsNotNull() {
-            addCriterion("type_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdEqualTo(Byte value) {
-            addCriterion("type_id =", value, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdNotEqualTo(Byte value) {
-            addCriterion("type_id <>", value, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdGreaterThan(Byte value) {
-            addCriterion("type_id >", value, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdGreaterThanOrEqualTo(Byte value) {
-            addCriterion("type_id >=", value, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdLessThan(Byte value) {
-            addCriterion("type_id <", value, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdLessThanOrEqualTo(Byte value) {
-            addCriterion("type_id <=", value, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdIn(List<Byte> values) {
-            addCriterion("type_id in", values, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdNotIn(List<Byte> values) {
-            addCriterion("type_id not in", values, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdBetween(Byte value1, Byte value2) {
-            addCriterion("type_id between", value1, value2, "typeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTypeIdNotBetween(Byte value1, Byte value2) {
-            addCriterion("type_id not between", value1, value2, "typeId");
+        public Criteria andSubPromotionNameNotBetween(String value1, String value2) {
+            addCriterion("sub_promotion_name not between", value1, value2, "subPromotionName");
             return (Criteria) this;
         }
 
@@ -414,6 +354,66 @@ public class SubPromotionExample {
 
         public Criteria andEndTimeNotBetween(Date value1, Date value2) {
             addCriterion("end_time not between", value1, value2, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionTypeIsNull() {
+            addCriterion("sub_promotion_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionTypeIsNotNull() {
+            addCriterion("sub_promotion_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionTypeEqualTo(Byte value) {
+            addCriterion("sub_promotion_type =", value, "subPromotionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionTypeNotEqualTo(Byte value) {
+            addCriterion("sub_promotion_type <>", value, "subPromotionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionTypeGreaterThan(Byte value) {
+            addCriterion("sub_promotion_type >", value, "subPromotionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("sub_promotion_type >=", value, "subPromotionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionTypeLessThan(Byte value) {
+            addCriterion("sub_promotion_type <", value, "subPromotionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("sub_promotion_type <=", value, "subPromotionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionTypeIn(List<Byte> values) {
+            addCriterion("sub_promotion_type in", values, "subPromotionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionTypeNotIn(List<Byte> values) {
+            addCriterion("sub_promotion_type not in", values, "subPromotionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionTypeBetween(Byte value1, Byte value2) {
+            addCriterion("sub_promotion_type between", value1, value2, "subPromotionType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("sub_promotion_type not between", value1, value2, "subPromotionType");
             return (Criteria) this;
         }
 
@@ -657,63 +657,193 @@ public class SubPromotionExample {
             return (Criteria) this;
         }
 
-        public Criteria andPromotionStatusIsNull() {
-            addCriterion("promotion_status is null");
+        public Criteria andPromotionScopeAmountIsNull() {
+            addCriterion("promotion_scope_amount is null");
             return (Criteria) this;
         }
 
-        public Criteria andPromotionStatusIsNotNull() {
-            addCriterion("promotion_status is not null");
+        public Criteria andPromotionScopeAmountIsNotNull() {
+            addCriterion("promotion_scope_amount is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPromotionStatusEqualTo(Byte value) {
-            addCriterion("promotion_status =", value, "promotionStatus");
+        public Criteria andPromotionScopeAmountEqualTo(String value) {
+            addCriterion("promotion_scope_amount =", value, "promotionScopeAmount");
             return (Criteria) this;
         }
 
-        public Criteria andPromotionStatusNotEqualTo(Byte value) {
-            addCriterion("promotion_status <>", value, "promotionStatus");
+        public Criteria andPromotionScopeAmountNotEqualTo(String value) {
+            addCriterion("promotion_scope_amount <>", value, "promotionScopeAmount");
             return (Criteria) this;
         }
 
-        public Criteria andPromotionStatusGreaterThan(Byte value) {
-            addCriterion("promotion_status >", value, "promotionStatus");
+        public Criteria andPromotionScopeAmountGreaterThan(String value) {
+            addCriterion("promotion_scope_amount >", value, "promotionScopeAmount");
             return (Criteria) this;
         }
 
-        public Criteria andPromotionStatusGreaterThanOrEqualTo(Byte value) {
-            addCriterion("promotion_status >=", value, "promotionStatus");
+        public Criteria andPromotionScopeAmountGreaterThanOrEqualTo(String value) {
+            addCriterion("promotion_scope_amount >=", value, "promotionScopeAmount");
             return (Criteria) this;
         }
 
-        public Criteria andPromotionStatusLessThan(Byte value) {
-            addCriterion("promotion_status <", value, "promotionStatus");
+        public Criteria andPromotionScopeAmountLessThan(String value) {
+            addCriterion("promotion_scope_amount <", value, "promotionScopeAmount");
             return (Criteria) this;
         }
 
-        public Criteria andPromotionStatusLessThanOrEqualTo(Byte value) {
-            addCriterion("promotion_status <=", value, "promotionStatus");
+        public Criteria andPromotionScopeAmountLessThanOrEqualTo(String value) {
+            addCriterion("promotion_scope_amount <=", value, "promotionScopeAmount");
             return (Criteria) this;
         }
 
-        public Criteria andPromotionStatusIn(List<Byte> values) {
-            addCriterion("promotion_status in", values, "promotionStatus");
+        public Criteria andPromotionScopeAmountLike(String value) {
+            addCriterion("promotion_scope_amount like", value, "promotionScopeAmount");
             return (Criteria) this;
         }
 
-        public Criteria andPromotionStatusNotIn(List<Byte> values) {
-            addCriterion("promotion_status not in", values, "promotionStatus");
+        public Criteria andPromotionScopeAmountNotLike(String value) {
+            addCriterion("promotion_scope_amount not like", value, "promotionScopeAmount");
             return (Criteria) this;
         }
 
-        public Criteria andPromotionStatusBetween(Byte value1, Byte value2) {
-            addCriterion("promotion_status between", value1, value2, "promotionStatus");
+        public Criteria andPromotionScopeAmountIn(List<String> values) {
+            addCriterion("promotion_scope_amount in", values, "promotionScopeAmount");
             return (Criteria) this;
         }
 
-        public Criteria andPromotionStatusNotBetween(Byte value1, Byte value2) {
-            addCriterion("promotion_status not between", value1, value2, "promotionStatus");
+        public Criteria andPromotionScopeAmountNotIn(List<String> values) {
+            addCriterion("promotion_scope_amount not in", values, "promotionScopeAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionScopeAmountBetween(String value1, String value2) {
+            addCriterion("promotion_scope_amount between", value1, value2, "promotionScopeAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionScopeAmountNotBetween(String value1, String value2) {
+            addCriterion("promotion_scope_amount not between", value1, value2, "promotionScopeAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionScopeIsNull() {
+            addCriterion("sub_promotion_scope is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionScopeIsNotNull() {
+            addCriterion("sub_promotion_scope is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionScopeEqualTo(Byte value) {
+            addCriterion("sub_promotion_scope =", value, "subPromotionScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionScopeNotEqualTo(Byte value) {
+            addCriterion("sub_promotion_scope <>", value, "subPromotionScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionScopeGreaterThan(Byte value) {
+            addCriterion("sub_promotion_scope >", value, "subPromotionScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionScopeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("sub_promotion_scope >=", value, "subPromotionScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionScopeLessThan(Byte value) {
+            addCriterion("sub_promotion_scope <", value, "subPromotionScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionScopeLessThanOrEqualTo(Byte value) {
+            addCriterion("sub_promotion_scope <=", value, "subPromotionScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionScopeIn(List<Byte> values) {
+            addCriterion("sub_promotion_scope in", values, "subPromotionScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionScopeNotIn(List<Byte> values) {
+            addCriterion("sub_promotion_scope not in", values, "subPromotionScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionScopeBetween(Byte value1, Byte value2) {
+            addCriterion("sub_promotion_scope between", value1, value2, "subPromotionScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionScopeNotBetween(Byte value1, Byte value2) {
+            addCriterion("sub_promotion_scope not between", value1, value2, "subPromotionScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionStatusIsNull() {
+            addCriterion("sub_promotion_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionStatusIsNotNull() {
+            addCriterion("sub_promotion_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionStatusEqualTo(Byte value) {
+            addCriterion("sub_promotion_status =", value, "subPromotionStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionStatusNotEqualTo(Byte value) {
+            addCriterion("sub_promotion_status <>", value, "subPromotionStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionStatusGreaterThan(Byte value) {
+            addCriterion("sub_promotion_status >", value, "subPromotionStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("sub_promotion_status >=", value, "subPromotionStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionStatusLessThan(Byte value) {
+            addCriterion("sub_promotion_status <", value, "subPromotionStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("sub_promotion_status <=", value, "subPromotionStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionStatusIn(List<Byte> values) {
+            addCriterion("sub_promotion_status in", values, "subPromotionStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionStatusNotIn(List<Byte> values) {
+            addCriterion("sub_promotion_status not in", values, "subPromotionStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionStatusBetween(Byte value1, Byte value2) {
+            addCriterion("sub_promotion_status between", value1, value2, "subPromotionStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubPromotionStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("sub_promotion_status not between", value1, value2, "subPromotionStatus");
             return (Criteria) this;
         }
 

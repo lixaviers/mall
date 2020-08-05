@@ -1,52 +1,59 @@
 package com.suyan.mall.mmc.resp;
 
-import lombok.Data;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @ApiModel("订单促销")
 public class SubPromotionVO implements Serializable {
 
-    /**   
+    /**
      * serialVersionUID
-     */ 
+     */
     private static final long serialVersionUID = 1L;
 
 
     /**
-     * 订单促销id
+     * 主键id
      */
-    @ApiModelProperty("订单促销id")
+    @ApiModelProperty("主键id")
     private Long id;
 
     /**
-     * 名称
+     * 店铺id
      */
-    @ApiModelProperty("名称")
-    private String name;
+    @ApiModelProperty("店铺id")
+    private Long shopId;
 
     /**
-     * 类型
+     * 订单促销名称
      */
-    @ApiModelProperty("类型")
-    private Byte typeId;
+    @ApiModelProperty("订单促销名称")
+    private String subPromotionName;
 
     /**
-     * 开始时间
+     * 生效时间
      */
-    @ApiModelProperty("开始时间")
+    @ApiModelProperty("生效时间")
     private LocalDateTime startTime;
 
     /**
-     * 结束时间
+     * 失效时间
      */
-    @ApiModelProperty("结束时间")
+    @ApiModelProperty("失效时间")
     private LocalDateTime endTime;
+
+    /**
+     * 订单促销类型
+     */
+    @ApiModelProperty("订单促销类型")
+    private Byte subPromotionType;
 
     /**
      * 促销金额
@@ -73,10 +80,22 @@ public class SubPromotionVO implements Serializable {
     private BigDecimal discountAmount;
 
     /**
-     * 状态
+     * 订单金额范围及促销金额json
      */
-    @ApiModelProperty("状态")
-    private Byte promotionStatus;
+    @ApiModelProperty("订单金额范围及促销金额json")
+    private String promotionScopeAmount;
+
+    /**
+     * 使用范围
+     */
+    @ApiModelProperty("使用范围")
+    private Byte subPromotionScope;
+
+    /**
+     * 优惠券状态
+     */
+    @ApiModelProperty("优惠券状态")
+    private Byte subPromotionStatus;
 
     /**
      * 创建时间
@@ -91,9 +110,9 @@ public class SubPromotionVO implements Serializable {
     private LocalDateTime updateTime;
 
     /**
-     * 是否删除：0.未删除，1.已删除
+     * 是否删除: 0.未删除 1.已删除
      */
-    @ApiModelProperty("是否删除：0.未删除，1.已删除")
+    @ApiModelProperty("是否删除: 0.未删除 1.已删除")
     private Boolean isDeleted;
 
 
@@ -102,6 +121,24 @@ public class SubPromotionVO implements Serializable {
      * 上面字段由工具自动生成，请在下面添加扩充字段
      * -------------------------------------------------
      */
+
+    /**
+     * 类型描述
+     */
+    @ApiModelProperty("类型描述")
+    private String subPormotionTypeDesc;
+
+    /**
+     * 订单金额范围及促销金额
+     */
+    @ApiModelProperty("订单金额范围及促销金额")
+    private List<PromotionAmountScopeVO> promotionAmountScopeList;
+
+    /**
+     * 使用范围
+     */
+    @ApiModelProperty("使用范围")
+    private List<PromotionScopeVO> promotionScopeList;
 
 
 }

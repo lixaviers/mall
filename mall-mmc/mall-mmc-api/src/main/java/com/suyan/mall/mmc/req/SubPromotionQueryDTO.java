@@ -16,38 +16,44 @@ public class SubPromotionQueryDTO extends QueryDTO {
      */
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("订单促销id")
+    @ApiModelProperty("主键id")
     private Long id;
 
-    @ApiModelProperty("订单促销id列表")
+    @ApiModelProperty("主键id列表")
     private List<Long> idList;
 
-    @ApiModelProperty("名称")
-    private String name;
+    @ApiModelProperty("店铺id")
+    private Long shopId;
 
-    @ApiModelProperty("名称列表")
-    private List<String> nameList;
+    @ApiModelProperty("店铺id列表")
+    private List<Long> shopIdList;
 
-    @ApiModelProperty("名称模糊字段")
-    private String nameLike;
+    @ApiModelProperty("订单促销名称")
+    private String subPromotionName;
 
-    @ApiModelProperty("类型")
-    private Byte typeId;
+    @ApiModelProperty("订单促销名称列表")
+    private List<String> subPromotionNameList;
 
-    @ApiModelProperty("类型列表")
-    private List<Byte> typeIdList;
+    @ApiModelProperty("订单促销名称模糊字段")
+    private String subPromotionNameLike;
 
-    @ApiModelProperty("开始时间起")
+    @ApiModelProperty("生效时间起")
     private LocalDateTime startTimeFrom;
 
-    @ApiModelProperty("开始时间止")
+    @ApiModelProperty("生效时间止")
     private LocalDateTime startTimeTo;
 
-    @ApiModelProperty("结束时间起")
+    @ApiModelProperty("失效时间起")
     private LocalDateTime endTimeFrom;
 
-    @ApiModelProperty("结束时间止")
+    @ApiModelProperty("失效时间止")
     private LocalDateTime endTimeTo;
+
+    @ApiModelProperty("订单促销类型")
+    private Byte subPromotionType;
+
+    @ApiModelProperty("订单促销类型列表")
+    private List<Byte> subPromotionTypeList;
 
     @ApiModelProperty("促销金额起")
     private BigDecimal promotionAmountFrom;
@@ -73,11 +79,17 @@ public class SubPromotionQueryDTO extends QueryDTO {
     @ApiModelProperty("折扣金额止")
     private BigDecimal discountAmountTo;
 
-    @ApiModelProperty("状态")
-    private Byte promotionStatus;
+    @ApiModelProperty("使用范围")
+    private Byte subPromotionScope;
 
-    @ApiModelProperty("状态列表")
-    private List<Byte> promotionStatusList;
+    @ApiModelProperty("使用范围列表")
+    private List<Byte> subPromotionScopeList;
+
+    @ApiModelProperty("订单促销状态")
+    private Byte subPromotionStatus;
+
+    @ApiModelProperty("订单促销状态列表")
+    private List<Byte> subPromotionStatusList;
 
     @ApiModelProperty("创建时间起")
     private LocalDateTime createTimeFrom;
@@ -91,12 +103,11 @@ public class SubPromotionQueryDTO extends QueryDTO {
     @ApiModelProperty("更新时间止")
     private LocalDateTime updateTimeTo;
 
-    @ApiModelProperty("是否删除：0.未删除，1.已删除")
+    @ApiModelProperty("是否删除: 0.未删除 1.已删除")
     private Boolean isDeleted;
 
-    @ApiModelProperty("是否删除：0.未删除，1.已删除列表")
+    @ApiModelProperty("是否删除: 0.未删除 1.已删除列表")
     private List<Boolean> isDeletedList;
-
 
 
     /**

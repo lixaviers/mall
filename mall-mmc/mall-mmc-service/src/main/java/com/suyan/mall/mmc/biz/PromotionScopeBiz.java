@@ -70,7 +70,7 @@ public class PromotionScopeBiz {
     public int batchCreatePromotionScope(Byte promotionType, Long promotionId, List<PromotionScope> promotionScopeList) {
         if (CollectionsUtil.isNotEmpty(promotionScopeList)) {
             promotionScopeList.forEach(promotionScope -> {
-                promotionScope.setPromotionType(PromotionTypeEnum.COUPON.getValue());
+                promotionScope.setPromotionType(promotionType);
                 promotionScope.setPromotionId(promotionId);
             });
         }

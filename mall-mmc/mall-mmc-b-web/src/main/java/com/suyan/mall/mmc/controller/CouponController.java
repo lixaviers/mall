@@ -32,7 +32,7 @@ public class CouponController extends BaseController {
         return Result.newSuccess(couponService.deleteCoupon(id));
     }
 
-    @ApiOperation(value = "创建优惠券", notes = "创建优惠券")
+    @ApiOperation(value = "创建/编辑优惠券", notes = "创建/编辑优惠券")
     @PostMapping("addOrUpdate")
     public Result<Long> addOrUpdate(@Validated({BaseInterface.class}) @RequestBody CouponDTO couponDTO) {
         if (PromotionScopeEnum.GOODS_CATEGORY.equal(couponDTO.getCouponScope()) && CollectionUtils.isEmpty(couponDTO.getPromotionScopeList())) {

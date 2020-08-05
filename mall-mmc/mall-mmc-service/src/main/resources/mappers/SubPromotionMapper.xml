@@ -3,15 +3,18 @@
 <mapper namespace="com.suyan.mall.mmc.dao.SubPromotionMapper">
     <resultMap id="BaseResultMap" type="com.suyan.mall.mmc.model.SubPromotion">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="type_id" jdbcType="TINYINT" property="typeId" />
+    <result column="shop_id" jdbcType="BIGINT" property="shopId" />
+    <result column="sub_promotion_name" jdbcType="VARCHAR" property="subPromotionName" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="sub_promotion_type" jdbcType="TINYINT" property="subPromotionType" />
     <result column="promotion_amount" jdbcType="DECIMAL" property="promotionAmount" />
     <result column="order_full_amount" jdbcType="DECIMAL" property="orderFullAmount" />
     <result column="promotion_max_amount" jdbcType="DECIMAL" property="promotionMaxAmount" />
     <result column="discount_amount" jdbcType="DECIMAL" property="discountAmount" />
-    <result column="promotion_status" jdbcType="TINYINT" property="promotionStatus" />
+    <result column="promotion_scope_amount" jdbcType="VARCHAR" property="promotionScopeAmount" />
+    <result column="sub_promotion_scope" jdbcType="TINYINT" property="subPromotionScope" />
+    <result column="sub_promotion_status" jdbcType="TINYINT" property="subPromotionStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
@@ -75,8 +78,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, type_id, start_time, end_time, promotion_amount, order_full_amount, promotion_max_amount, 
-    discount_amount, promotion_status, create_time, update_time, is_deleted
+    id, shop_id, sub_promotion_name, start_time, end_time, sub_promotion_type, promotion_amount, 
+    order_full_amount, promotion_max_amount, discount_amount, promotion_scope_amount, 
+    sub_promotion_scope, sub_promotion_status, create_time, update_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.mmc.model.SubPromotionExample" resultMap="BaseResultMap">
     select
@@ -113,16 +117,18 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       select LAST_INSERT_ID()
     </selectKey>
-    insert into tb_sub_promotion (name, type_id, start_time, 
-      end_time, promotion_amount, order_full_amount, 
-      promotion_max_amount, discount_amount, promotion_status, 
-      create_time, update_time, is_deleted
-      )
-    values (#{name,jdbcType=VARCHAR}, #{typeId,jdbcType=TINYINT}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{promotionAmount,jdbcType=DECIMAL}, #{orderFullAmount,jdbcType=DECIMAL}, 
-      #{promotionMaxAmount,jdbcType=DECIMAL}, #{discountAmount,jdbcType=DECIMAL}, #{promotionStatus,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
-      )
+    insert into tb_sub_promotion (shop_id, sub_promotion_name, start_time, 
+      end_time, sub_promotion_type, promotion_amount, 
+      order_full_amount, promotion_max_amount, discount_amount, 
+      promotion_scope_amount, sub_promotion_scope, 
+      sub_promotion_status, create_time, update_time, 
+      is_deleted)
+    values (#{shopId,jdbcType=BIGINT}, #{subPromotionName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{subPromotionType,jdbcType=TINYINT}, #{promotionAmount,jdbcType=DECIMAL}, 
+      #{orderFullAmount,jdbcType=DECIMAL}, #{promotionMaxAmount,jdbcType=DECIMAL}, #{discountAmount,jdbcType=DECIMAL}, 
+      #{promotionScopeAmount,jdbcType=VARCHAR}, #{subPromotionScope,jdbcType=TINYINT}, 
+      #{subPromotionStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.mmc.model.SubPromotion">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -130,17 +136,20 @@
     </selectKey>
     insert into tb_sub_promotion
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        name,
+      <if test="shopId != null">
+        shop_id,
       </if>
-      <if test="typeId != null">
-        type_id,
+      <if test="subPromotionName != null">
+        sub_promotion_name,
       </if>
       <if test="startTime != null">
         start_time,
       </if>
       <if test="endTime != null">
         end_time,
+      </if>
+      <if test="subPromotionType != null">
+        sub_promotion_type,
       </if>
       <if test="promotionAmount != null">
         promotion_amount,
@@ -154,8 +163,14 @@
       <if test="discountAmount != null">
         discount_amount,
       </if>
-      <if test="promotionStatus != null">
-        promotion_status,
+      <if test="promotionScopeAmount != null">
+        promotion_scope_amount,
+      </if>
+      <if test="subPromotionScope != null">
+        sub_promotion_scope,
+      </if>
+      <if test="subPromotionStatus != null">
+        sub_promotion_status,
       </if>
       <if test="createTime != null">
         create_time,
@@ -168,17 +183,20 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="shopId != null">
+        #{shopId,jdbcType=BIGINT},
       </if>
-      <if test="typeId != null">
-        #{typeId,jdbcType=TINYINT},
+      <if test="subPromotionName != null">
+        #{subPromotionName,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subPromotionType != null">
+        #{subPromotionType,jdbcType=TINYINT},
       </if>
       <if test="promotionAmount != null">
         #{promotionAmount,jdbcType=DECIMAL},
@@ -192,8 +210,14 @@
       <if test="discountAmount != null">
         #{discountAmount,jdbcType=DECIMAL},
       </if>
-      <if test="promotionStatus != null">
-        #{promotionStatus,jdbcType=TINYINT},
+      <if test="promotionScopeAmount != null">
+        #{promotionScopeAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="subPromotionScope != null">
+        #{subPromotionScope,jdbcType=TINYINT},
+      </if>
+      <if test="subPromotionStatus != null">
+        #{subPromotionStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -218,17 +242,20 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId,jdbcType=BIGINT},
       </if>
-      <if test="record.typeId != null">
-        type_id = #{record.typeId,jdbcType=TINYINT},
+      <if test="record.subPromotionName != null">
+        sub_promotion_name = #{record.subPromotionName,jdbcType=VARCHAR},
       </if>
       <if test="record.startTime != null">
         start_time = #{record.startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.endTime != null">
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.subPromotionType != null">
+        sub_promotion_type = #{record.subPromotionType,jdbcType=TINYINT},
       </if>
       <if test="record.promotionAmount != null">
         promotion_amount = #{record.promotionAmount,jdbcType=DECIMAL},
@@ -242,8 +269,14 @@
       <if test="record.discountAmount != null">
         discount_amount = #{record.discountAmount,jdbcType=DECIMAL},
       </if>
-      <if test="record.promotionStatus != null">
-        promotion_status = #{record.promotionStatus,jdbcType=TINYINT},
+      <if test="record.promotionScopeAmount != null">
+        promotion_scope_amount = #{record.promotionScopeAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subPromotionScope != null">
+        sub_promotion_scope = #{record.subPromotionScope,jdbcType=TINYINT},
+      </if>
+      <if test="record.subPromotionStatus != null">
+        sub_promotion_status = #{record.subPromotionStatus,jdbcType=TINYINT},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -262,15 +295,18 @@
   <update id="updateByExample" parameterType="map">
     update tb_sub_promotion
     set id = #{record.id,jdbcType=BIGINT},
-      name = #{record.name,jdbcType=VARCHAR},
-      type_id = #{record.typeId,jdbcType=TINYINT},
+      shop_id = #{record.shopId,jdbcType=BIGINT},
+      sub_promotion_name = #{record.subPromotionName,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      sub_promotion_type = #{record.subPromotionType,jdbcType=TINYINT},
       promotion_amount = #{record.promotionAmount,jdbcType=DECIMAL},
       order_full_amount = #{record.orderFullAmount,jdbcType=DECIMAL},
       promotion_max_amount = #{record.promotionMaxAmount,jdbcType=DECIMAL},
       discount_amount = #{record.discountAmount,jdbcType=DECIMAL},
-      promotion_status = #{record.promotionStatus,jdbcType=TINYINT},
+      promotion_scope_amount = #{record.promotionScopeAmount,jdbcType=VARCHAR},
+      sub_promotion_scope = #{record.subPromotionScope,jdbcType=TINYINT},
+      sub_promotion_status = #{record.subPromotionStatus,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       is_deleted = #{record.isDeleted,jdbcType=BIT}
@@ -281,17 +317,20 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.suyan.mall.mmc.model.SubPromotion">
     update tb_sub_promotion
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=BIGINT},
       </if>
-      <if test="typeId != null">
-        type_id = #{typeId,jdbcType=TINYINT},
+      <if test="subPromotionName != null">
+        sub_promotion_name = #{subPromotionName,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subPromotionType != null">
+        sub_promotion_type = #{subPromotionType,jdbcType=TINYINT},
       </if>
       <if test="promotionAmount != null">
         promotion_amount = #{promotionAmount,jdbcType=DECIMAL},
@@ -305,8 +344,14 @@
       <if test="discountAmount != null">
         discount_amount = #{discountAmount,jdbcType=DECIMAL},
       </if>
-      <if test="promotionStatus != null">
-        promotion_status = #{promotionStatus,jdbcType=TINYINT},
+      <if test="promotionScopeAmount != null">
+        promotion_scope_amount = #{promotionScopeAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="subPromotionScope != null">
+        sub_promotion_scope = #{subPromotionScope,jdbcType=TINYINT},
+      </if>
+      <if test="subPromotionStatus != null">
+        sub_promotion_status = #{subPromotionStatus,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -322,15 +367,18 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.suyan.mall.mmc.model.SubPromotion">
     update tb_sub_promotion
-    set name = #{name,jdbcType=VARCHAR},
-      type_id = #{typeId,jdbcType=TINYINT},
+    set shop_id = #{shopId,jdbcType=BIGINT},
+      sub_promotion_name = #{subPromotionName,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
+      sub_promotion_type = #{subPromotionType,jdbcType=TINYINT},
       promotion_amount = #{promotionAmount,jdbcType=DECIMAL},
       order_full_amount = #{orderFullAmount,jdbcType=DECIMAL},
       promotion_max_amount = #{promotionMaxAmount,jdbcType=DECIMAL},
       discount_amount = #{discountAmount,jdbcType=DECIMAL},
-      promotion_status = #{promotionStatus,jdbcType=TINYINT},
+      promotion_scope_amount = #{promotionScopeAmount,jdbcType=VARCHAR},
+      sub_promotion_scope = #{subPromotionScope,jdbcType=TINYINT},
+      sub_promotion_status = #{subPromotionStatus,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       is_deleted = #{isDeleted,jdbcType=BIT}
@@ -368,19 +416,23 @@
             <if test="idList != null and idList.size > 0">
                 <foreach item="item" separator="," open="AND id in (" close=")" collection="idList">#{item,jdbcType=BIGINT}</foreach>
             </if>
-            <if test="name!=null and name!=''">AND name = #{name,jdbcType=VARCHAR}</if>
-            <if test="nameLike != null and nameLike != '' ">AND name LIKE concat(#{nameLike,jdbcType=VARCHAR},'%')</if>
-            <if test="nameList != null and nameList.size > 0">
-                <foreach item="item" separator="," open="AND name in (" close=")" collection="nameList">#{item,jdbcType=VARCHAR}</foreach>
+            <if test="shopId!=null">AND shop_id = #{shopId,jdbcType=BIGINT}</if>
+            <if test="shopIdList != null and shopIdList.size > 0">
+                <foreach item="item" separator="," open="AND shop_id in (" close=")" collection="shopIdList">#{item,jdbcType=BIGINT}</foreach>
             </if>
-            <if test="typeId!=null">AND type_id = #{typeId,jdbcType=TINYINT}</if>
-            <if test="typeIdList != null and typeIdList.size > 0">
-                <foreach item="item" separator="," open="AND type_id in (" close=")" collection="typeIdList">#{item,jdbcType=TINYINT}</foreach>
+            <if test="subPromotionName!=null and subPromotionName!=''">AND sub_promotion_name = #{subPromotionName,jdbcType=VARCHAR}</if>
+            <if test="subPromotionNameLike != null and subPromotionNameLike != '' ">AND sub_promotion_name LIKE concat(#{subPromotionNameLike,jdbcType=VARCHAR},'%')</if>
+            <if test="subPromotionNameList != null and subPromotionNameList.size > 0">
+                <foreach item="item" separator="," open="AND sub_promotion_name in (" close=")" collection="subPromotionNameList">#{item,jdbcType=VARCHAR}</foreach>
             </if>
             <if test="startTimeFrom != null"><![CDATA[AND start_time >= #{startTimeFrom,jdbcType=TIMESTAMP}]]></if>
             <if test="startTimeTo != null"><![CDATA[AND start_time <= #{startTimeTo,jdbcType=TIMESTAMP}]]></if>
             <if test="endTimeFrom != null"><![CDATA[AND end_time >= #{endTimeFrom,jdbcType=TIMESTAMP}]]></if>
             <if test="endTimeTo != null"><![CDATA[AND end_time <= #{endTimeTo,jdbcType=TIMESTAMP}]]></if>
+            <if test="subPromotionType!=null">AND sub_promotion_type = #{subPromotionType,jdbcType=TINYINT}</if>
+            <if test="subPromotionTypeList != null and subPromotionTypeList.size > 0">
+                <foreach item="item" separator="," open="AND sub_promotion_type in (" close=")" collection="subPromotionTypeList">#{item,jdbcType=TINYINT}</foreach>
+            </if>
             <if test="promotionAmountFrom != null"><![CDATA[AND promotion_amount >= #{promotionAmountFrom,jdbcType=DECIMAL}]]></if>
             <if test="promotionAmountTo != null"><![CDATA[AND promotion_amount <= #{promotionAmountTo,jdbcType=DECIMAL}]]></if>
             <if test="orderFullAmountFrom != null"><![CDATA[AND order_full_amount >= #{orderFullAmountFrom,jdbcType=DECIMAL}]]></if>
@@ -389,9 +441,13 @@
             <if test="promotionMaxAmountTo != null"><![CDATA[AND promotion_max_amount <= #{promotionMaxAmountTo,jdbcType=DECIMAL}]]></if>
             <if test="discountAmountFrom != null"><![CDATA[AND discount_amount >= #{discountAmountFrom,jdbcType=DECIMAL}]]></if>
             <if test="discountAmountTo != null"><![CDATA[AND discount_amount <= #{discountAmountTo,jdbcType=DECIMAL}]]></if>
-            <if test="promotionStatus!=null">AND promotion_status = #{promotionStatus,jdbcType=TINYINT}</if>
-            <if test="promotionStatusList != null and promotionStatusList.size > 0">
-                <foreach item="item" separator="," open="AND promotion_status in (" close=")" collection="promotionStatusList">#{item,jdbcType=TINYINT}</foreach>
+            <if test="subPromotionScope!=null">AND sub_promotion_scope = #{subPromotionScope,jdbcType=TINYINT}</if>
+            <if test="subPromotionScopeList != null and subPromotionScopeList.size > 0">
+                <foreach item="item" separator="," open="AND sub_promotion_scope in (" close=")" collection="subPromotionScopeList">#{item,jdbcType=TINYINT}</foreach>
+            </if>
+            <if test="subPromotionStatus!=null">AND sub_promotion_status = #{subPromotionStatus,jdbcType=TINYINT}</if>
+            <if test="subPromotionStatusList != null and subPromotionStatusList.size > 0">
+                <foreach item="item" separator="," open="AND sub_promotion_status in (" close=")" collection="subPromotionStatusList">#{item,jdbcType=TINYINT}</foreach>
             </if>
             <if test="createTimeFrom != null"><![CDATA[AND create_time >= #{createTimeFrom,jdbcType=TIMESTAMP}]]></if>
             <if test="createTimeTo != null"><![CDATA[AND create_time <= #{createTimeTo,jdbcType=TIMESTAMP}]]></if>
@@ -410,28 +466,34 @@
 
     <insert id="insertBatch" parameterType="java.util.List">
         insert into tb_sub_promotion (
-            name,
-            type_id,
+            shop_id,
+            sub_promotion_name,
             start_time,
             end_time,
+            sub_promotion_type,
             promotion_amount,
             order_full_amount,
             promotion_max_amount,
             discount_amount,
-            promotion_status
+            promotion_scope_amount,
+            sub_promotion_scope,
+            sub_promotion_status
         )
         values
         <foreach collection="modelList" item="bean" index="index" separator=",">
         (
-            #{bean.name,jdbcType=VARCHAR} ,
-            #{bean.typeId,jdbcType=TINYINT} ,
+            #{bean.shopId,jdbcType=BIGINT} ,
+            #{bean.subPromotionName,jdbcType=VARCHAR} ,
             #{bean.startTime,jdbcType=TIMESTAMP} ,
             #{bean.endTime,jdbcType=TIMESTAMP} ,
+            #{bean.subPromotionType,jdbcType=TINYINT} ,
             #{bean.promotionAmount,jdbcType=DECIMAL} ,
             #{bean.orderFullAmount,jdbcType=DECIMAL} ,
             #{bean.promotionMaxAmount,jdbcType=DECIMAL} ,
             #{bean.discountAmount,jdbcType=DECIMAL} ,
-            #{bean.promotionStatus,jdbcType=TINYINT}
+            #{bean.promotionScopeAmount,jdbcType=VARCHAR} ,
+            #{bean.subPromotionScope,jdbcType=TINYINT} ,
+            #{bean.subPromotionStatus,jdbcType=TINYINT}
         )
         </foreach>
     </insert>

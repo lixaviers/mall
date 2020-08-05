@@ -4,18 +4,25 @@ package com.suyan.mall.mmc.enums;
  * @Comments: 促销使用类型
  */
 public enum PromotionUseTypeEnum {
-    CASH_COUPON                 ((byte) 1, PromotionTypeEnum.COUPON.getValue(), "现金券"),
-    FULL_CUT_COUPON             ((byte) 2, PromotionTypeEnum.COUPON.getValue(), "满减券"),
-    EACH_FULL_CUT_COUPON        ((byte) 3, PromotionTypeEnum.COUPON.getValue(), "每满减券"),
-    DISCOUNT_COUPON             ((byte) 4, PromotionTypeEnum.COUPON.getValue(), "满折券"),
-    FULL_LADDER_COUPON          ((byte) 5, PromotionTypeEnum.COUPON.getValue(), "阶梯满减券"),
+    // 优惠券
+    CASH_COUPON                              ((byte) 1, "现金券", PromotionTypeEnum.COUPON.getValue()),
+    FULL_CUT_COUPON                          ((byte) 2, "满减券", PromotionTypeEnum.COUPON.getValue()),
+    EACH_FULL_CUT_COUPON                     ((byte) 3, "每满减券", PromotionTypeEnum.COUPON.getValue()),
+    DISCOUNT_COUPON                          ((byte) 4, "满折券", PromotionTypeEnum.COUPON.getValue()),
+    FULL_LADDER_COUPON                       ((byte) 5, "阶梯满减券", PromotionTypeEnum.COUPON.getValue()),
+
+    // 订单促销
+    FULL_CUT_SUB_PROMOTION                   ((byte) 21, "订单满减", PromotionTypeEnum.SUB_PROMOTION.getValue()),
+    EACH_FULL_CUT_SUB_PROMOTION              ((byte) 22, "订单每满减", PromotionTypeEnum.SUB_PROMOTION.getValue()),
+    DISCOUNT_SUB_PROMOTION                   ((byte) 23, "订单满折", PromotionTypeEnum.SUB_PROMOTION.getValue()),
+    FULL_LADDER_SUB_PROMOTION                ((byte) 24, "订单阶梯满减", PromotionTypeEnum.SUB_PROMOTION.getValue()),
     ;
 
     private byte value;
     private byte type;
     private String desc;
 
-    PromotionUseTypeEnum(byte value, byte type, String desc) {
+    PromotionUseTypeEnum(byte value, String desc, byte type) {
         this.value = value;
         this.type = type;
         this.desc = desc;

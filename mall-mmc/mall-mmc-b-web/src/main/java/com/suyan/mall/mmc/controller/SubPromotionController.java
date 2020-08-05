@@ -31,22 +31,15 @@ public class SubPromotionController extends BaseController {
         return Result.newSuccess(subPromotionService.deleteSubPromotion(id));
     }
 
-    @ApiOperation(value = "创建订单促销", notes = "创建订单促销")
-    @PostMapping("add")
-    public Result<Long> add(@Validated({BaseInterface.class}) @RequestBody SubPromotionDTO subPromotionDTO) {
-        UserInfoVO user = getUser();
-        subPromotionDTO.setCreateTime(null);
-        subPromotionDTO.setUpdateTime(null);
-        return Result.newSuccess(subPromotionService.createSubPromotion(subPromotionDTO));
-    }
-
-    @ApiOperation(value = "更新订单促销", notes = "更新订单促销")
-    @PostMapping("update")
-    public Result<Integer> update(@Validated({UpdateInterface.class}) @RequestBody SubPromotionDTO subPromotionDTO) {
-        UserInfoVO user = getUser();
-        subPromotionDTO.setCreateTime(null);
-        subPromotionDTO.setUpdateTime(null);
-        return Result.newSuccess(subPromotionService.updateSubPromotion(subPromotionDTO));
+    @ApiOperation(value = "创建/编辑订单促销", notes = "创建/编辑订单促销")
+    @PostMapping("addOrUpdate")
+    public Result<Long> addOrUpdate(@Validated({BaseInterface.class}) @RequestBody SubPromotionDTO subPromotionDTO) {
+        if (subPromotionDTO.getId() == null) {
+            subPromotionService.createSubPromotion(subPromotionDTO);
+        } else {
+            subPromotionService.updateSubPromotion(subPromotionDTO);
+        }
+        return Result.newSuccess();
     }
 
     @ApiOperation(value = "获取订单促销信息", notes = "根据订单促销ID获取订单促销信息")
