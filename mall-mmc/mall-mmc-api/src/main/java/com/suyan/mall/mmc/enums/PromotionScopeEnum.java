@@ -1,17 +1,17 @@
 package com.suyan.mall.mmc.enums;
 
 /**
- * @Comments: 促销类型
+ * @Comments: 促销使用范围
  */
-public enum PromotionTypeEnum {
-    COUPON                    ((byte) 1, "优惠券"),
-    SUB_PROMOTION             ((byte) 2, "订单促销"),
+public enum PromotionScopeEnum {
+    SHOP                       ((byte) 1, "全店通用"),
+    GOODS_CATEGORY             ((byte) 2, "按商品类目"),
     ;
 
     private byte value;
     private String desc;
 
-    PromotionTypeEnum(byte value, String desc) {
+    PromotionScopeEnum(byte value, String desc) {
         this.value = value;
         this.desc = desc;
     }
@@ -33,7 +33,7 @@ public enum PromotionTypeEnum {
     }
 
     public static boolean exists(byte s) {
-        for (PromotionTypeEnum element : PromotionTypeEnum.values()) {
+        for (PromotionScopeEnum element : PromotionScopeEnum.values()) {
             if (element.value == s) {
                 return true;
             }
@@ -49,7 +49,7 @@ public enum PromotionTypeEnum {
         if (value == null) {
             return "";
         }
-        for (PromotionTypeEnum element : PromotionTypeEnum.values()) {
+        for (PromotionScopeEnum element : PromotionScopeEnum.values()) {
             if (element.value == value.byteValue()) {
                 return element.desc;
             }

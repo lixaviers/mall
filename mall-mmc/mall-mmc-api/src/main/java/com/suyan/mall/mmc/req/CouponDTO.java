@@ -1,5 +1,7 @@
 package com.suyan.mall.mmc.req;
 
+import com.suyan.annotation.EnumValidate;
+import com.suyan.mall.mmc.enums.PromotionScopeEnum;
 import com.suyan.service.BaseInterface;
 import com.suyan.service.UpdateInterface;
 import io.swagger.annotations.ApiModelProperty;
@@ -136,6 +138,14 @@ public class CouponDTO implements Serializable {
     private BigDecimal discountAmount;
 
     /**
+     * 使用范围
+     */
+    @ApiModelProperty("使用范围")
+    @NotNull(message = "使用范围不能为空", groups = BaseInterface.class)
+    @EnumValidate(message = "使用范围无效", enumClass = PromotionScopeEnum.class, groups = BaseInterface.class)
+    private Byte couponScope;
+
+    /**
      * 优惠券状态
      */
     @ApiModelProperty("优惠券状态")
@@ -152,6 +162,12 @@ public class CouponDTO implements Serializable {
      * 订单金额范围及促销金额
      */
     @ApiModelProperty("订单金额范围及促销金额")
+    private List<PromotionAmountScopeDTO> promotionAmountScopeList;
+
+    /**
+     * 使用范围
+     */
+    @ApiModelProperty("使用范围")
     private List<PromotionScopeDTO> promotionScopeList;
 
 

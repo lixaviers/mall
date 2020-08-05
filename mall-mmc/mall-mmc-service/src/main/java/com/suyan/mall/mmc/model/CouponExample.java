@@ -1207,6 +1207,66 @@ public class CouponExample {
             return (Criteria) this;
         }
 
+        public Criteria andCouponScopeIsNull() {
+            addCriterion("coupon_scope is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponScopeIsNotNull() {
+            addCriterion("coupon_scope is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponScopeEqualTo(Byte value) {
+            addCriterion("coupon_scope =", value, "couponScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponScopeNotEqualTo(Byte value) {
+            addCriterion("coupon_scope <>", value, "couponScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponScopeGreaterThan(Byte value) {
+            addCriterion("coupon_scope >", value, "couponScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponScopeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("coupon_scope >=", value, "couponScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponScopeLessThan(Byte value) {
+            addCriterion("coupon_scope <", value, "couponScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponScopeLessThanOrEqualTo(Byte value) {
+            addCriterion("coupon_scope <=", value, "couponScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponScopeIn(List<Byte> values) {
+            addCriterion("coupon_scope in", values, "couponScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponScopeNotIn(List<Byte> values) {
+            addCriterion("coupon_scope not in", values, "couponScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponScopeBetween(Byte value1, Byte value2) {
+            addCriterion("coupon_scope between", value1, value2, "couponScope");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponScopeNotBetween(Byte value1, Byte value2) {
+            addCriterion("coupon_scope not between", value1, value2, "couponScope");
+            return (Criteria) this;
+        }
+
         public Criteria andCouponStatusIsNull() {
             addCriterion("coupon_status is null");
             return (Criteria) this;

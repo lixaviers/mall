@@ -1,8 +1,6 @@
 package com.suyan.mall.mmc.model;
 
 import lombok.Data;
-
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -10,14 +8,51 @@ public class PromotionScope {
 
     
     /**
-     * 促销金额
+     * id
      */
-    private BigDecimal promotionAmount;
+    private Long id;
     
     /**
-     * 订单满金额
+     * 促销类型
      */
-    private BigDecimal orderFullAmount;
+    private Byte promotionType;
     
+    /**
+     * 促销id
+     */
+    private Long promotionId;
+    
+    /**
+     * 商品类目id
+     */
+    private Integer goodsCategoryId;
+    
+    /**
+     * 商品类目名称
+     */
+    private String goodsCategoryName;
+    
+    /**
+     * 商品sku编码
+     */
+    private String goodsSkuCode;
+    
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
+    
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
+    
+
+    /**
+     * -------------------------------------------------
+     * 上面字段由工具自动生成，请在下面添加扩充字段
+     * -------------------------------------------------
+     */
+
 
 }

@@ -1,5 +1,6 @@
 package com.suyan.mall.mmc.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -101,6 +102,11 @@ public class Coupon {
     private String promotionScopeAmount;
 
     /**
+     * 使用范围
+     */
+    private Byte couponScope;
+
+    /**
      * 优惠券状态
      */
     private Byte couponStatus;
@@ -130,7 +136,12 @@ public class Coupon {
     /**
      * 订单金额范围及促销金额
      */
-    private List<PromotionScope> promotionScopeList;
+    private List<PromotionAmountScope> promotionAmountScopeList;
 
+    /**
+     * 使用范围
+     */
+    @ApiModelProperty("使用范围")
+    private List<PromotionScope> promotionScopeList;
 
 }

@@ -7,11 +7,11 @@ import com.suyan.exception.CommonException;
 import com.suyan.mall.mmc.dao.CouponMapper;
 import com.suyan.mall.mmc.enums.CommonStatusMmcEnum;
 import com.suyan.mall.mmc.enums.PromotionTypeEnum;
+import com.suyan.mall.mmc.enums.PromotionScopeEnum;
+import com.suyan.mall.mmc.enums.PromotionUseTypeEnum;
 import com.suyan.mall.mmc.model.Coupon;
 import com.suyan.mall.mmc.req.CouponQueryDTO;
 import com.suyan.mall.user.resp.b.UserInfoVO;
-import com.suyan.mall.user.utils.UserContainer;
-import com.suyan.mall.user.utils.UserSessionUtil;
 import com.suyan.mall.user.utils.UserUtil;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.ResultCode;
@@ -34,6 +34,9 @@ public class CouponBiz {
 
     @Autowired
     private CouponMapper couponMapper;
+
+    @Autowired
+    private PromotionScopeBiz promotionScopeBiz;
 
 
     /**
@@ -60,11 +63,19 @@ public class CouponBiz {
         coupon.setShopId(shopUser.getShopId());
         // 已保存
         coupon.setCouponStatus(CommonStatusMmcEnum.SAVED.getValue());
-        if (PromotionTypeEnum.FULL_LADDER_COUPON.equal(coupon.getCouponType())) {
+        if (PromotionUseTypeEnum.FULL_LADDER_COUPON.equal(coupon.getCouponType())) {
             // 阶梯满减券
-            coupon.setPromotionScopeAmount(JSON.toJSONString(coupon.getPromotionScopeList()));
+            coupon.setPromotionScopeAmount(JSON.toJSONString(coupon.getPromotionAmountScopeList()));
         }
         couponMapper.insertSelective(coupon);
+        if (PromotionScopeEnum.GOODS_CATEGORY.equal(coupon.getCouponScope())) {
+            coupon.getPromotionScopeList().forEach(promotionScope -> {
+                promotionScope.setPromotionType(PromotionTypeEnum.COUPON.getValue());
+                promotionScope.setPromotionId(coupon.getId());
+            });
+            // 按商品类目
+            promotionScopeBiz.batchCreatePromotionScope(coupon.getPromotionScopeList());
+        }
         return coupon.getId();
     }
 

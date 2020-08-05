@@ -1,25 +1,68 @@
 package com.suyan.mall.mmc.req;
 
+import com.suyan.service.BaseInterface;
+import com.suyan.service.UpdateInterface;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.math.BigDecimal;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Data
-public class PromotionScopeDTO {
+public class PromotionScopeDTO implements Serializable {
 
-    
     /**
-     * 促销金额
+     * serialVersionUID
      */
-    @ApiModelProperty("促销金额")
-    private BigDecimal promotionAmount;
-    
+    private static final long serialVersionUID = 1L;
+
+
     /**
-     * 订单满金额
+     * id
      */
-    @ApiModelProperty("订单满金额")
-    private BigDecimal orderFullAmount;
-    
+    @ApiModelProperty(value = "id", hidden = true)
+    @NotNull(message = "id不能为空", groups = UpdateInterface.class)
+    private Long id;
+
+    /**
+     * 促销类型
+     */
+    @ApiModelProperty("促销类型")
+    private Byte promotionType;
+
+    /**
+     * 促销id
+     */
+    @ApiModelProperty("促销id")
+    private Long promotionId;
+
+    /**
+     * 商品类目id
+     */
+    @ApiModelProperty("商品类目id")
+    @NotNull(message = "商品类目id不能为空", groups = BaseInterface.class)
+    private Integer goodsCategoryId;
+
+    /**
+     * 商品类目名称
+     */
+    @ApiModelProperty("商品类目名称")
+    private String goodsCategoryName;
+
+    /**
+     * 商品sku编码
+     */
+    @ApiModelProperty("商品sku编码")
+    @Size(max = 32, message = "商品sku编码不能超过32位", groups = BaseInterface.class)
+    private String goodsSkuCode;
+
+
+    /**
+     * -------------------------------------------------
+     * 上面字段由工具自动生成，请在下面添加扩充字段
+     * -------------------------------------------------
+     */
+
 
 }

@@ -1,12 +1,12 @@
 package com.suyan.mall.mmc.convertor;
 
 import com.alibaba.fastjson.JSON;
-import com.suyan.mall.mmc.enums.PromotionTypeEnum;
+import com.suyan.mall.mmc.enums.PromotionUseTypeEnum;
 import com.suyan.mall.mmc.model.Coupon;
-import com.suyan.mall.mmc.model.PromotionScope;
+import com.suyan.mall.mmc.model.PromotionAmountScope;
 import com.suyan.mall.mmc.req.CouponDTO;
 import com.suyan.mall.mmc.resp.CouponVO;
-import com.suyan.mall.mmc.resp.PromotionScopeVO;
+import com.suyan.mall.mmc.resp.PromotionAmountScopeVO;
 import com.suyan.query.QueryResultVO;
 import com.suyan.utils.BeanUtil;
 import org.springframework.cglib.beans.BeanCopier;
@@ -29,15 +29,16 @@ public abstract class CouponConvertor {
         }
         CouponVO couponVO = new CouponVO();
         beanCopierForCouponVO.copy(coupon, couponVO, null);
-        couponVO.setCouponTypeDesc(PromotionTypeEnum.getDescByValue(coupon.getCouponType()));
-        couponVO.setPromotionScopeList(JSON.parseArray(coupon.getPromotionScopeAmount(), PromotionScopeVO.class));
+        couponVO.setCouponTypeDesc(PromotionUseTypeEnum.getDescByValue(coupon.getCouponType()));
+        couponVO.setPromotionAmountScopeList(JSON.parseArray(coupon.getPromotionScopeAmount(), PromotionAmountScopeVO.class));
         return couponVO;
     }
 
     public static Coupon toCoupon(CouponDTO couponDTO) {
         Coupon coupon = new Coupon();
         beanCopierForCoupon.copy(couponDTO, coupon, null);
-        coupon.setPromotionScopeList(BeanUtil.fastBeanCopy(couponDTO.getPromotionScopeList(), PromotionScope.class));
+        coupon.setPromotionAmountScopeList(BeanUtil.fastBeanCopy(couponDTO.getPromotionScopeList(), PromotionAmountScope.class));
+        coupon.setPromotionScopeList(PromotionScopeConvertor.toPromotionScopeList(couponDTO.getPromotionScopeList()));
         return coupon;
     }
 

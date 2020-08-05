@@ -121,6 +121,12 @@ public class CouponQueryDTO extends QueryDTO {
     @ApiModelProperty("折扣金额止")
     private BigDecimal discountAmountTo;
 
+    @ApiModelProperty("使用范围")
+    private Byte couponScope;
+
+    @ApiModelProperty("使用范围列表")
+    private List<Byte> couponScopeList;
+
     @ApiModelProperty("优惠券状态")
     private Byte couponStatus;
 

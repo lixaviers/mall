@@ -20,6 +20,7 @@
     <result column="promotion_max_amount" jdbcType="DECIMAL" property="promotionMaxAmount" />
     <result column="discount_amount" jdbcType="DECIMAL" property="discountAmount" />
     <result column="promotion_scope_amount" jdbcType="VARCHAR" property="promotionScopeAmount" />
+    <result column="coupon_scope" jdbcType="TINYINT" property="couponScope" />
     <result column="coupon_status" jdbcType="TINYINT" property="couponStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -86,8 +87,8 @@
   <sql id="Base_Column_List">
     id, shop_id, coupon_name, coupon_package_id, use_type, price, person_limit, order_limit, 
     start_time, end_time, pending_time, inventory, coupon_type, promotion_amount, order_full_amount, 
-    promotion_max_amount, discount_amount, promotion_scope_amount, coupon_status, create_time, 
-    update_time, is_deleted
+    promotion_max_amount, discount_amount, promotion_scope_amount, coupon_scope, coupon_status, 
+    create_time, update_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.mmc.model.CouponExample" resultMap="BaseResultMap">
     select
@@ -129,17 +130,17 @@
       order_limit, start_time, end_time, 
       pending_time, inventory, coupon_type, 
       promotion_amount, order_full_amount, promotion_max_amount, 
-      discount_amount, promotion_scope_amount, coupon_status, 
-      create_time, update_time, is_deleted
-      )
+      discount_amount, promotion_scope_amount, coupon_scope, 
+      coupon_status, create_time, update_time, 
+      is_deleted)
     values (#{shopId,jdbcType=BIGINT}, #{couponName,jdbcType=VARCHAR}, #{couponPackageId,jdbcType=BIGINT}, 
       #{useType,jdbcType=TINYINT}, #{price,jdbcType=DECIMAL}, #{personLimit,jdbcType=INTEGER}, 
       #{orderLimit,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
       #{pendingTime,jdbcType=TIMESTAMP}, #{inventory,jdbcType=INTEGER}, #{couponType,jdbcType=TINYINT}, 
       #{promotionAmount,jdbcType=DECIMAL}, #{orderFullAmount,jdbcType=DECIMAL}, #{promotionMaxAmount,jdbcType=DECIMAL}, 
-      #{discountAmount,jdbcType=DECIMAL}, #{promotionScopeAmount,jdbcType=VARCHAR}, #{couponStatus,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
-      )
+      #{discountAmount,jdbcType=DECIMAL}, #{promotionScopeAmount,jdbcType=VARCHAR}, #{couponScope,jdbcType=TINYINT}, 
+      #{couponStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.mmc.model.Coupon">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -197,6 +198,9 @@
       </if>
       <if test="promotionScopeAmount != null">
         promotion_scope_amount,
+      </if>
+      <if test="couponScope != null">
+        coupon_scope,
       </if>
       <if test="couponStatus != null">
         coupon_status,
@@ -262,6 +266,9 @@
       </if>
       <if test="promotionScopeAmount != null">
         #{promotionScopeAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="couponScope != null">
+        #{couponScope,jdbcType=TINYINT},
       </if>
       <if test="couponStatus != null">
         #{couponStatus,jdbcType=TINYINT},
@@ -340,6 +347,9 @@
       <if test="record.promotionScopeAmount != null">
         promotion_scope_amount = #{record.promotionScopeAmount,jdbcType=VARCHAR},
       </if>
+      <if test="record.couponScope != null">
+        coupon_scope = #{record.couponScope,jdbcType=TINYINT},
+      </if>
       <if test="record.couponStatus != null">
         coupon_status = #{record.couponStatus,jdbcType=TINYINT},
       </if>
@@ -377,6 +387,7 @@
       promotion_max_amount = #{record.promotionMaxAmount,jdbcType=DECIMAL},
       discount_amount = #{record.discountAmount,jdbcType=DECIMAL},
       promotion_scope_amount = #{record.promotionScopeAmount,jdbcType=VARCHAR},
+      coupon_scope = #{record.couponScope,jdbcType=TINYINT},
       coupon_status = #{record.couponStatus,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -439,6 +450,9 @@
       <if test="promotionScopeAmount != null">
         promotion_scope_amount = #{promotionScopeAmount,jdbcType=VARCHAR},
       </if>
+      <if test="couponScope != null">
+        coupon_scope = #{couponScope,jdbcType=TINYINT},
+      </if>
       <if test="couponStatus != null">
         coupon_status = #{couponStatus,jdbcType=TINYINT},
       </if>
@@ -473,6 +487,7 @@
       promotion_max_amount = #{promotionMaxAmount,jdbcType=DECIMAL},
       discount_amount = #{discountAmount,jdbcType=DECIMAL},
       promotion_scope_amount = #{promotionScopeAmount,jdbcType=VARCHAR},
+      coupon_scope = #{couponScope,jdbcType=TINYINT},
       coupon_status = #{couponStatus,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -560,6 +575,10 @@
             <if test="promotionMaxAmountTo != null"><![CDATA[AND promotion_max_amount <= #{promotionMaxAmountTo,jdbcType=DECIMAL}]]></if>
             <if test="discountAmountFrom != null"><![CDATA[AND discount_amount >= #{discountAmountFrom,jdbcType=DECIMAL}]]></if>
             <if test="discountAmountTo != null"><![CDATA[AND discount_amount <= #{discountAmountTo,jdbcType=DECIMAL}]]></if>
+            <if test="couponScope!=null">AND coupon_scope = #{couponScope,jdbcType=TINYINT}</if>
+            <if test="couponScopeList != null and couponScopeList.size > 0">
+                <foreach item="item" separator="," open="AND coupon_scope in (" close=")" collection="couponScopeList">#{item,jdbcType=TINYINT}</foreach>
+            </if>
             <if test="couponStatus!=null">AND coupon_status = #{couponStatus,jdbcType=TINYINT}</if>
             <if test="couponStatusList != null and couponStatusList.size > 0">
                 <foreach item="item" separator="," open="AND coupon_status in (" close=")" collection="couponStatusList">#{item,jdbcType=TINYINT}</foreach>
@@ -598,6 +617,7 @@
             promotion_max_amount,
             discount_amount,
             promotion_scope_amount,
+            coupon_scope,
             coupon_status
         )
         values
@@ -620,6 +640,7 @@
             #{bean.promotionMaxAmount,jdbcType=DECIMAL} ,
             #{bean.discountAmount,jdbcType=DECIMAL} ,
             #{bean.promotionScopeAmount,jdbcType=VARCHAR} ,
+            #{bean.couponScope,jdbcType=TINYINT} ,
             #{bean.couponStatus,jdbcType=TINYINT}
         )
         </foreach>
