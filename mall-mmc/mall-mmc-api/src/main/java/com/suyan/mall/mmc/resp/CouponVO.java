@@ -176,4 +176,10 @@ public class CouponVO implements Serializable {
     @ApiModelProperty("订单金额范围及促销金额")
     private List<PromotionAmountScopeVO> promotionAmountScopeList;
 
+    /**
+     * 使用范围
+     */
+    @ApiModelProperty("使用范围")
+    private List<PromotionScopeVO> promotionScopeList;
+
 }

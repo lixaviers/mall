@@ -2,12 +2,13 @@ package com.suyan.mall.mmc.biz;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.suyan.exception.CommonException;
 import com.suyan.mall.mmc.dao.PromotionScopeMapper;
+import com.suyan.mall.mmc.enums.PromotionTypeEnum;
 import com.suyan.mall.mmc.model.PromotionScope;
+import com.suyan.mall.mmc.model.PromotionScopeExample;
 import com.suyan.mall.mmc.req.PromotionScopeQueryDTO;
 import com.suyan.query.QueryResultVO;
-import com.suyan.result.ResultCode;
+import com.suyan.utils.CollectionsUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,13 +32,20 @@ public class PromotionScopeBiz {
     /**
      * 删除促销适用范围
      *
-     * @param id
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Integer deletePromotionScope(Long id) {
-        getBasePromotionScope(id);
-        return promotionScopeMapper.deleteByPrimaryKey(id);
+    public Integer deletePromotionScope(List<Long> deleteIdList) {
+        PromotionScopeExample example = new PromotionScopeExample();
+        example.createCriteria().andIdIn(deleteIdList);
+        return promotionScopeMapper.deleteByExample(example);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public Integer deletePromotionScopeByPromotion(byte promotionType, Long promotionId) {
+        PromotionScopeExample example = new PromotionScopeExample();
+        example.createCriteria().andPromotionTypeEqualTo(promotionType).andPromotionIdEqualTo(promotionId);
+        return promotionScopeMapper.deleteByExample(example);
     }
 
     /**
@@ -59,7 +67,13 @@ public class PromotionScopeBiz {
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public int batchCreatePromotionScope(List<PromotionScope> promotionScopeList) {
+    public int batchCreatePromotionScope(Byte promotionType, Long promotionId, List<PromotionScope> promotionScopeList) {
+        if (CollectionsUtil.isNotEmpty(promotionScopeList)) {
+            promotionScopeList.forEach(promotionScope -> {
+                promotionScope.setPromotionType(PromotionTypeEnum.COUPON.getValue());
+                promotionScope.setPromotionId(promotionId);
+            });
+        }
         return promotionScopeMapper.insertBatch(promotionScopeList);
     }
 
@@ -71,28 +85,21 @@ public class PromotionScopeBiz {
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer updatePromotionScope(PromotionScope promotionScope) {
-        getBasePromotionScope(promotionScope.getId());
         return promotionScopeMapper.updateByPrimaryKeySelective(promotionScope);
     }
 
     /**
-     * 根据ID获取促销适用范围信息
+     * 获取促销适用范围信息
      *
-     * @param id
+     * @param promotionType
+     * @param promotionId
      * @return
      */
     @Transactional(readOnly = true)
-    public PromotionScope getPromotionScope(Long id) {
-        return getBasePromotionScope(id);
-    }
-
-    @Transactional(readOnly = true)
-    public PromotionScope getBasePromotionScope(Long id) {
-        PromotionScope promotionScope = promotionScopeMapper.selectByPrimaryKey(id);
-        if (promotionScope == null) {
-            throw new CommonException(ResultCode.DATA_NOT_EXIST, "促销适用范围");
-        }
-        return promotionScope;
+    public List<PromotionScope> getPromotionScopeListByPromotion(byte promotionType, Long promotionId) {
+        PromotionScopeExample example = new PromotionScopeExample();
+        example.createCriteria().andPromotionTypeEqualTo(promotionType).andPromotionIdEqualTo(promotionId);
+        return promotionScopeMapper.selectByExample(example);
     }
 
     /**

@@ -6,15 +6,17 @@ import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
 import com.suyan.mall.mmc.dao.CouponMapper;
 import com.suyan.mall.mmc.enums.CommonStatusMmcEnum;
-import com.suyan.mall.mmc.enums.PromotionTypeEnum;
 import com.suyan.mall.mmc.enums.PromotionScopeEnum;
+import com.suyan.mall.mmc.enums.PromotionTypeEnum;
 import com.suyan.mall.mmc.enums.PromotionUseTypeEnum;
 import com.suyan.mall.mmc.model.Coupon;
+import com.suyan.mall.mmc.model.PromotionScope;
 import com.suyan.mall.mmc.req.CouponQueryDTO;
 import com.suyan.mall.user.resp.b.UserInfoVO;
 import com.suyan.mall.user.utils.UserUtil;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.ResultCode;
+import com.suyan.utils.CollectionsUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @CopyRright (c): <素焉代码生成工具>
@@ -69,12 +72,8 @@ public class CouponBiz {
         }
         couponMapper.insertSelective(coupon);
         if (PromotionScopeEnum.GOODS_CATEGORY.equal(coupon.getCouponScope())) {
-            coupon.getPromotionScopeList().forEach(promotionScope -> {
-                promotionScope.setPromotionType(PromotionTypeEnum.COUPON.getValue());
-                promotionScope.setPromotionId(coupon.getId());
-            });
             // 按商品类目
-            promotionScopeBiz.batchCreatePromotionScope(coupon.getPromotionScopeList());
+            promotionScopeBiz.batchCreatePromotionScope(PromotionTypeEnum.COUPON.getValue(), coupon.getId(), coupon.getPromotionScopeList());
         }
         return coupon.getId();
     }
@@ -93,6 +92,37 @@ public class CouponBiz {
             // 非本店铺优惠券
             throw new CommonException(ResultCode.NO_PERMISSION_OPERATE, "此优惠券");
         }
+
+        if (coupon.getCouponScope().equals(couponLast.getCouponScope())) {
+            if (PromotionScopeEnum.GOODS_CATEGORY.equal(coupon.getCouponScope())) {
+                // 按商品类目 对比类目
+                List<PromotionScope> oldPromotionScopeList = promotionScopeBiz.getPromotionScopeListByPromotion(PromotionTypeEnum.COUPON.getValue(), coupon.getId());
+                List<Integer> oldGoodsCategoryIdIdList = oldPromotionScopeList.stream().map(PromotionScope::getGoodsCategoryId).collect(Collectors.toList());
+
+                List<Integer> newGoodsCategoryIdIdList = coupon.getPromotionScopeList().stream().map(PromotionScope::getGoodsCategoryId).collect(Collectors.toList());
+
+                // 删除的列表
+                List<Long> deleteIdList = oldPromotionScopeList.stream().filter(item -> !newGoodsCategoryIdIdList.contains(item.getGoodsCategoryId()))
+                        .map(PromotionScope::getId).collect(Collectors.toList());
+                if (CollectionsUtil.isNotEmpty(deleteIdList)) {
+                    promotionScopeBiz.deletePromotionScope(deleteIdList);
+                }
+                // 新增的列表
+                List<PromotionScope> addList = coupon.getPromotionScopeList().stream().filter(item -> !oldGoodsCategoryIdIdList.contains(item.getGoodsCategoryId())).collect(Collectors.toList());
+                if (CollectionsUtil.isNotEmpty(addList)) {
+                    promotionScopeBiz.batchCreatePromotionScope(PromotionTypeEnum.COUPON.getValue(), coupon.getId(), addList);
+                }
+            }
+        } else {
+            if (PromotionScopeEnum.GOODS_CATEGORY.equal(coupon.getCouponType())) {
+                // 新增为[按商品类目]
+                promotionScopeBiz.batchCreatePromotionScope(PromotionTypeEnum.COUPON.getValue(), coupon.getId(), coupon.getPromotionScopeList());
+            } else if (PromotionScopeEnum.SHOP.equal(coupon.getCouponType())) {
+                // 新增为[全店通用]
+                promotionScopeBiz.deletePromotionScopeByPromotion(PromotionTypeEnum.COUPON.getValue(), coupon.getId());
+            }
+        }
+
         return couponMapper.updateByPrimaryKeySelective(coupon);
     }
 
@@ -104,7 +134,9 @@ public class CouponBiz {
      */
     @Transactional(readOnly = true)
     public Coupon getCoupon(Long id) {
-        return getBaseCoupon(id);
+        Coupon coupon = getBaseCoupon(id);
+        coupon.setPromotionScopeList(promotionScopeBiz.getPromotionScopeListByPromotion(PromotionTypeEnum.COUPON.getValue(), id));
+        return coupon;
     }
 
     @Transactional(readOnly = true)

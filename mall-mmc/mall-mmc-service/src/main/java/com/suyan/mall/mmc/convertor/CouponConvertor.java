@@ -31,6 +31,7 @@ public abstract class CouponConvertor {
         beanCopierForCouponVO.copy(coupon, couponVO, null);
         couponVO.setCouponTypeDesc(PromotionUseTypeEnum.getDescByValue(coupon.getCouponType()));
         couponVO.setPromotionAmountScopeList(JSON.parseArray(coupon.getPromotionScopeAmount(), PromotionAmountScopeVO.class));
+        couponVO.setPromotionScopeList(PromotionScopeConvertor.toPromotionScopeVOList(coupon.getPromotionScopeList()));
         return couponVO;
     }
 
