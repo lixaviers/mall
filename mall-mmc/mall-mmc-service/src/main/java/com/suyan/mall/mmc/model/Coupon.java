@@ -134,6 +134,12 @@ public class Coupon {
      */
 
     /**
+     * 渠道
+     */
+    @ApiModelProperty("渠道")
+    private List<CouponChannel> channelList;
+
+    /**
      * 订单金额范围及促销金额
      */
     private List<PromotionAmountScope> promotionAmountScopeList;

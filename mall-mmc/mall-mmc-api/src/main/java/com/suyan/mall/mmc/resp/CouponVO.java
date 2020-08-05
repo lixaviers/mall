@@ -171,6 +171,12 @@ public class CouponVO implements Serializable {
     private String couponTypeDesc;
 
     /**
+     * 渠道
+     */
+    @ApiModelProperty("渠道")
+    private List<CouponChannelVO> channelList;
+
+    /**
      * 订单金额范围及促销金额
      */
     @ApiModelProperty("订单金额范围及促销金额")

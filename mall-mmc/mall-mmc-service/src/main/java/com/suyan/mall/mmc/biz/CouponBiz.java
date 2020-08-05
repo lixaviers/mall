@@ -40,6 +40,8 @@ public class CouponBiz {
 
     @Autowired
     private PromotionScopeBiz promotionScopeBiz;
+    @Autowired
+    private CouponChannelBiz couponChannelBiz;
 
 
     /**
@@ -75,6 +77,10 @@ public class CouponBiz {
             // 按商品类目
             promotionScopeBiz.batchCreatePromotionScope(PromotionTypeEnum.COUPON.getValue(), coupon.getId(), coupon.getPromotionScopeList());
         }
+
+        // 渠道
+        couponChannelBiz.batchCreateCouponChannel(coupon.getId(), coupon.getChannelList());
+
         return coupon.getId();
     }
 
@@ -123,6 +129,9 @@ public class CouponBiz {
             }
         }
 
+        // 更新渠道
+        couponChannelBiz.updateCouponChannel(coupon.getId(), coupon.getChannelList());
+
         return couponMapper.updateByPrimaryKeySelective(coupon);
     }
 
@@ -136,6 +145,7 @@ public class CouponBiz {
     public Coupon getCoupon(Long id) {
         Coupon coupon = getBaseCoupon(id);
         coupon.setPromotionScopeList(promotionScopeBiz.getPromotionScopeListByPromotion(PromotionTypeEnum.COUPON.getValue(), id));
+        coupon.setChannelList(couponChannelBiz.getCouponChannelList(id));
         return coupon;
     }
 

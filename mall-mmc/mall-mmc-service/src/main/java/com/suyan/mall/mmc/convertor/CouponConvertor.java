@@ -32,6 +32,7 @@ public abstract class CouponConvertor {
         couponVO.setCouponTypeDesc(PromotionUseTypeEnum.getDescByValue(coupon.getCouponType()));
         couponVO.setPromotionAmountScopeList(JSON.parseArray(coupon.getPromotionScopeAmount(), PromotionAmountScopeVO.class));
         couponVO.setPromotionScopeList(PromotionScopeConvertor.toPromotionScopeVOList(coupon.getPromotionScopeList()));
+        couponVO.setChannelList(CouponChannelConvertor.toCouponChannelVOList(coupon.getChannelList()));
         return couponVO;
     }
 
@@ -40,6 +41,7 @@ public abstract class CouponConvertor {
         beanCopierForCoupon.copy(couponDTO, coupon, null);
         coupon.setPromotionAmountScopeList(BeanUtil.fastBeanCopy(couponDTO.getPromotionScopeList(), PromotionAmountScope.class));
         coupon.setPromotionScopeList(PromotionScopeConvertor.toPromotionScopeList(couponDTO.getPromotionScopeList()));
+        coupon.setChannelList(CouponChannelConvertor.toCouponChannelList(couponDTO.getChannelList()));
         return coupon;
     }
 

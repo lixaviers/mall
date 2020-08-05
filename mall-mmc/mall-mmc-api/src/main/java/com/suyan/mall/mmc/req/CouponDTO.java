@@ -159,6 +159,13 @@ public class CouponDTO implements Serializable {
      */
 
     /**
+     * 渠道
+     */
+    @ApiModelProperty("渠道")
+    @NotNull(message = "渠道不能为空", groups = BaseInterface.class)
+    private List<CouponChannelDTO> channelList;
+
+    /**
      * 订单金额范围及促销金额
      */
     @ApiModelProperty("订单金额范围及促销金额")

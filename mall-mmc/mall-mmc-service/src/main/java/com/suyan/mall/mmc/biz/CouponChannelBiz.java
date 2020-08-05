@@ -1,13 +1,9 @@
 package com.suyan.mall.mmc.biz;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.suyan.exception.CommonException;
 import com.suyan.mall.mmc.dao.CouponChannelMapper;
 import com.suyan.mall.mmc.model.CouponChannel;
-import com.suyan.mall.mmc.req.CouponChannelQueryDTO;
-import com.suyan.query.QueryResultVO;
-import com.suyan.result.ResultCode;
+import com.suyan.mall.mmc.model.CouponChannelExample;
+import com.suyan.utils.CollectionsUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @CopyRright (c): <素焉代码生成工具>
@@ -29,94 +26,72 @@ public class CouponChannelBiz {
     private CouponChannelMapper couponChannelMapper;
 
     /**
-     * 删除优惠券渠道
-     *
-     * @param id
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Integer deleteCouponChannel(Long id) {
-        // TODO: Describe business logic and implement it
-        getBaseCouponChannel(id);
-        return couponChannelMapper.deleteByPrimaryKey(id);
-    }
-
-    /**
-     * 创建优惠券渠道
-     *
-     * @param couponChannel
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Long createCouponChannel(CouponChannel couponChannel) {
-        // TODO: Describe business logic and implement it
-        couponChannelMapper.insertSelective(couponChannel);
-        return couponChannel.getId();
-    }
-
-    /**
      * 批量创建
      *
      * @param couponChannelList
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public int batchCreateCouponChannel(List<CouponChannel> couponChannelList) {
-        // TODO: Describe business logic and implement it
-        return couponChannelMapper.insertBatch(couponChannelList);
+    public void batchCreateCouponChannel(Long couponId, List<CouponChannel> couponChannelList) {
+        if (CollectionsUtil.isNotEmpty(couponChannelList)) {
+            couponChannelList.forEach(couponChannel -> {
+                couponChannel.setCouponId(couponId);
+            });
+            couponChannelMapper.insertBatch(couponChannelList);
+        }
     }
 
     /**
      * 更新优惠券渠道
      *
-     * @param couponChannel
+     * @param couponChannelList
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Integer updateCouponChannel(CouponChannel couponChannel) {
-        getBaseCouponChannel(couponChannel.getId());
-        return couponChannelMapper.updateByPrimaryKeySelective(couponChannel);
-    }
+    public void updateCouponChannel(Long couponId, List<CouponChannel> couponChannelList) {
+        List<CouponChannel> oldCouponChannel = getCouponChannelList(couponId);
+        List<Byte> oldChannelIdList = oldCouponChannel.stream().map(CouponChannel::getChannelId).collect(Collectors.toList());
+        List<Byte> newChannelIdList = couponChannelList.stream().map(CouponChannel::getChannelId).collect(Collectors.toList());
 
-    /**
-     * 根据ID获取优惠券渠道信息
-     *
-     * @param id
-     * @return
-     */
-    @Transactional(readOnly = true)
-    public CouponChannel getCouponChannel(Long id) {
-        return getBaseCouponChannel(id);
-    }
-
-    @Transactional(readOnly = true)
-    public CouponChannel getBaseCouponChannel(Long id) {
-        CouponChannel couponChannel = couponChannelMapper.selectByPrimaryKey(id);
-        if (couponChannel == null) {
-            throw new CommonException(ResultCode.DATA_NOT_EXIST, "优惠券渠道");
+        // 新增的列表
+        List<CouponChannel> addList = couponChannelList.stream().filter(item -> !oldChannelIdList.contains(item.getChannelId())).collect(Collectors.toList());
+        batchCreateCouponChannel(couponId, addList);
+        // 删除的列表
+        List<Long> deleteIdList = oldCouponChannel.stream().filter(item -> !newChannelIdList.contains(item.getChannelId())).map(CouponChannel::getId).collect(Collectors.toList());
+        if (CollectionsUtil.isNotEmpty(deleteIdList)) {
+            CouponChannelExample example = new CouponChannelExample();
+            example.createCriteria().andIdIn(deleteIdList);
+            couponChannelMapper.deleteByExample(example);
         }
-        return couponChannel;
+
+        // 编辑的列表
+        List<CouponChannel> updateList = couponChannelList.stream().filter(item -> {
+            for (CouponChannel couponChannel : oldCouponChannel) {
+                if (item.getChannelId().equals(couponChannel.getChannelId())) {
+                    item.setId(couponChannel.getId());
+                    return true;
+                }
+            }
+            return false;
+        }).collect(Collectors.toList());
+        if (CollectionsUtil.isNotEmpty(updateList)) {
+            for (CouponChannel couponChannel : updateList) {
+                couponChannelMapper.updateByPrimaryKeySelective(couponChannel);
+            }
+        }
+
     }
 
     /**
-     * 分页查询优惠券渠道信息
+     * 根据优惠券ID获取优惠券渠道信息
      *
-     * @param couponChannelQuery
      * @return
      */
     @Transactional(readOnly = true)
-    public QueryResultVO<CouponChannel> queryCouponChannel(CouponChannelQueryDTO couponChannelQuery) {
-        QueryResultVO<CouponChannel> queryResult = new QueryResultVO<CouponChannel>();
-        // 使用分页插件PageHelper实现分页功能
-        PageHelper.startPage(couponChannelQuery.getPageNo(), couponChannelQuery.getPageSize());
-        List<CouponChannel> couponChannelList = couponChannelMapper.queryCouponChannel(couponChannelQuery);
-        PageInfo<CouponChannel> pageInfo = new PageInfo<CouponChannel>(couponChannelList);
-        queryResult.setPageNo(pageInfo.getPageNum());
-        queryResult.setPageSize(pageInfo.getPageSize());
-        queryResult.setTotalPages(pageInfo.getPages());
-        queryResult.setTotalRecords(pageInfo.getTotal());
-        queryResult.setRecords(couponChannelList);
-        return queryResult;
+    public List<CouponChannel> getCouponChannelList(Long couponId) {
+        CouponChannelExample example = new CouponChannelExample();
+        example.createCriteria().andCouponIdEqualTo(couponId);
+        return couponChannelMapper.selectByExample(example);
     }
 
 }
