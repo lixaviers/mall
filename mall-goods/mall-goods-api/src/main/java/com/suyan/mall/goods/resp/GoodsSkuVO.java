@@ -97,5 +97,11 @@ public class GoodsSkuVO implements Serializable {
      * -------------------------------------------------
      */
 
+    /**
+     * 商品名称
+     */
+    @ApiModelProperty("商品名称")
+    private String goodsName;
+
 
 }

@@ -12,5 +12,57 @@
         LIMIT 1
     </select>
 
+    <select id="queryGoodsSku" resultType="com.suyan.mall.goods.model.GoodsSku" parameterType="com.suyan.mall.goods.req.GoodsSkuQueryDTO">
+        SELECT
+            tb_goods.goods_name,
+            tb_goods_sku.sku_code,
+            tb_goods_sku.goods_id,
+            tb_goods_sku.shop_id,
+            tb_goods_sku.spec_value,
+            tb_goods_sku.price,
+            tb_goods_sku.inventory,
+            tb_goods_sku.sales,
+            tb_goods_sku.common_status,
+            tb_goods_sku.create_time,
+            tb_goods_sku.update_time,
+            tb_goods_sku.is_deleted
+        FROM
+            tb_goods_sku
+        INNER JOIN tb_goods ON tb_goods_sku.goods_id = tb_goods.id
+        <where>
+            <if test="skuCode!=null and skuCode!=''">AND tb_goods_sku.sku_code = #{skuCode,jdbcType=VARCHAR}</if>
+            <if test="skuCodeLike != null and skuCodeLike != '' ">AND tb_goods_sku.sku_code LIKE concat(#{skuCodeLike,jdbcType=VARCHAR},'%')</if>
+            <if test="skuCodeList != null and skuCodeList.size > 0">
+                <foreach item="item" separator="," open="AND tb_goods_sku.sku_code in (" close=")" collection="skuCodeList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
+            <if test="shopId!=null">AND tb_goods_sku.shop_id = #{shopId,jdbcType=BIGINT}</if>
+            <if test="shopIdList != null and shopIdList.size > 0">
+                <foreach item="item" separator="," open="AND tb_goods_sku.shop_id in (" close=")" collection="shopIdList">#{item,jdbcType=BIGINT}</foreach>
+            </if>
+            <if test="goodsId!=null">AND tb_goods_sku.goods_id = #{goodsId,jdbcType=BIGINT}</if>
+            <if test="goodsIdList != null and goodsIdList.size > 0">
+                <foreach item="item" separator="," open="AND tb_goods_sku.goods_id in (" close=")" collection="goodsIdList">#{item,jdbcType=BIGINT}</foreach>
+            </if>
+            <if test="goodsName!=null and goodsName!=''">AND tb_goods.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
+            <if test="goodsNameLike != null and goodsNameLike != '' ">AND tb_goods.goods_name LIKE concat(#{goodsNameLike,jdbcType=VARCHAR},'%')</if>
+            <if test="priceFrom != null"><![CDATA[AND tb_goods_sku.price >= #{priceFrom,jdbcType=DECIMAL}]]></if>
+            <if test="priceTo != null"><![CDATA[AND tb_goods_sku.price <= #{priceTo,jdbcType=DECIMAL}]]></if>
+            <if test="inventory!=null">AND tb_goods_sku.inventory = #{inventory,jdbcType=INTEGER}</if>
+            <if test="inventoryList != null and inventoryList.size > 0">
+                <foreach item="item" separator="," open="AND tb_goods_sku.inventory in (" close=")" collection="inventoryList">#{item,jdbcType=INTEGER}</foreach>
+            </if>
+            <if test="sales!=null">AND tb_goods_sku.sales = #{sales,jdbcType=INTEGER}</if>
+            <if test="salesList != null and salesList.size > 0">
+                <foreach item="item" separator="," open="AND tb_goods_sku.sales in (" close=")" collection="salesList">#{item,jdbcType=INTEGER}</foreach>
+            </if>
+            <if test="commonStatus!=null">AND tb_goods_sku.common_status = #{commonStatus,jdbcType=TINYINT}</if>
+            <if test="isDeleted!=null">AND tb_goods_sku.is_deleted = #{isDeleted,jdbcType=BOOLEAN} AND tb_goods.is_deleted = #{isDeleted,jdbcType=BOOLEAN}</if>
+        </where>
+        <choose>
+            <when test="orderBy!=null and orderBy!=''">order by ${orderBy}</when>
+            <otherwise>order by tb_goods_sku.id DESC</otherwise>
+        </choose>
+    </select>
+
 
 </mapper>

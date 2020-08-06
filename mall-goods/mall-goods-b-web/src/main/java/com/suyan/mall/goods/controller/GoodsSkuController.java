@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequestMapping("/b/goodsSku")
 @RestController
-@Api(value = "/b/goodsSku", tags = "商品规格管理接口")
+@Api(tags = "商品规格管理接口")
 public class GoodsSkuController extends BaseController {
 
     @Autowired

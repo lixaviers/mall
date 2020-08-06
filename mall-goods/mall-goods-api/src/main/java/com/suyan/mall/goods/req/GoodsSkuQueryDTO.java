@@ -93,5 +93,11 @@ public class GoodsSkuQueryDTO extends QueryDTO {
      * -------------------------------------------------
      */
 
+    @ApiModelProperty("商品名称")
+    private String goodsName;
+
+    @ApiModelProperty("商品名称模糊字段")
+    private String goodsNameLike;
+
 
 }

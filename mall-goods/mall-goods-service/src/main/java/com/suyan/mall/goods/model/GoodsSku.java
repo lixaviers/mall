@@ -76,5 +76,10 @@ public class GoodsSku {
      * -------------------------------------------------
      */
 
+    /**
+     * 商品名称
+     */
+    private String goodsName;
+
 
 }
