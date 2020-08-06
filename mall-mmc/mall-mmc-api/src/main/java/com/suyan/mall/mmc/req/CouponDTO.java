@@ -103,7 +103,6 @@ public class CouponDTO implements Serializable {
      * 库存
      */
     @ApiModelProperty("库存")
-    @NotNull(message = "库存不能为空", groups = BaseInterface.class)
     private Integer inventory;
 
     /**

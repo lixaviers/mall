@@ -10,6 +10,7 @@ import com.suyan.mall.mmc.enums.PromotionScopeEnum;
 import com.suyan.mall.mmc.enums.PromotionTypeEnum;
 import com.suyan.mall.mmc.enums.PromotionUseTypeEnum;
 import com.suyan.mall.mmc.model.Coupon;
+import com.suyan.mall.mmc.model.CouponChannel;
 import com.suyan.mall.mmc.model.PromotionScope;
 import com.suyan.mall.mmc.req.CouponQueryDTO;
 import com.suyan.mall.user.resp.b.UserInfoVO;
@@ -72,6 +73,8 @@ public class CouponBiz {
             // 阶梯满减券
             coupon.setPromotionScopeAmount(JSON.toJSONString(coupon.getPromotionAmountScopeList()));
         }
+        // 库存
+        coupon.setInventory(coupon.getChannelList().stream().mapToInt(CouponChannel::getInventory).sum());
         couponMapper.insertSelective(coupon);
         if (PromotionScopeEnum.GOODS_CATEGORY.equal(coupon.getCouponScope())) {
             // 按商品类目
@@ -132,6 +135,8 @@ public class CouponBiz {
         // 更新渠道
         couponChannelBiz.updateCouponChannel(coupon.getId(), coupon.getChannelList());
 
+        // 库存
+        coupon.setInventory(coupon.getChannelList().stream().mapToInt(CouponChannel::getInventory).sum());
         return couponMapper.updateByPrimaryKeySelective(coupon);
     }
 
