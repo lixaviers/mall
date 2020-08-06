@@ -6,6 +6,7 @@ import com.suyan.mall.user.constants.ApiConstants;
 import com.suyan.mall.user.enums.SystemPlatformEnum;
 import com.suyan.mall.user.resp.b.UserInfoVO;
 import com.suyan.mall.user.utils.UserSessionUtil;
+import com.suyan.mall.user.utils.UserUtil;
 import com.suyan.result.Result;
 import com.suyan.result.ResultCode;
 import com.suyan.utils.CollectionsUtil;
@@ -133,6 +134,8 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
 
             }
 
+            // 设置用户信息
+            UserUtil.setRedisUser(userInfoVO, token, systemPlatform.getCode());
             // 在header添加access key，在header中添加token
             return addHeaderInfo(exchange, chain, nowDate, request, path, ip, token, userInfoVO, "AuthRecord");
 
