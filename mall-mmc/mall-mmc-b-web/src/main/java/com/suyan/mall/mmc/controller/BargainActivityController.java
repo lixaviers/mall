@@ -36,8 +36,6 @@ public class BargainActivityController extends BaseController {
     @PostMapping("add")
     public Result<Long> add(@Validated({BaseInterface.class}) @RequestBody BargainActivityDTO bargainActivityDTO) {
         UserInfoVO user = getUser();
-        bargainActivityDTO.setCreateTime(null);
-        bargainActivityDTO.setUpdateTime(null);
         return Result.newSuccess(bargainActivityService.createBargainActivity(bargainActivityDTO));
     }
 
@@ -45,8 +43,6 @@ public class BargainActivityController extends BaseController {
     @PostMapping("update")
     public Result<Integer> update(@Validated({UpdateInterface.class}) @RequestBody BargainActivityDTO bargainActivityDTO) {
         UserInfoVO user = getUser();
-        bargainActivityDTO.setCreateTime(null);
-        bargainActivityDTO.setUpdateTime(null);
         return Result.newSuccess(bargainActivityService.updateBargainActivity(bargainActivityDTO));
     }
 
