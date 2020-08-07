@@ -3,6 +3,7 @@ package com.suyan.mall.goods.biz;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
+import com.suyan.mall.goods.constants.Constant;
 import com.suyan.mall.goods.dao.biz.GoodsSkuBizMapper;
 import com.suyan.mall.goods.model.GoodsSku;
 import com.suyan.mall.goods.model.GoodsSkuExample;
@@ -10,6 +11,7 @@ import com.suyan.mall.goods.req.GoodsSkuQueryDTO;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.ResultCode;
 import com.suyan.utils.CollectionsUtil;
+import com.suyan.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +48,7 @@ public class GoodsSkuBiz {
             example.createCriteria().andIdIn(idList);
             GoodsSku goodsSku = new GoodsSku();
             goodsSku.setIsDeleted(true);
-            int count = goodsSkuBizMapper.updateByExample(goodsSku, example);
+            int count = goodsSkuBizMapper.updateByExampleSelective(goodsSku, example);
             log.info("删除商品规格idList={},result={}", idList, count);
         }
         log.info("删除商品规格idList为空");
@@ -60,7 +62,24 @@ public class GoodsSkuBiz {
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public int batchCreateGoodsSku(List<GoodsSku> goodsSkuList) {
-        return goodsSkuBizMapper.insertBatch(goodsSkuList);
+        if (CollectionsUtil.isNotEmpty(goodsSkuList)) {
+            // 当前的sku编码
+            Long skuCode = null;
+            String maxSkuCode = getMaxSkuCode();
+            if (StringUtils.isEmpty(maxSkuCode)) {
+                skuCode = Constant.MIN_SKU_CODE;
+            } else {
+                skuCode = new Long(maxSkuCode) + 1;
+            }
+            for (GoodsSku goodsSku : goodsSkuList) {
+                if (goodsSku.getId() == null) {
+                    goodsSku.setSkuCode(String.valueOf(skuCode));
+                    skuCode++;
+                }
+            }
+            return goodsSkuBizMapper.insertBatch(goodsSkuList);
+        }
+        return 0;
     }
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)

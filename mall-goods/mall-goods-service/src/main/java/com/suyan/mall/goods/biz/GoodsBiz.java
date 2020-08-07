@@ -81,14 +81,7 @@ public class GoodsBiz {
         BigDecimal minPirce = goods.getSkuList().get(0).getPrice();
         // 总库存
         int totalInventory = 0;
-        // 当前的sku编码
-        Long skuCode = null;
-        String maxSkuCode = goodsSkuBiz.getMaxSkuCode();
-        if (StringUtils.isEmpty(maxSkuCode)) {
-            skuCode = Constant.MIN_SKU_CODE;
-        } else {
-            skuCode = new Long(maxSkuCode) + 1;
-        }
+
         for (GoodsSku goodsSku : goods.getSkuList()) {
             goodsSku.setGoodsId(goods.getId());
             goodsSku.setShopId(goods.getShopId());
@@ -97,10 +90,6 @@ public class GoodsBiz {
             totalInventory += goodsSku.getInventory();
             if (goodsSku.getPrice().compareTo(minPirce) < 0) {
                 minPirce = goodsSku.getPrice();
-            }
-            if (goodsSku.getId() == null) {
-                goodsSku.setSkuCode(String.valueOf(skuCode));
-                skuCode++;
             }
         }
 
@@ -186,25 +175,25 @@ public class GoodsBiz {
                 // 之前单规格，编辑为单规格
                 GoodsSku goodsSku = newSkuList.get(0);
                 goodsSku.setId(oldSkuIdList.get(0));
-                addSkuList = Arrays.asList(goodsSku);
+                updateSkuList = Arrays.asList(goodsSku);
             }
 
         }
+        // 删除sku
+        goodsSkuBiz.deleteGoodsSku(deletedSkuIdList);
+        // 处理信息
+        dealInfo(goods);
 
         List<GoodsSku> skuList = new ArrayList<>();
         if (CollectionsUtil.isNotEmpty(addSkuList)) {
-            skuList.addAll(skuList);
+            skuList.addAll(addSkuList);
             goodsSkuBiz.batchCreateGoodsSku(addSkuList);
         }
         if (CollectionsUtil.isNotEmpty(updateSkuList)) {
             skuList.addAll(updateSkuList);
             goodsSkuBiz.batchUpdate(updateSkuList);
         }
-        // 删除sku
-        goodsSkuBiz.deleteGoodsSku(deletedSkuIdList);
         goods.setSkuList(skuList);
-        // 处理信息
-        dealInfo(goods);
 
         // 编辑商品详情
         GoodsDescription goodsDescription = new GoodsDescription();
