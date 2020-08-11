@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class BargainGoodsQueryDTO extends QueryDTO {
+public class BargainQueryDTO extends QueryDTO {
 
     /**
      * serialVersionUID
@@ -22,11 +22,23 @@ public class BargainGoodsQueryDTO extends QueryDTO {
     @ApiModelProperty("id列表")
     private List<Long> idList;
 
-    @ApiModelProperty("砍价活动id")
-    private Long bargainActivityId;
+    @ApiModelProperty("店铺id")
+    private Long shopId;
 
-    @ApiModelProperty("砍价活动id列表")
-    private List<Long> bargainActivityIdList;
+    @ApiModelProperty("店铺id列表")
+    private List<Long> shopIdList;
+
+    @ApiModelProperty("开始时间起")
+    private LocalDateTime startTimeFrom;
+
+    @ApiModelProperty("开始时间止")
+    private LocalDateTime startTimeTo;
+
+    @ApiModelProperty("结束时间起")
+    private LocalDateTime endTimeFrom;
+
+    @ApiModelProperty("结束时间止")
+    private LocalDateTime endTimeTo;
 
     @ApiModelProperty("有效期类型 1.24h 2.48h 3.72h")
     private Byte validityDateType;
@@ -54,6 +66,12 @@ public class BargainGoodsQueryDTO extends QueryDTO {
 
     @ApiModelProperty("库存列表")
     private List<Integer> inventoryList;
+
+    @ApiModelProperty("活动状态")
+    private Byte activityStatus;
+
+    @ApiModelProperty("活动状态列表")
+    private List<Byte> activityStatusList;
 
     @ApiModelProperty("创建时间起")
     private LocalDateTime createTimeFrom;

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-public class BargainGoodsItem {
+public class BargainItem {
 
     
     /**
@@ -16,7 +16,7 @@ public class BargainGoodsItem {
     /**
      * 砍价id
      */
-    private Long bargainGoodsId;
+    private Long bargainId;
     
     /**
      * 最小人数

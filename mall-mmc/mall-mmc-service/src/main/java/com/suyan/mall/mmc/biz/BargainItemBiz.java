@@ -1,0 +1,90 @@
+package com.suyan.mall.mmc.biz;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.suyan.exception.CommonException;
+import com.suyan.mall.mmc.dao.BargainItemMapper;
+import com.suyan.mall.mmc.model.BargainItem;
+import com.suyan.mall.mmc.req.BargainItemQueryDTO;
+import com.suyan.query.QueryResultVO;
+import com.suyan.result.ResultCode;
+import com.suyan.utils.CollectionsUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * @CopyRright (c): <素焉代码生成工具>
+ * @Comments: <业务层砍价阶段管理类>
+ */
+@Slf4j
+@Service
+public class BargainItemBiz {
+
+    @Autowired
+    private BargainItemMapper bargainItemMapper;
+
+    /**
+     * 创建砍价阶段
+     *
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public void createBargainItem(Long bargainId, List<BargainItem> bargainItemList) {
+        if (CollectionsUtil.isNotEmpty(bargainItemList)) {
+            bargainItemList.forEach(bargainItem -> {
+                bargainItem.setBargainId(bargainId);
+            });
+        }
+        bargainItemMapper.insertBatch(bargainItemList);
+    }
+
+    /**
+     * 更新砍价阶段
+     *
+     * @param bargainItem
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public Integer updateBargainItem(BargainItem bargainItem) {
+        return bargainItemMapper.updateByPrimaryKeySelective(bargainItem);
+    }
+
+    /**
+     * 根据砍价ID获取砍价阶段信息
+     *
+     * @param bargainId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<BargainItem> getBargainItemListByBargainId(Long bargainId) {
+        return bargainItemMapper.selectByBargainId(bargainId);
+    }
+
+    /**
+     * 分页查询砍价阶段信息
+     *
+     * @param bargainItemQuery
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public QueryResultVO<BargainItem> queryBargainItem(BargainItemQueryDTO bargainItemQuery) {
+        QueryResultVO<BargainItem> queryResult = new QueryResultVO<BargainItem>();
+        // 使用分页插件PageHelper实现分页功能
+        PageHelper.startPage(bargainItemQuery.getPageNo(), bargainItemQuery.getPageSize());
+        List<BargainItem> bargainItemList = bargainItemMapper.queryBargainItem(bargainItemQuery);
+        PageInfo<BargainItem> pageInfo = new PageInfo<BargainItem>(bargainItemList);
+        queryResult.setPageNo(pageInfo.getPageNum());
+        queryResult.setPageSize(pageInfo.getPageSize());
+        queryResult.setTotalPages(pageInfo.getPages());
+        queryResult.setTotalRecords(pageInfo.getTotal());
+        queryResult.setRecords(bargainItemList);
+        return queryResult;
+    }
+
+}

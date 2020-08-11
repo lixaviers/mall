@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class BargainGoodsItemQueryDTO extends QueryDTO {
+public class BargainItemQueryDTO extends QueryDTO {
 
     /**
      * serialVersionUID
@@ -22,11 +22,11 @@ public class BargainGoodsItemQueryDTO extends QueryDTO {
     @ApiModelProperty("id列表")
     private List<Long> idList;
 
-    @ApiModelProperty("砍价商品id")
-    private Long bargainGoodsId;
+    @ApiModelProperty("砍价id")
+    private Long bargainId;
 
-    @ApiModelProperty("砍价商品id列表")
-    private List<Long> bargainGoodsIdList;
+    @ApiModelProperty("砍价id列表")
+    private List<Long> bargainIdList;
 
     @ApiModelProperty("最小人数")
     private Integer numberMin;

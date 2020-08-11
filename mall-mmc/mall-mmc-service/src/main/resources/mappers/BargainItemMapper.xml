@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.suyan.mall.mmc.dao.BargainGoodsItemMapper">
-    <resultMap id="BaseResultMap" type="com.suyan.mall.mmc.model.BargainGoodsItem">
+<mapper namespace="com.suyan.mall.mmc.dao.BargainItemMapper">
+    <resultMap id="BaseResultMap" type="com.suyan.mall.mmc.model.BargainItem">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="bargain_goods_id" jdbcType="BIGINT" property="bargainGoodsId" />
+    <result column="bargain_id" jdbcType="BIGINT" property="bargainId" />
     <result column="number_min" jdbcType="INTEGER" property="numberMin" />
     <result column="number_max" jdbcType="INTEGER" property="numberMax" />
     <result column="promotion_min" jdbcType="DECIMAL" property="promotionMin" />
@@ -70,17 +70,17 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, bargain_goods_id, number_min, number_max, promotion_min, promotion_max, create_time, 
+    id, bargain_id, number_min, number_max, promotion_min, promotion_max, create_time, 
     update_time
   </sql>
-  <select id="selectByExample" parameterType="com.suyan.mall.mmc.model.BargainGoodsItemExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.suyan.mall.mmc.model.BargainItemExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from tb_bargain_goods_item
+    from tb_bargain_item
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,38 +91,38 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tb_bargain_goods_item
+    from tb_bargain_item
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from tb_bargain_goods_item
+    delete from tb_bargain_item
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.suyan.mall.mmc.model.BargainGoodsItemExample">
-    delete from tb_bargain_goods_item
+  <delete id="deleteByExample" parameterType="com.suyan.mall.mmc.model.BargainItemExample">
+    delete from tb_bargain_item
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.suyan.mall.mmc.model.BargainGoodsItem">
+  <insert id="insert" parameterType="com.suyan.mall.mmc.model.BargainItem">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       select LAST_INSERT_ID()
     </selectKey>
-    insert into tb_bargain_goods_item (bargain_goods_id, number_min, number_max, 
+    insert into tb_bargain_item (bargain_id, number_min, number_max, 
       promotion_min, promotion_max, create_time, 
       update_time)
-    values (#{bargainGoodsId,jdbcType=BIGINT}, #{numberMin,jdbcType=INTEGER}, #{numberMax,jdbcType=INTEGER}, 
+    values (#{bargainId,jdbcType=BIGINT}, #{numberMin,jdbcType=INTEGER}, #{numberMax,jdbcType=INTEGER}, 
       #{promotionMin,jdbcType=DECIMAL}, #{promotionMax,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.suyan.mall.mmc.model.BargainGoodsItem">
+  <insert id="insertSelective" parameterType="com.suyan.mall.mmc.model.BargainItem">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       select LAST_INSERT_ID()
     </selectKey>
-    insert into tb_bargain_goods_item
+    insert into tb_bargain_item
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="bargainGoodsId != null">
-        bargain_goods_id,
+      <if test="bargainId != null">
+        bargain_id,
       </if>
       <if test="numberMin != null">
         number_min,
@@ -144,8 +144,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="bargainGoodsId != null">
-        #{bargainGoodsId,jdbcType=BIGINT},
+      <if test="bargainId != null">
+        #{bargainId,jdbcType=BIGINT},
       </if>
       <if test="numberMin != null">
         #{numberMin,jdbcType=INTEGER},
@@ -167,20 +167,20 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.suyan.mall.mmc.model.BargainGoodsItemExample" resultType="java.lang.Long">
-    select count(*) from tb_bargain_goods_item
+  <select id="countByExample" parameterType="com.suyan.mall.mmc.model.BargainItemExample" resultType="java.lang.Long">
+    select count(*) from tb_bargain_item
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update tb_bargain_goods_item
+    update tb_bargain_item
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.bargainGoodsId != null">
-        bargain_goods_id = #{record.bargainGoodsId,jdbcType=BIGINT},
+      <if test="record.bargainId != null">
+        bargain_id = #{record.bargainId,jdbcType=BIGINT},
       </if>
       <if test="record.numberMin != null">
         number_min = #{record.numberMin,jdbcType=INTEGER},
@@ -206,9 +206,9 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tb_bargain_goods_item
+    update tb_bargain_item
     set id = #{record.id,jdbcType=BIGINT},
-      bargain_goods_id = #{record.bargainGoodsId,jdbcType=BIGINT},
+      bargain_id = #{record.bargainId,jdbcType=BIGINT},
       number_min = #{record.numberMin,jdbcType=INTEGER},
       number_max = #{record.numberMax,jdbcType=INTEGER},
       promotion_min = #{record.promotionMin,jdbcType=DECIMAL},
@@ -219,11 +219,11 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.suyan.mall.mmc.model.BargainGoodsItem">
-    update tb_bargain_goods_item
+  <update id="updateByPrimaryKeySelective" parameterType="com.suyan.mall.mmc.model.BargainItem">
+    update tb_bargain_item
     <set>
-      <if test="bargainGoodsId != null">
-        bargain_goods_id = #{bargainGoodsId,jdbcType=BIGINT},
+      <if test="bargainId != null">
+        bargain_id = #{bargainId,jdbcType=BIGINT},
       </if>
       <if test="numberMin != null">
         number_min = #{numberMin,jdbcType=INTEGER},
@@ -246,9 +246,9 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.suyan.mall.mmc.model.BargainGoodsItem">
-    update tb_bargain_goods_item
-    set bargain_goods_id = #{bargainGoodsId,jdbcType=BIGINT},
+  <update id="updateByPrimaryKey" parameterType="com.suyan.mall.mmc.model.BargainItem">
+    update tb_bargain_item
+    set bargain_id = #{bargainId,jdbcType=BIGINT},
       number_min = #{numberMin,jdbcType=INTEGER},
       number_max = #{numberMax,jdbcType=INTEGER},
       promotion_min = #{promotionMin,jdbcType=DECIMAL},
@@ -263,12 +263,12 @@
     <select id="selectByPrimaryKeyForUpdate" resultMap="BaseResultMap" parameterType="java.lang.Long">
         SELECT
         <include refid="Base_Column_List" />
-        FROM tb_bargain_goods_item
+        FROM tb_bargain_item
         WHERE id = #{id,jdbcType=BIGINT} 
         FOR UPDATE
     </select>
     
-    <select id="queryBargainGoodsItem" resultMap="BaseResultMap" parameterType="com.suyan.mall.mmc.req.BargainGoodsItemQueryDTO">
+    <select id="queryBargainItem" resultMap="BaseResultMap" parameterType="com.suyan.mall.mmc.req.BargainItemQueryDTO">
         SELECT
          <choose>
           <when test="returnFields!=null">${returnFields}</when>
@@ -276,15 +276,15 @@
             <include refid="Base_Column_List" />
           </otherwise>
         </choose>
-        FROM tb_bargain_goods_item
+        FROM tb_bargain_item
         <where>
             <if test="id!=null">AND id = #{id,jdbcType=BIGINT}</if>
             <if test="idList != null and idList.size > 0">
                 <foreach item="item" separator="," open="AND id in (" close=")" collection="idList">#{item,jdbcType=BIGINT}</foreach>
             </if>
-            <if test="bargainGoodsId!=null">AND bargain_goods_id = #{bargainGoodsId,jdbcType=BIGINT}</if>
-            <if test="bargainGoodsIdList != null and bargainGoodsIdList.size > 0">
-                <foreach item="item" separator="," open="AND bargain_goods_id in (" close=")" collection="bargainGoodsIdList">#{item,jdbcType=BIGINT}</foreach>
+            <if test="bargainId!=null">AND bargain_id = #{bargainId,jdbcType=BIGINT}</if>
+            <if test="bargainIdList != null and bargainIdList.size > 0">
+                <foreach item="item" separator="," open="AND bargain_id in (" close=")" collection="bargainIdList">#{item,jdbcType=BIGINT}</foreach>
             </if>
             <if test="numberMin!=null">AND number_min = #{numberMin,jdbcType=INTEGER}</if>
             <if test="numberMinList != null and numberMinList.size > 0">
@@ -310,30 +310,29 @@
     </select>
 
     <insert id="insertBatch" parameterType="java.util.List">
-        insert into tb_bargain_goods_item (
-            bargain_goods_id,
+        <trim prefix="insert into tb_bargain_item (" suffix=") values" suffixOverrides=",">
+            bargain_id,
             number_min,
             number_max,
             promotion_min,
-            promotion_max
-        )
-        values
+            promotion_max,
+        </trim>
         <foreach collection="modelList" item="bean" index="index" separator=",">
-        (
-            #{bean.bargainGoodsId,jdbcType=BIGINT} ,
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{bean.bargainId,jdbcType=BIGINT} ,
             #{bean.numberMin,jdbcType=INTEGER} ,
             #{bean.numberMax,jdbcType=INTEGER} ,
             #{bean.promotionMin,jdbcType=DECIMAL} ,
-            #{bean.promotionMax,jdbcType=DECIMAL}
-        )
+            #{bean.promotionMax,jdbcType=DECIMAL} ,
+            </trim>
         </foreach>
     </insert>
 
-    <select id="selectByBargainGoodsId" resultMap="BaseResultMap">
+    <select id="selectByBargainId" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
-        FROM tb_bargain_goods_item
-        WHERE  bargain_goods_id = #{bargainGoodsId,jdbcType=BIGINT}
+        FROM tb_bargain_item
+        WHERE  bargain_id = #{bargainId,jdbcType=BIGINT}
     </select>
 
 </mapper>

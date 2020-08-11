@@ -5,11 +5,13 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
-@ApiModel("砍价活动")
-public class BargainActivityVO implements Serializable {
+@ApiModel("砍价")
+public class BargainVO implements Serializable {
 
     /**   
      * serialVersionUID
@@ -30,12 +32,6 @@ public class BargainActivityVO implements Serializable {
     private Long shopId;
 
     /**
-     * 活动名称
-     */
-    @ApiModelProperty("活动名称")
-    private String activityName;
-
-    /**
      * 开始时间
      */
     @ApiModelProperty("开始时间")
@@ -46,6 +42,30 @@ public class BargainActivityVO implements Serializable {
      */
     @ApiModelProperty("结束时间")
     private LocalDateTime endTime;
+
+    /**
+     * 有效期类型 1.24h 2.48h 3.72h
+     */
+    @ApiModelProperty("有效期类型 1.24h 2.48h 3.72h")
+    private Byte validityDateType;
+
+    /**
+     * 商品编码
+     */
+    @ApiModelProperty("商品编码")
+    private String goodsSkuCode;
+
+    /**
+     * 价格
+     */
+    @ApiModelProperty("价格")
+    private BigDecimal price;
+
+    /**
+     * 库存
+     */
+    @ApiModelProperty("库存")
+    private Integer inventory;
 
     /**
      * 活动规则
@@ -84,5 +104,9 @@ public class BargainActivityVO implements Serializable {
      * -------------------------------------------------
      */
 
+    /**
+     * 砍价阶段
+     */
+    private List<BargainItemVO> bargainItemList;
 
 }

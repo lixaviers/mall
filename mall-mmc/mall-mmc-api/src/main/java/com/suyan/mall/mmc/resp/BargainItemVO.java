@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@ApiModel("砍价商品阶段")
-public class BargainGoodsItemVO implements Serializable {
+@ApiModel("砍价阶段")
+public class BargainItemVO implements Serializable {
 
     /**   
      * serialVersionUID
@@ -25,10 +25,10 @@ public class BargainGoodsItemVO implements Serializable {
     private Long id;
 
     /**
-     * 砍价商品id
+     * 砍价id
      */
-    @ApiModelProperty("砍价商品id")
-    private Long bargainGoodsId;
+    @ApiModelProperty("砍价id")
+    private Long bargainId;
 
     /**
      * 最小人数

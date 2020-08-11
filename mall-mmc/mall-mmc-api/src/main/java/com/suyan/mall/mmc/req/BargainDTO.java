@@ -9,9 +9,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
-public class BargainGoodsDTO implements Serializable {
+public class BargainDTO implements Serializable {
 
     /**
      * serialVersionUID
@@ -27,11 +29,24 @@ public class BargainGoodsDTO implements Serializable {
     private Long id;
 
     /**
-     * 砍价活动id
+     * 店铺id
      */
-    @ApiModelProperty("砍价活动id")
-    @NotNull(message = "砍价活动id不能为空", groups = BaseInterface.class)
-    private Long bargainActivityId;
+    @ApiModelProperty("店铺id")
+    private Long shopId;
+
+    /**
+     * 开始时间
+     */
+    @ApiModelProperty("开始时间")
+    @NotNull(message = "开始时间不能为空", groups = BaseInterface.class)
+    private LocalDateTime startTime;
+
+    /**
+     * 结束时间
+     */
+    @ApiModelProperty("结束时间")
+    @NotNull(message = "结束时间不能为空", groups = BaseInterface.class)
+    private LocalDateTime endTime;
 
     /**
      * 有效期类型 1.24h 2.48h 3.72h
@@ -62,6 +77,19 @@ public class BargainGoodsDTO implements Serializable {
     @NotNull(message = "库存不能为空", groups = BaseInterface.class)
     private Integer inventory;
 
+    /**
+     * 活动规则
+     */
+    @ApiModelProperty("活动规则")
+    @Size(max = 2000, message = "活动规则不能超过2000位", groups = BaseInterface.class)
+    private String activityRule;
+
+    /**
+     * 活动状态
+     */
+    @ApiModelProperty("活动状态")
+    private Byte activityStatus;
+
 
     /**
      * -------------------------------------------------
@@ -69,5 +97,11 @@ public class BargainGoodsDTO implements Serializable {
      * -------------------------------------------------
      */
 
+    /**
+     * 砍价阶段
+     */
+    @ApiModelProperty("砍价阶段")
+    @NotNull(message = "砍价阶段不能为空", groups = BaseInterface.class)
+    private List<BargainItemDTO> bargainItemList;
 
 }
