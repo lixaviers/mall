@@ -19,4 +19,12 @@ public interface IGoodsSkuService {
      */
     QueryResultVO<GoodsSkuVO> queryGoodsSku(GoodsSkuQueryDTO goodsSkuQueryDTO);
 
+    /**
+     * 根据商品编码查询商品规格信息
+     *
+     * @param skuCode
+     * @return
+     */
+    GoodsSkuVO getGoodsSku(String skuCode);
+
 }

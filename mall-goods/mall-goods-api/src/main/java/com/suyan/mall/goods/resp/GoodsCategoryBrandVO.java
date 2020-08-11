@@ -1,16 +1,15 @@
-package com.suyan.mall.mmc.resp;
+package com.suyan.mall.goods.resp;
 
 import lombok.Data;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@ApiModel("砍价商品")
-public class BargainGoodsVO implements Serializable {
+@ApiModel("商品类目品牌管理")
+public class GoodsCategoryBrandVO implements Serializable {
 
     /**   
      * serialVersionUID
@@ -25,34 +24,16 @@ public class BargainGoodsVO implements Serializable {
     private Long id;
 
     /**
-     * 砍价活动id
+     * 商品品牌id
      */
-    @ApiModelProperty("砍价活动id")
-    private Long bargainActivityId;
+    @ApiModelProperty("商品品牌id")
+    private Integer goodsBrandId;
 
     /**
-     * 有效期类型 1.24h 2.48h 3.72h
+     * 商品类目id
      */
-    @ApiModelProperty("有效期类型 1.24h 2.48h 3.72h")
-    private Byte validityDateType;
-
-    /**
-     * 商品编码
-     */
-    @ApiModelProperty("商品编码")
-    private String goodsSkuCode;
-
-    /**
-     * 价格
-     */
-    @ApiModelProperty("价格")
-    private BigDecimal price;
-
-    /**
-     * 库存
-     */
-    @ApiModelProperty("库存")
-    private Integer inventory;
+    @ApiModelProperty("商品类目id")
+    private Integer goodsCategoryId;
 
     /**
      * 创建时间
@@ -65,12 +46,6 @@ public class BargainGoodsVO implements Serializable {
      */
     @ApiModelProperty("更新时间")
     private LocalDateTime updateTime;
-
-    /**
-     * 是否删除
-     */
-    @ApiModelProperty("是否删除")
-    private Boolean isDeleted;
 
 
     /**

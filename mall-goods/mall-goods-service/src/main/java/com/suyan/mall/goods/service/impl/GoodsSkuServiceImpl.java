@@ -27,4 +27,9 @@ public class GoodsSkuServiceImpl implements IGoodsSkuService {
         return GoodsSkuConvertor.toQueryResult(goodsSkuBiz.queryGoodsSku(goodsSkuQueryDTO));
     }
 
+    @Override
+    public GoodsSkuVO getGoodsSku(String skuCode) {
+        return GoodsSkuConvertor.toGoodsSkuVO(goodsSkuBiz.getGoodsSku(skuCode));
+    }
+
 }

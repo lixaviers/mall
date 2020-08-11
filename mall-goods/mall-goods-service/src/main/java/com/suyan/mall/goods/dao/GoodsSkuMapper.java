@@ -5,6 +5,7 @@ import com.suyan.mall.goods.model.GoodsSkuExample;
 import com.suyan.mall.goods.req.GoodsSkuQueryDTO;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface GoodsSkuMapper {
@@ -41,6 +42,8 @@ public interface GoodsSkuMapper {
 
     int insertBatch(@Param("modelList") List<GoodsSku> modelList);
 
+
+    GoodsSku selectBySkuCode(@Param("skuCode") String skuCode);    
 
 
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suyan.mall.goods.dao.biz.GoodsBrandBizMapper">
+
+    <select id="getGoodsBrandListByCategoryId" parameterType="java.lang.Integer"
+            resultType="com.suyan.mall.goods.model.GoodsBrand">
+        SELECT
+            tb_goods_brand.id,
+            tb_goods_brand.brand_name,
+            tb_goods_brand.brand_logo,
+            tb_goods_brand.brand_introduce
+        FROM
+            tb_goods_brand
+        INNER JOIN
+            tb_goods_category_brand ON tb_goods_brand.id = tb_goods_category_brand.goods_brand_id
+        WHERE
+            tb_goods_brand.is_deleted = 0
+        AND tb_goods_brand.is_enable = 1
+        AND tb_goods_category_brand.goods_category_id = #{categoryId, jdbcType=INTEGER}
+        ORDER BY
+            tb_goods_category_brand.create_time,
+            tb_goods_brand.id
+    </select>
+
+
+</mapper>

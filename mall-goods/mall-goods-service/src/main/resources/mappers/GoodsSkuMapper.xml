@@ -394,7 +394,7 @@
     </select>
 
     <insert id="insertBatch" parameterType="java.util.List">
-        insert into tb_goods_sku (
+        <trim prefix="insert into tb_goods_sku (" suffix=") values" suffixOverrides=",">
             sku_code,
             shop_id,
             goods_id,
@@ -402,11 +402,10 @@
             price,
             inventory,
             sales,
-            common_status
-        )
-        values
+            common_status,
+        </trim>
         <foreach collection="modelList" item="bean" index="index" separator=",">
-        (
+            <trim prefix="(" suffix=")" suffixOverrides=",">
             #{bean.skuCode,jdbcType=VARCHAR} ,
             #{bean.shopId,jdbcType=BIGINT} ,
             #{bean.goodsId,jdbcType=BIGINT} ,
@@ -414,10 +413,17 @@
             #{bean.price,jdbcType=DECIMAL} ,
             #{bean.inventory,jdbcType=INTEGER} ,
             #{bean.sales,jdbcType=INTEGER} ,
-            #{bean.commonStatus,jdbcType=TINYINT}
-        )
+            #{bean.commonStatus,jdbcType=TINYINT} ,
+            </trim>
         </foreach>
     </insert>
 
+    <select id="selectBySkuCode" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_goods_sku
+        WHERE  sku_code = #{skuCode,jdbcType=VARCHAR}
+    AND is_deleted = 0
+    </select>
 
 </mapper>

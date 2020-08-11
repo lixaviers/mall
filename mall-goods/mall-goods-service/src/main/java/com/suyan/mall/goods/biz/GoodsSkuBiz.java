@@ -105,12 +105,8 @@ public class GoodsSkuBiz {
     }
 
     @Transactional(readOnly = true)
-    public GoodsSku getBaseGoodsSku(Long id) {
-        GoodsSku goodsSku = goodsSkuBizMapper.selectByPrimaryKey(id);
-        if (goodsSku == null || goodsSku.getIsDeleted()) {
-            throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品规格");
-        }
-        return goodsSku;
+    public GoodsSku getGoodsSku(String skuCode) {
+        return goodsSkuBizMapper.selectBySkuCode(skuCode);
     }
 
     /**

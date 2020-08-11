@@ -1,4 +1,4 @@
-package com.suyan.mall.mmc.req;
+package com.suyan.mall.goods.req;
 
 import com.suyan.query.QueryDTO;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class BargainActivityQueryDTO extends QueryDTO {
+public class GoodsBrandQueryDTO extends QueryDTO {
 
     /**
      * serialVersionUID
@@ -16,43 +16,34 @@ public class BargainActivityQueryDTO extends QueryDTO {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("id")
-    private Long id;
+    private Integer id;
 
     @ApiModelProperty("id列表")
-    private List<Long> idList;
+    private List<Integer> idList;
 
-    @ApiModelProperty("店铺id")
-    private Long shopId;
+    @ApiModelProperty("品牌名称")
+    private String brandName;
 
-    @ApiModelProperty("店铺id列表")
-    private List<Long> shopIdList;
+    @ApiModelProperty("品牌名称列表")
+    private List<String> brandNameList;
 
-    @ApiModelProperty("活动名称")
-    private String activityName;
+    @ApiModelProperty("品牌名称模糊字段")
+    private String brandNameLike;
 
-    @ApiModelProperty("活动名称列表")
-    private List<String> activityNameList;
+    @ApiModelProperty("品牌logo")
+    private String brandLogo;
 
-    @ApiModelProperty("活动名称模糊字段")
-    private String activityNameLike;
+    @ApiModelProperty("品牌logo列表")
+    private List<String> brandLogoList;
 
-    @ApiModelProperty("开始时间起")
-    private LocalDateTime startTimeFrom;
+    @ApiModelProperty("品牌logo模糊字段")
+    private String brandLogoLike;
 
-    @ApiModelProperty("开始时间止")
-    private LocalDateTime startTimeTo;
+    @ApiModelProperty("是否启用")
+    private Boolean isEnable;
 
-    @ApiModelProperty("结束时间起")
-    private LocalDateTime endTimeFrom;
-
-    @ApiModelProperty("结束时间止")
-    private LocalDateTime endTimeTo;
-
-    @ApiModelProperty("活动状态")
-    private Byte activityStatus;
-
-    @ApiModelProperty("活动状态列表")
-    private List<Byte> activityStatusList;
+    @ApiModelProperty("是否启用列表")
+    private List<Boolean> isEnableList;
 
     @ApiModelProperty("创建时间起")
     private LocalDateTime createTimeFrom;
