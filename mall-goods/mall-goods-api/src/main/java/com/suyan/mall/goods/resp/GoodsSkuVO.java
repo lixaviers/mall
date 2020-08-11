@@ -6,15 +6,15 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @ApiModel("商品规格")
 public class GoodsSkuVO implements Serializable {
 
-    /**   
+    /**
      * serialVersionUID
-     */ 
+     */
     private static final long serialVersionUID = 1L;
 
 
@@ -41,6 +41,12 @@ public class GoodsSkuVO implements Serializable {
      */
     @ApiModelProperty("商品id")
     private Long goodsId;
+
+    /**
+     * 商品名称
+     */
+    @ApiModelProperty("商品名称")
+    private String goodsName;
 
     /**
      * 规格值
@@ -76,13 +82,13 @@ public class GoodsSkuVO implements Serializable {
      * 创建时间
      */
     @ApiModelProperty("创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
     @ApiModelProperty("更新时间")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 是否删除: 0.未删除 1.已删除
@@ -96,12 +102,6 @@ public class GoodsSkuVO implements Serializable {
      * 上面字段由工具自动生成，请在下面添加扩充字段
      * -------------------------------------------------
      */
-
-    /**
-     * 商品名称
-     */
-    @ApiModelProperty("商品名称")
-    private String goodsName;
 
 
 }

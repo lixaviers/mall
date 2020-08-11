@@ -63,6 +63,7 @@ public class GoodsBiz {
         goodsMapper.insertSelective(goods);
 
         goods.getSkuList().forEach(sku -> {
+            sku.setGoodsName(goods.getGoodsName());
             sku.setGoodsId(goods.getId());
         });
         goodsSkuBiz.batchCreateGoodsSku(goods.getSkuList());
@@ -83,6 +84,7 @@ public class GoodsBiz {
         int totalInventory = 0;
 
         for (GoodsSku goodsSku : goods.getSkuList()) {
+            goodsSku.setGoodsName(goods.getGoodsName());
             goodsSku.setGoodsId(goods.getId());
             goodsSku.setShopId(goods.getShopId());
             goodsSku.setSales(0);

@@ -10,6 +10,4 @@ public interface GoodsSkuBizMapper extends GoodsSkuMapper {
     
     String getMaxSkuCode();
 
-    List<GoodsSku> queryGoodsSku(GoodsSkuQueryDTO goodsSkuQuery);
-
 }

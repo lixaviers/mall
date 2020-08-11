@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -43,6 +43,15 @@ public class GoodsSkuQueryDTO extends QueryDTO {
     @ApiModelProperty("商品id列表")
     private List<Long> goodsIdList;
 
+    @ApiModelProperty("商品名称")
+    private String goodsName;
+
+    @ApiModelProperty("商品名称列表")
+    private List<String> goodsNameList;
+
+    @ApiModelProperty("商品名称模糊字段")
+    private String goodsNameLike;
+
     @ApiModelProperty("价格起")
     private BigDecimal priceFrom;
 
@@ -68,16 +77,16 @@ public class GoodsSkuQueryDTO extends QueryDTO {
     private List<Byte> commonStatusList;
 
     @ApiModelProperty("创建时间起")
-    private Date createTimeFrom;
+    private LocalDateTime createTimeFrom;
 
     @ApiModelProperty("创建时间止")
-    private Date createTimeTo;
+    private LocalDateTime createTimeTo;
 
     @ApiModelProperty("更新时间起")
-    private Date updateTimeFrom;
+    private LocalDateTime updateTimeFrom;
 
     @ApiModelProperty("更新时间止")
-    private Date updateTimeTo;
+    private LocalDateTime updateTimeTo;
 
     @ApiModelProperty("是否删除: 0.未删除 1.已删除")
     private Boolean isDeleted;
@@ -86,18 +95,11 @@ public class GoodsSkuQueryDTO extends QueryDTO {
     private List<Boolean> isDeletedList;
 
 
-
     /**
      * -------------------------------------------------
      * 上面字段由工具自动生成，请在下面添加扩充字段
      * -------------------------------------------------
      */
-
-    @ApiModelProperty("商品名称")
-    private String goodsName;
-
-    @ApiModelProperty("商品名称模糊字段")
-    private String goodsNameLike;
 
 
 }

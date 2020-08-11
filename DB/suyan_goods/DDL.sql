@@ -9,9 +9,9 @@ CREATE TABLE `tb_goods` (
   `original_price` decimal(12,2) DEFAULT NULL COMMENT '原价',
   `list_price` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '列表价',
   `inventory` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
-  `express_freight` decimal(12, 0) NOT NULL DEFAULT 0 COMMENT '快递运费',
+  `express_freight` decimal(12,0) NOT NULL DEFAULT '0' COMMENT '快递运费',
   `sales` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '销量',
-  `per_person_limit` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '限制每人可以购买数量 0.不限购',
+  `per_person_limit` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '限制每人可以购买数量 0.不限购',
   `view_count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '浏览量',
   `goods_status` tinyint(2) unsigned NOT NULL COMMENT '状态',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -19,6 +19,17 @@ CREATE TABLE `tb_goods` (
   `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除: 0.未删除 1.已删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品表';
+CREATE TABLE `tb_goods_brand` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `brand_name` varchar(64) NOT NULL COMMENT '品牌名称',
+  `brand_logo` varchar(255) DEFAULT NULL COMMENT '品牌logo',
+  `brand_introduce` varchar(1000) DEFAULT NULL COMMENT '品牌介绍',
+  `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品品牌表';
 CREATE TABLE `tb_goods_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `parent_id` int(11) unsigned NOT NULL COMMENT '父类id',
@@ -30,6 +41,16 @@ CREATE TABLE `tb_goods_category` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_parent_id` (`parent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品类目表';
+CREATE TABLE `tb_goods_category_brand` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `goods_brand_id` int(11) unsigned NOT NULL COMMENT '商品品牌id',
+  `goods_category_id` int(11) unsigned NOT NULL COMMENT '商品类目id',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_goods_brand_id` (`goods_brand_id`),
+  KEY `idx_goods_category_id` (`goods_category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品类目品牌管理表';
 CREATE TABLE `tb_goods_description` (
   `goods_id` bigint(20) unsigned NOT NULL COMMENT '商品id',
   `description` text COMMENT '描述',
@@ -40,6 +61,7 @@ CREATE TABLE `tb_goods_sku` (
   `sku_code` varchar(32) NOT NULL COMMENT '商品编码',
   `shop_id` bigint(20) unsigned NOT NULL COMMENT '店铺id',
   `goods_id` bigint(20) unsigned NOT NULL COMMENT '商品id',
+  `goods_name` varchar(64) DEFAULT NULL COMMENT '商品名称',
   `spec_value` varchar(1000) DEFAULT NULL COMMENT '规格值',
   `price` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '价格',
   `inventory` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '库存',
@@ -48,7 +70,8 @@ CREATE TABLE `tb_goods_sku` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除: 0.未删除 1.已删除',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uq_sku_code` (`sku_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品规格表';
 CREATE TABLE `tb_goods_specification_name` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
