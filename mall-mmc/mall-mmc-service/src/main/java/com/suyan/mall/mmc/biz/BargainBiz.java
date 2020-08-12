@@ -93,6 +93,7 @@ public class BargainBiz {
             throw new CommonException(ResultCode.NO_PERMISSION_OPERATE, "此砍价");
         }
         checkGoods(bargain);
+        bargainItemBiz.updateBargainItem(bargain.getId(), bargain.getBargainItemList());
         return bargainMapper.updateByPrimaryKeySelective(bargain);
     }
 

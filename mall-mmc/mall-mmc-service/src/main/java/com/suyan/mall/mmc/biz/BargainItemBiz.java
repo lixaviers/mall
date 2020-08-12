@@ -2,12 +2,10 @@ package com.suyan.mall.mmc.biz;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.suyan.exception.CommonException;
 import com.suyan.mall.mmc.dao.BargainItemMapper;
 import com.suyan.mall.mmc.model.BargainItem;
 import com.suyan.mall.mmc.req.BargainItemQueryDTO;
 import com.suyan.query.QueryResultVO;
-import com.suyan.result.ResultCode;
 import com.suyan.utils.CollectionsUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @CopyRright (c): <素焉代码生成工具>
@@ -40,19 +39,29 @@ public class BargainItemBiz {
             bargainItemList.forEach(bargainItem -> {
                 bargainItem.setBargainId(bargainId);
             });
+            bargainItemMapper.insertBatch(bargainItemList);
         }
-        bargainItemMapper.insertBatch(bargainItemList);
     }
 
     /**
      * 更新砍价阶段
      *
-     * @param bargainItem
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Integer updateBargainItem(BargainItem bargainItem) {
-        return bargainItemMapper.updateByPrimaryKeySelective(bargainItem);
+    public void updateBargainItem(Long bargainId, List<BargainItem> bargainItemList) {
+        if (CollectionsUtil.isNotEmpty(bargainItemList)) {
+            // 新增
+            List<BargainItem> addList = bargainItemList.stream().filter(item -> item.getId() == null).collect(Collectors.toList());
+            createBargainItem(bargainId, addList);
+            // 更新
+            List<BargainItem> updateList = bargainItemList.stream().filter(item -> item.getId() != null).collect(Collectors.toList());
+            if (CollectionsUtil.isNotEmpty(updateList)) {
+                for (BargainItem bargainItem : updateList) {
+                    bargainItemMapper.updateByPrimaryKeySelective(bargainItem);
+                }
+            }
+        }
     }
 
     /**
