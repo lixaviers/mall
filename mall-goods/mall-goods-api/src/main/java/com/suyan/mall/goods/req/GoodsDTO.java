@@ -23,7 +23,7 @@ public class GoodsDTO implements Serializable {
     /**
      * id
      */
-    @ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "id", hidden = true)
     @NotNull(message = "id不能为空", groups = UpdateInterface.class)
     private Long id;
 
@@ -47,6 +47,13 @@ public class GoodsDTO implements Serializable {
     @ApiModelProperty("类目id")
     @NotNull(message = "类目id不能为空", groups = BaseInterface.class)
     private Integer goodsCategoryId;
+
+    /**
+     * 品牌id
+     */
+    @ApiModelProperty("品牌id")
+    @NotNull(message = "品牌id不能为空", groups = BaseInterface.class)
+    private Integer brandId;
 
     /**
      * 是否多规格
@@ -75,6 +82,13 @@ public class GoodsDTO implements Serializable {
     private BigDecimal listPrice;
 
     /**
+     * 主图
+     */
+    @ApiModelProperty("主图")
+    @Size(max = 255, message = "主图不能超过255位", groups = BaseInterface.class)
+    private String mainPhoto;
+
+    /**
      * 库存
      */
     @ApiModelProperty("库存")
@@ -95,10 +109,10 @@ public class GoodsDTO implements Serializable {
     private Integer sales;
 
     /**
-     * 限制每人可以购买数量
+     * 限制每人可以购买数量 0.不限购
      */
-    @ApiModelProperty("限制每人可以购买数量")
-    @NotNull(message = "限制每人可以购买数量不能为空", groups = BaseInterface.class)
+    @ApiModelProperty("限制每人可以购买数量 0.不限购")
+    @NotNull(message = "限制每人可以购买数量 0.不限购不能为空", groups = BaseInterface.class)
     private Integer perPersonLimit;
 
     /**
@@ -121,13 +135,25 @@ public class GoodsDTO implements Serializable {
      */
 
 
-    @NotNull(message = "商品sku", groups = BaseInterface.class)
+    /**
+     * 商品sku
+     */
+    @ApiModelProperty("商品sku")
+    @NotNull(message = "商品sku不能为空", groups = BaseInterface.class)
     private List<GoodsSkuDTO> skuList;
 
     /**
      * 商品规格
      */
+    @ApiModelProperty("商品规格")
     private List<GoodsSpecificationDTO> goodsSpecificationList;
+
+    /**
+     * 商品图片
+     */
+    @ApiModelProperty("商品图片")
+    @NotNull(message = "商品图片不能为空", groups = BaseInterface.class)
+    private List<GoodsPictureDTO> pictureList;
 
     /**
      * 商品描述

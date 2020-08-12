@@ -3,7 +3,7 @@ package com.suyan.mall.goods.model;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -31,6 +31,11 @@ public class Goods {
     private Integer goodsCategoryId;
 
     /**
+     * 品牌id
+     */
+    private Integer brandId;
+
+    /**
      * 是否多规格
      */
     private Boolean isMoreSpec;
@@ -51,6 +56,11 @@ public class Goods {
     private BigDecimal listPrice;
 
     /**
+     * 主图
+     */
+    private String mainPhoto;
+
+    /**
      * 库存
      */
     private Integer inventory;
@@ -66,7 +76,7 @@ public class Goods {
     private Integer sales;
 
     /**
-     * 限制每人可以购买数量
+     * 限制每人可以购买数量 0.不限购
      */
     private Integer perPersonLimit;
 
@@ -83,12 +93,12 @@ public class Goods {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 是否删除: 0.未删除 1.已删除
@@ -116,5 +126,10 @@ public class Goods {
      * 描述
      */
     private String description;
+
+    /**
+     * 商品图片
+     */
+    private List<GoodsPicture> pictureList;
 
 }

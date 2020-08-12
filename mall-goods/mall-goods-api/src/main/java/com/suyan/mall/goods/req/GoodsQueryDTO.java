@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -43,6 +43,12 @@ public class GoodsQueryDTO extends QueryDTO {
     @ApiModelProperty("类目id列表")
     private List<Integer> goodsCategoryIdList;
 
+    @ApiModelProperty("品牌id")
+    private Integer brandId;
+
+    @ApiModelProperty("品牌id列表")
+    private List<Integer> brandIdList;
+
     @ApiModelProperty("是否多规格")
     private Boolean isMoreSpec;
 
@@ -60,6 +66,15 @@ public class GoodsQueryDTO extends QueryDTO {
 
     @ApiModelProperty("列表价止")
     private BigDecimal listPriceTo;
+
+    @ApiModelProperty("主图")
+    private String mainPhoto;
+
+    @ApiModelProperty("主图列表")
+    private List<String> mainPhotoList;
+
+    @ApiModelProperty("主图模糊字段")
+    private String mainPhotoLike;
 
     @ApiModelProperty("库存")
     private Integer inventory;
@@ -79,10 +94,10 @@ public class GoodsQueryDTO extends QueryDTO {
     @ApiModelProperty("销量列表")
     private List<Integer> salesList;
 
-    @ApiModelProperty("限制每人可以购买数量")
+    @ApiModelProperty("限制每人可以购买数量 0.不限购")
     private Integer perPersonLimit;
 
-    @ApiModelProperty("限制每人可以购买数量列表")
+    @ApiModelProperty("限制每人可以购买数量 0.不限购列表")
     private List<Integer> perPersonLimitList;
 
     @ApiModelProperty("浏览量")
@@ -98,22 +113,23 @@ public class GoodsQueryDTO extends QueryDTO {
     private List<Byte> goodsStatusList;
 
     @ApiModelProperty("创建时间起")
-    private Date createTimeFrom;
+    private LocalDateTime createTimeFrom;
 
     @ApiModelProperty("创建时间止")
-    private Date createTimeTo;
+    private LocalDateTime createTimeTo;
 
     @ApiModelProperty("更新时间起")
-    private Date updateTimeFrom;
+    private LocalDateTime updateTimeFrom;
 
     @ApiModelProperty("更新时间止")
-    private Date updateTimeTo;
+    private LocalDateTime updateTimeTo;
 
     @ApiModelProperty("是否删除: 0.未删除 1.已删除")
     private Boolean isDeleted;
 
     @ApiModelProperty("是否删除: 0.未删除 1.已删除列表")
     private List<Boolean> isDeletedList;
+
 
 
     /**

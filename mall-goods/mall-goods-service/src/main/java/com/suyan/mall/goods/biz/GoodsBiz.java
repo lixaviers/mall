@@ -3,7 +3,6 @@ package com.suyan.mall.goods.biz;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
-import com.suyan.mall.goods.constants.Constant;
 import com.suyan.mall.goods.dao.GoodsMapper;
 import com.suyan.mall.goods.enums.GoodsStatusEnum;
 import com.suyan.mall.goods.model.Goods;
@@ -16,7 +15,6 @@ import com.suyan.query.QueryResultVO;
 import com.suyan.result.ResultCode;
 import com.suyan.utils.CollectionsUtil;
 import com.suyan.utils.JsonUtil;
-import com.suyan.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +45,8 @@ public class GoodsBiz {
     private GoodsSkuBiz goodsSkuBiz;
     @Autowired
     private GoodsDescriptionBiz goodsDescriptionBiz;
+    @Autowired
+    private GoodsPictureBiz goodsPictureBiz;
 
 
     /**
@@ -72,12 +72,16 @@ public class GoodsBiz {
         GoodsDescription goodsDescription = new GoodsDescription();
         goodsDescription.setGoodsId(goods.getId());
         goodsDescription.setDescription(goods.getDescription());
+        // 商品描述
         goodsDescriptionBiz.createGoodsDescription(goodsDescription);
-
+        // 商品图片
+        goodsPictureBiz.createGoodsPicture(goods.getId(), goods.getPictureList());
         return goods.getId();
     }
 
     private void dealInfo(Goods goods) {
+        // 商品主图
+        goods.setMainPhoto(goods.getPictureList().get(0).getPictureAddress());
         // 商品最低价格设为列表价
         BigDecimal minPirce = goods.getSkuList().get(0).getPrice();
         // 总库存
@@ -202,6 +206,9 @@ public class GoodsBiz {
         goodsDescription.setGoodsId(goods.getId());
         goodsDescription.setDescription(goods.getDescription());
         goodsDescriptionBiz.updateGoodsDescription(goodsDescription);
+
+        // 商品图片
+        goodsPictureBiz.updateGoodsPicture(goods.getId(), goods.getPictureList());
 
         return goodsMapper.updateByPrimaryKeySelective(goods);
     }

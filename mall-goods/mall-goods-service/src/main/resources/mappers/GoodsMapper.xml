@@ -6,10 +6,12 @@
     <result column="shop_id" jdbcType="BIGINT" property="shopId" />
     <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
     <result column="goods_category_id" jdbcType="INTEGER" property="goodsCategoryId" />
+    <result column="brand_id" jdbcType="INTEGER" property="brandId" />
     <result column="is_more_spec" jdbcType="BIT" property="isMoreSpec" />
     <result column="spec_value" jdbcType="VARCHAR" property="specValue" />
     <result column="original_price" jdbcType="DECIMAL" property="originalPrice" />
     <result column="list_price" jdbcType="DECIMAL" property="listPrice" />
+    <result column="main_photo" jdbcType="VARCHAR" property="mainPhoto" />
     <result column="inventory" jdbcType="INTEGER" property="inventory" />
     <result column="express_freight" jdbcType="DECIMAL" property="expressFreight" />
     <result column="sales" jdbcType="INTEGER" property="sales" />
@@ -79,9 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, shop_id, goods_name, goods_category_id, is_more_spec, spec_value, original_price, 
-    list_price, inventory, express_freight, sales, per_person_limit, view_count, goods_status, 
-    create_time, update_time, is_deleted
+    id, shop_id, goods_name, goods_category_id, brand_id, is_more_spec, spec_value, original_price, 
+    list_price, main_photo, inventory, express_freight, sales, per_person_limit, view_count, 
+    goods_status, create_time, update_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.goods.model.GoodsExample" resultMap="BaseResultMap">
     select
@@ -119,17 +121,19 @@
       select LAST_INSERT_ID()
     </selectKey>
     insert into tb_goods (shop_id, goods_name, goods_category_id, 
-      is_more_spec, spec_value, original_price, 
-      list_price, inventory, express_freight, 
-      sales, per_person_limit, view_count, 
-      goods_status, create_time, update_time, 
-      is_deleted)
+      brand_id, is_more_spec, spec_value, 
+      original_price, list_price, main_photo, 
+      inventory, express_freight, sales, 
+      per_person_limit, view_count, goods_status, 
+      create_time, update_time, is_deleted
+      )
     values (#{shopId,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, #{goodsCategoryId,jdbcType=INTEGER}, 
-      #{isMoreSpec,jdbcType=BIT}, #{specValue,jdbcType=VARCHAR}, #{originalPrice,jdbcType=DECIMAL}, 
-      #{listPrice,jdbcType=DECIMAL}, #{inventory,jdbcType=INTEGER}, #{expressFreight,jdbcType=DECIMAL}, 
-      #{sales,jdbcType=INTEGER}, #{perPersonLimit,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, 
-      #{goodsStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{isDeleted,jdbcType=BIT})
+      #{brandId,jdbcType=INTEGER}, #{isMoreSpec,jdbcType=BIT}, #{specValue,jdbcType=VARCHAR}, 
+      #{originalPrice,jdbcType=DECIMAL}, #{listPrice,jdbcType=DECIMAL}, #{mainPhoto,jdbcType=VARCHAR}, 
+      #{inventory,jdbcType=INTEGER}, #{expressFreight,jdbcType=DECIMAL}, #{sales,jdbcType=INTEGER}, 
+      #{perPersonLimit,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, #{goodsStatus,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.goods.model.Goods">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -146,6 +150,9 @@
       <if test="goodsCategoryId != null">
         goods_category_id,
       </if>
+      <if test="brandId != null">
+        brand_id,
+      </if>
       <if test="isMoreSpec != null">
         is_more_spec,
       </if>
@@ -157,6 +164,9 @@
       </if>
       <if test="listPrice != null">
         list_price,
+      </if>
+      <if test="mainPhoto != null">
+        main_photo,
       </if>
       <if test="inventory != null">
         inventory,
@@ -196,6 +206,9 @@
       <if test="goodsCategoryId != null">
         #{goodsCategoryId,jdbcType=INTEGER},
       </if>
+      <if test="brandId != null">
+        #{brandId,jdbcType=INTEGER},
+      </if>
       <if test="isMoreSpec != null">
         #{isMoreSpec,jdbcType=BIT},
       </if>
@@ -207,6 +220,9 @@
       </if>
       <if test="listPrice != null">
         #{listPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="mainPhoto != null">
+        #{mainPhoto,jdbcType=VARCHAR},
       </if>
       <if test="inventory != null">
         #{inventory,jdbcType=INTEGER},
@@ -258,6 +274,9 @@
       <if test="record.goodsCategoryId != null">
         goods_category_id = #{record.goodsCategoryId,jdbcType=INTEGER},
       </if>
+      <if test="record.brandId != null">
+        brand_id = #{record.brandId,jdbcType=INTEGER},
+      </if>
       <if test="record.isMoreSpec != null">
         is_more_spec = #{record.isMoreSpec,jdbcType=BIT},
       </if>
@@ -269,6 +288,9 @@
       </if>
       <if test="record.listPrice != null">
         list_price = #{record.listPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mainPhoto != null">
+        main_photo = #{record.mainPhoto,jdbcType=VARCHAR},
       </if>
       <if test="record.inventory != null">
         inventory = #{record.inventory,jdbcType=INTEGER},
@@ -308,10 +330,12 @@
       shop_id = #{record.shopId,jdbcType=BIGINT},
       goods_name = #{record.goodsName,jdbcType=VARCHAR},
       goods_category_id = #{record.goodsCategoryId,jdbcType=INTEGER},
+      brand_id = #{record.brandId,jdbcType=INTEGER},
       is_more_spec = #{record.isMoreSpec,jdbcType=BIT},
       spec_value = #{record.specValue,jdbcType=VARCHAR},
       original_price = #{record.originalPrice,jdbcType=DECIMAL},
       list_price = #{record.listPrice,jdbcType=DECIMAL},
+      main_photo = #{record.mainPhoto,jdbcType=VARCHAR},
       inventory = #{record.inventory,jdbcType=INTEGER},
       express_freight = #{record.expressFreight,jdbcType=DECIMAL},
       sales = #{record.sales,jdbcType=INTEGER},
@@ -337,6 +361,9 @@
       <if test="goodsCategoryId != null">
         goods_category_id = #{goodsCategoryId,jdbcType=INTEGER},
       </if>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
       <if test="isMoreSpec != null">
         is_more_spec = #{isMoreSpec,jdbcType=BIT},
       </if>
@@ -348,6 +375,9 @@
       </if>
       <if test="listPrice != null">
         list_price = #{listPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="mainPhoto != null">
+        main_photo = #{mainPhoto,jdbcType=VARCHAR},
       </if>
       <if test="inventory != null">
         inventory = #{inventory,jdbcType=INTEGER},
@@ -384,10 +414,12 @@
     set shop_id = #{shopId,jdbcType=BIGINT},
       goods_name = #{goodsName,jdbcType=VARCHAR},
       goods_category_id = #{goodsCategoryId,jdbcType=INTEGER},
+      brand_id = #{brandId,jdbcType=INTEGER},
       is_more_spec = #{isMoreSpec,jdbcType=BIT},
       spec_value = #{specValue,jdbcType=VARCHAR},
       original_price = #{originalPrice,jdbcType=DECIMAL},
       list_price = #{listPrice,jdbcType=DECIMAL},
+      main_photo = #{mainPhoto,jdbcType=VARCHAR},
       inventory = #{inventory,jdbcType=INTEGER},
       express_freight = #{expressFreight,jdbcType=DECIMAL},
       sales = #{sales,jdbcType=INTEGER},
@@ -444,6 +476,10 @@
             <if test="goodsCategoryIdList != null and goodsCategoryIdList.size > 0">
                 <foreach item="item" separator="," open="AND goods_category_id in (" close=")" collection="goodsCategoryIdList">#{item,jdbcType=INTEGER}</foreach>
             </if>
+            <if test="brandId!=null">AND brand_id = #{brandId,jdbcType=INTEGER}</if>
+            <if test="brandIdList != null and brandIdList.size > 0">
+                <foreach item="item" separator="," open="AND brand_id in (" close=")" collection="brandIdList">#{item,jdbcType=INTEGER}</foreach>
+            </if>
             <if test="isMoreSpec!=null">AND is_more_spec = #{isMoreSpec,jdbcType=BOOLEAN}</if>
             <if test="isMoreSpecList != null and isMoreSpecList.size > 0">
                 <foreach item="item" separator="," open="AND is_more_spec in (" close=")" collection="isMoreSpecList">#{item,jdbcType=BOOLEAN}</foreach>
@@ -452,6 +488,11 @@
             <if test="originalPriceTo != null"><![CDATA[AND original_price <= #{originalPriceTo,jdbcType=DECIMAL}]]></if>
             <if test="listPriceFrom != null"><![CDATA[AND list_price >= #{listPriceFrom,jdbcType=DECIMAL}]]></if>
             <if test="listPriceTo != null"><![CDATA[AND list_price <= #{listPriceTo,jdbcType=DECIMAL}]]></if>
+            <if test="mainPhoto!=null and mainPhoto!=''">AND main_photo = #{mainPhoto,jdbcType=VARCHAR}</if>
+            <if test="mainPhotoLike != null and mainPhotoLike != '' ">AND main_photo LIKE concat(#{mainPhotoLike,jdbcType=VARCHAR},'%')</if>
+            <if test="mainPhotoList != null and mainPhotoList.size > 0">
+                <foreach item="item" separator="," open="AND main_photo in (" close=")" collection="mainPhotoList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
             <if test="inventory!=null">AND inventory = #{inventory,jdbcType=INTEGER}</if>
             <if test="inventoryList != null and inventoryList.size > 0">
                 <foreach item="item" separator="," open="AND inventory in (" close=")" collection="inventoryList">#{item,jdbcType=INTEGER}</foreach>
@@ -490,38 +531,41 @@
     </select>
 
     <insert id="insertBatch" parameterType="java.util.List">
-        insert into tb_goods (
+        <trim prefix="insert into tb_goods (" suffix=") values" suffixOverrides=",">
             shop_id,
             goods_name,
             goods_category_id,
+            brand_id,
             is_more_spec,
             spec_value,
             original_price,
             list_price,
+            main_photo,
             inventory,
             express_freight,
             sales,
             per_person_limit,
             view_count,
-            goods_status
-        )
-        values
+            goods_status,
+        </trim>
         <foreach collection="modelList" item="bean" index="index" separator=",">
-        (
+            <trim prefix="(" suffix=")" suffixOverrides=",">
             #{bean.shopId,jdbcType=BIGINT} ,
             #{bean.goodsName,jdbcType=VARCHAR} ,
             #{bean.goodsCategoryId,jdbcType=INTEGER} ,
+            #{bean.brandId,jdbcType=INTEGER} ,
             #{bean.isMoreSpec,jdbcType=BOOLEAN} ,
             #{bean.specValue,jdbcType=VARCHAR} ,
             #{bean.originalPrice,jdbcType=DECIMAL} ,
             #{bean.listPrice,jdbcType=DECIMAL} ,
+            #{bean.mainPhoto,jdbcType=VARCHAR} ,
             #{bean.inventory,jdbcType=INTEGER} ,
             #{bean.expressFreight,jdbcType=DECIMAL} ,
             #{bean.sales,jdbcType=INTEGER} ,
             #{bean.perPersonLimit,jdbcType=INTEGER} ,
             #{bean.viewCount,jdbcType=INTEGER} ,
-            #{bean.goodsStatus,jdbcType=TINYINT}
-        )
+            #{bean.goodsStatus,jdbcType=TINYINT} ,
+            </trim>
         </foreach>
     </insert>
 

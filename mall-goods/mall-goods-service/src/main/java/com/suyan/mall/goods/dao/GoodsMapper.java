@@ -5,6 +5,7 @@ import com.suyan.mall.goods.model.GoodsExample;
 import com.suyan.mall.goods.req.GoodsQueryDTO;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface GoodsMapper {
