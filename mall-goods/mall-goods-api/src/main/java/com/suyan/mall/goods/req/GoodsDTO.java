@@ -82,13 +82,6 @@ public class GoodsDTO implements Serializable {
     private BigDecimal listPrice;
 
     /**
-     * 主图
-     */
-    @ApiModelProperty("主图")
-    @Size(max = 255, message = "主图不能超过255位", groups = BaseInterface.class)
-    private String mainPhoto;
-
-    /**
      * 库存
      */
     @ApiModelProperty("库存")
@@ -101,6 +94,13 @@ public class GoodsDTO implements Serializable {
     @ApiModelProperty("快递运费")
     @NotNull(message = "快递运费不能为空", groups = BaseInterface.class)
     private BigDecimal expressFreight;
+
+    /**
+     * 图片
+     */
+    @ApiModelProperty("图片")
+    @Size(max = 2000, message = "图片不能超过2000位", groups = BaseInterface.class)
+    private String pictureUrls;
 
     /**
      * 销量
@@ -147,13 +147,6 @@ public class GoodsDTO implements Serializable {
      */
     @ApiModelProperty("商品规格")
     private List<GoodsSpecificationDTO> goodsSpecificationList;
-
-    /**
-     * 商品图片
-     */
-    @ApiModelProperty("商品图片")
-    @NotNull(message = "商品图片不能为空", groups = BaseInterface.class)
-    private List<GoodsPictureDTO> pictureList;
 
     /**
      * 商品描述

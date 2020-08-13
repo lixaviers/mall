@@ -1,9 +1,14 @@
 package com.suyan.mall.goods.convertor;
 
+import com.alibaba.fastjson.JSON;
 import com.suyan.mall.goods.model.Goods;
+import com.suyan.mall.goods.model.GoodsSpecification;
 import com.suyan.mall.goods.req.GoodsDTO;
+import com.suyan.mall.goods.resp.GoodsSpecificationNameVO;
 import com.suyan.mall.goods.resp.GoodsVO;
 import com.suyan.query.QueryResultVO;
+import com.suyan.utils.BeanUtil;
+import com.suyan.utils.StringUtils;
 import org.springframework.cglib.beans.BeanCopier;
 
 import java.util.ArrayList;
@@ -24,14 +29,18 @@ public abstract class GoodsConvertor {
         }
         GoodsVO goodsVO = new GoodsVO();
         beanCopierForGoodsVO.copy(goods, goodsVO, null);
-        goodsVO.setPictureList(GoodsPictureConvertor.toGoodsPictureVOList(goods.getPictureList()));
+        goodsVO.setSkuList(GoodsSkuConvertor.toGoodsSkuVOList(goods.getSkuList()));
+        if (StringUtils.isNotEmpty(goods.getSpecValue())) {
+            goodsVO.setSpecificationList(JSON.parseArray(goods.getSpecValue(), GoodsSpecificationNameVO.class));
+        }
         return goodsVO;
     }
 
     public static Goods toGoods(GoodsDTO goodsDTO) {
         Goods goods = new Goods();
         beanCopierForGoods.copy(goodsDTO, goods, null);
-        goods.setPictureList(GoodsPictureConvertor.toGoodsPictureList(goodsDTO.getPictureList()));
+        goods.setSkuList(GoodsSkuConvertor.toGoodsSkuList(goodsDTO.getSkuList()));
+        goods.setGoodsSpecificationList(BeanUtil.fastBeanCopy(goodsDTO.getGoodsSpecificationList(), GoodsSpecification.class));
         return goods;
     }
 

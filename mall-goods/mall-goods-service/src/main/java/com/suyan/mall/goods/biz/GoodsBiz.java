@@ -45,8 +45,6 @@ public class GoodsBiz {
     private GoodsSkuBiz goodsSkuBiz;
     @Autowired
     private GoodsDescriptionBiz goodsDescriptionBiz;
-    @Autowired
-    private GoodsPictureBiz goodsPictureBiz;
 
 
     /**
@@ -74,14 +72,10 @@ public class GoodsBiz {
         goodsDescription.setDescription(goods.getDescription());
         // 商品描述
         goodsDescriptionBiz.createGoodsDescription(goodsDescription);
-        // 商品图片
-        goodsPictureBiz.createGoodsPicture(goods.getId(), goods.getPictureList());
         return goods.getId();
     }
 
     private void dealInfo(Goods goods) {
-        // 商品主图
-        goods.setMainPhoto(goods.getPictureList().get(0).getPictureAddress());
         // 商品最低价格设为列表价
         BigDecimal minPirce = goods.getSkuList().get(0).getPrice();
         // 总库存
@@ -206,9 +200,6 @@ public class GoodsBiz {
         goodsDescription.setGoodsId(goods.getId());
         goodsDescription.setDescription(goods.getDescription());
         goodsDescriptionBiz.updateGoodsDescription(goodsDescription);
-
-        // 商品图片
-        goodsPictureBiz.updateGoodsPicture(goods.getId(), goods.getPictureList());
 
         return goodsMapper.updateByPrimaryKeySelective(goods);
     }

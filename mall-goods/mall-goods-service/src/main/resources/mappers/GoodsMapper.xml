@@ -11,9 +11,9 @@
     <result column="spec_value" jdbcType="VARCHAR" property="specValue" />
     <result column="original_price" jdbcType="DECIMAL" property="originalPrice" />
     <result column="list_price" jdbcType="DECIMAL" property="listPrice" />
-    <result column="main_photo" jdbcType="VARCHAR" property="mainPhoto" />
     <result column="inventory" jdbcType="INTEGER" property="inventory" />
     <result column="express_freight" jdbcType="DECIMAL" property="expressFreight" />
+    <result column="picture_urls" jdbcType="VARCHAR" property="pictureUrls" />
     <result column="sales" jdbcType="INTEGER" property="sales" />
     <result column="per_person_limit" jdbcType="INTEGER" property="perPersonLimit" />
     <result column="view_count" jdbcType="INTEGER" property="viewCount" />
@@ -82,7 +82,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, shop_id, goods_name, goods_category_id, brand_id, is_more_spec, spec_value, original_price, 
-    list_price, main_photo, inventory, express_freight, sales, per_person_limit, view_count, 
+    list_price, inventory, express_freight, picture_urls, sales, per_person_limit, view_count, 
     goods_status, create_time, update_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.goods.model.GoodsExample" resultMap="BaseResultMap">
@@ -122,15 +122,15 @@
     </selectKey>
     insert into tb_goods (shop_id, goods_name, goods_category_id, 
       brand_id, is_more_spec, spec_value, 
-      original_price, list_price, main_photo, 
-      inventory, express_freight, sales, 
+      original_price, list_price, inventory, 
+      express_freight, picture_urls, sales, 
       per_person_limit, view_count, goods_status, 
       create_time, update_time, is_deleted
       )
     values (#{shopId,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, #{goodsCategoryId,jdbcType=INTEGER}, 
       #{brandId,jdbcType=INTEGER}, #{isMoreSpec,jdbcType=BIT}, #{specValue,jdbcType=VARCHAR}, 
-      #{originalPrice,jdbcType=DECIMAL}, #{listPrice,jdbcType=DECIMAL}, #{mainPhoto,jdbcType=VARCHAR}, 
-      #{inventory,jdbcType=INTEGER}, #{expressFreight,jdbcType=DECIMAL}, #{sales,jdbcType=INTEGER}, 
+      #{originalPrice,jdbcType=DECIMAL}, #{listPrice,jdbcType=DECIMAL}, #{inventory,jdbcType=INTEGER}, 
+      #{expressFreight,jdbcType=DECIMAL}, #{pictureUrls,jdbcType=VARCHAR}, #{sales,jdbcType=INTEGER}, 
       #{perPersonLimit,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, #{goodsStatus,jdbcType=TINYINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
       )
@@ -165,14 +165,14 @@
       <if test="listPrice != null">
         list_price,
       </if>
-      <if test="mainPhoto != null">
-        main_photo,
-      </if>
       <if test="inventory != null">
         inventory,
       </if>
       <if test="expressFreight != null">
         express_freight,
+      </if>
+      <if test="pictureUrls != null">
+        picture_urls,
       </if>
       <if test="sales != null">
         sales,
@@ -221,14 +221,14 @@
       <if test="listPrice != null">
         #{listPrice,jdbcType=DECIMAL},
       </if>
-      <if test="mainPhoto != null">
-        #{mainPhoto,jdbcType=VARCHAR},
-      </if>
       <if test="inventory != null">
         #{inventory,jdbcType=INTEGER},
       </if>
       <if test="expressFreight != null">
         #{expressFreight,jdbcType=DECIMAL},
+      </if>
+      <if test="pictureUrls != null">
+        #{pictureUrls,jdbcType=VARCHAR},
       </if>
       <if test="sales != null">
         #{sales,jdbcType=INTEGER},
@@ -289,14 +289,14 @@
       <if test="record.listPrice != null">
         list_price = #{record.listPrice,jdbcType=DECIMAL},
       </if>
-      <if test="record.mainPhoto != null">
-        main_photo = #{record.mainPhoto,jdbcType=VARCHAR},
-      </if>
       <if test="record.inventory != null">
         inventory = #{record.inventory,jdbcType=INTEGER},
       </if>
       <if test="record.expressFreight != null">
         express_freight = #{record.expressFreight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pictureUrls != null">
+        picture_urls = #{record.pictureUrls,jdbcType=VARCHAR},
       </if>
       <if test="record.sales != null">
         sales = #{record.sales,jdbcType=INTEGER},
@@ -335,9 +335,9 @@
       spec_value = #{record.specValue,jdbcType=VARCHAR},
       original_price = #{record.originalPrice,jdbcType=DECIMAL},
       list_price = #{record.listPrice,jdbcType=DECIMAL},
-      main_photo = #{record.mainPhoto,jdbcType=VARCHAR},
       inventory = #{record.inventory,jdbcType=INTEGER},
       express_freight = #{record.expressFreight,jdbcType=DECIMAL},
+      picture_urls = #{record.pictureUrls,jdbcType=VARCHAR},
       sales = #{record.sales,jdbcType=INTEGER},
       per_person_limit = #{record.perPersonLimit,jdbcType=INTEGER},
       view_count = #{record.viewCount,jdbcType=INTEGER},
@@ -376,14 +376,14 @@
       <if test="listPrice != null">
         list_price = #{listPrice,jdbcType=DECIMAL},
       </if>
-      <if test="mainPhoto != null">
-        main_photo = #{mainPhoto,jdbcType=VARCHAR},
-      </if>
       <if test="inventory != null">
         inventory = #{inventory,jdbcType=INTEGER},
       </if>
       <if test="expressFreight != null">
         express_freight = #{expressFreight,jdbcType=DECIMAL},
+      </if>
+      <if test="pictureUrls != null">
+        picture_urls = #{pictureUrls,jdbcType=VARCHAR},
       </if>
       <if test="sales != null">
         sales = #{sales,jdbcType=INTEGER},
@@ -419,9 +419,9 @@
       spec_value = #{specValue,jdbcType=VARCHAR},
       original_price = #{originalPrice,jdbcType=DECIMAL},
       list_price = #{listPrice,jdbcType=DECIMAL},
-      main_photo = #{mainPhoto,jdbcType=VARCHAR},
       inventory = #{inventory,jdbcType=INTEGER},
       express_freight = #{expressFreight,jdbcType=DECIMAL},
+      picture_urls = #{pictureUrls,jdbcType=VARCHAR},
       sales = #{sales,jdbcType=INTEGER},
       per_person_limit = #{perPersonLimit,jdbcType=INTEGER},
       view_count = #{viewCount,jdbcType=INTEGER},
@@ -488,11 +488,6 @@
             <if test="originalPriceTo != null"><![CDATA[AND original_price <= #{originalPriceTo,jdbcType=DECIMAL}]]></if>
             <if test="listPriceFrom != null"><![CDATA[AND list_price >= #{listPriceFrom,jdbcType=DECIMAL}]]></if>
             <if test="listPriceTo != null"><![CDATA[AND list_price <= #{listPriceTo,jdbcType=DECIMAL}]]></if>
-            <if test="mainPhoto!=null and mainPhoto!=''">AND main_photo = #{mainPhoto,jdbcType=VARCHAR}</if>
-            <if test="mainPhotoLike != null and mainPhotoLike != '' ">AND main_photo LIKE concat(#{mainPhotoLike,jdbcType=VARCHAR},'%')</if>
-            <if test="mainPhotoList != null and mainPhotoList.size > 0">
-                <foreach item="item" separator="," open="AND main_photo in (" close=")" collection="mainPhotoList">#{item,jdbcType=VARCHAR}</foreach>
-            </if>
             <if test="inventory!=null">AND inventory = #{inventory,jdbcType=INTEGER}</if>
             <if test="inventoryList != null and inventoryList.size > 0">
                 <foreach item="item" separator="," open="AND inventory in (" close=")" collection="inventoryList">#{item,jdbcType=INTEGER}</foreach>
@@ -540,9 +535,9 @@
             spec_value,
             original_price,
             list_price,
-            main_photo,
             inventory,
             express_freight,
+            picture_urls,
             sales,
             per_person_limit,
             view_count,
@@ -558,9 +553,9 @@
             #{bean.specValue,jdbcType=VARCHAR} ,
             #{bean.originalPrice,jdbcType=DECIMAL} ,
             #{bean.listPrice,jdbcType=DECIMAL} ,
-            #{bean.mainPhoto,jdbcType=VARCHAR} ,
             #{bean.inventory,jdbcType=INTEGER} ,
             #{bean.expressFreight,jdbcType=DECIMAL} ,
+            #{bean.pictureUrls,jdbcType=VARCHAR} ,
             #{bean.sales,jdbcType=INTEGER} ,
             #{bean.perPersonLimit,jdbcType=INTEGER} ,
             #{bean.viewCount,jdbcType=INTEGER} ,

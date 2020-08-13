@@ -666,76 +666,6 @@ public class GoodsExample {
             return (Criteria) this;
         }
 
-        public Criteria andMainPhotoIsNull() {
-            addCriterion("main_photo is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMainPhotoIsNotNull() {
-            addCriterion("main_photo is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMainPhotoEqualTo(String value) {
-            addCriterion("main_photo =", value, "mainPhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andMainPhotoNotEqualTo(String value) {
-            addCriterion("main_photo <>", value, "mainPhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andMainPhotoGreaterThan(String value) {
-            addCriterion("main_photo >", value, "mainPhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andMainPhotoGreaterThanOrEqualTo(String value) {
-            addCriterion("main_photo >=", value, "mainPhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andMainPhotoLessThan(String value) {
-            addCriterion("main_photo <", value, "mainPhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andMainPhotoLessThanOrEqualTo(String value) {
-            addCriterion("main_photo <=", value, "mainPhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andMainPhotoLike(String value) {
-            addCriterion("main_photo like", value, "mainPhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andMainPhotoNotLike(String value) {
-            addCriterion("main_photo not like", value, "mainPhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andMainPhotoIn(List<String> values) {
-            addCriterion("main_photo in", values, "mainPhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andMainPhotoNotIn(List<String> values) {
-            addCriterion("main_photo not in", values, "mainPhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andMainPhotoBetween(String value1, String value2) {
-            addCriterion("main_photo between", value1, value2, "mainPhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andMainPhotoNotBetween(String value1, String value2) {
-            addCriterion("main_photo not between", value1, value2, "mainPhoto");
-            return (Criteria) this;
-        }
-
         public Criteria andInventoryIsNull() {
             addCriterion("inventory is null");
             return (Criteria) this;
@@ -853,6 +783,76 @@ public class GoodsExample {
 
         public Criteria andExpressFreightNotBetween(Long value1, Long value2) {
             addCriterion("express_freight not between", value1, value2, "expressFreight");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsIsNull() {
+            addCriterion("pictureUrls is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsIsNotNull() {
+            addCriterion("pictureUrls is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsEqualTo(String value) {
+            addCriterion("pictureUrls =", value, "pictureurls");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsNotEqualTo(String value) {
+            addCriterion("pictureUrls <>", value, "pictureurls");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsGreaterThan(String value) {
+            addCriterion("pictureUrls >", value, "pictureurls");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsGreaterThanOrEqualTo(String value) {
+            addCriterion("pictureUrls >=", value, "pictureurls");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsLessThan(String value) {
+            addCriterion("pictureUrls <", value, "pictureurls");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsLessThanOrEqualTo(String value) {
+            addCriterion("pictureUrls <=", value, "pictureurls");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsLike(String value) {
+            addCriterion("pictureUrls like", value, "pictureurls");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsNotLike(String value) {
+            addCriterion("pictureUrls not like", value, "pictureurls");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsIn(List<String> values) {
+            addCriterion("pictureUrls in", values, "pictureurls");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsNotIn(List<String> values) {
+            addCriterion("pictureUrls not in", values, "pictureurls");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsBetween(String value1, String value2) {
+            addCriterion("pictureUrls between", value1, value2, "pictureurls");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureurlsNotBetween(String value1, String value2) {
+            addCriterion("pictureUrls not between", value1, value2, "pictureurls");
             return (Criteria) this;
         }
 

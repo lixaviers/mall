@@ -74,12 +74,6 @@ public class GoodsVO implements Serializable {
     private BigDecimal listPrice;
 
     /**
-     * 主图
-     */
-    @ApiModelProperty("主图")
-    private String mainPhoto;
-
-    /**
      * 库存
      */
     @ApiModelProperty("库存")
@@ -90,6 +84,12 @@ public class GoodsVO implements Serializable {
      */
     @ApiModelProperty("快递运费")
     private BigDecimal expressFreight;
+
+    /**
+     * 图片
+     */
+    @ApiModelProperty("图片")
+    private String pictureUrls;
 
     /**
      * 销量
@@ -157,11 +157,5 @@ public class GoodsVO implements Serializable {
      */
     @ApiModelProperty("商品详情")
     private String description;
-
-    /**
-     * 商品图片
-     */
-    private List<GoodsPictureVO> pictureList;
-
 
 }

@@ -56,11 +56,6 @@ public class Goods {
     private BigDecimal listPrice;
 
     /**
-     * 主图
-     */
-    private String mainPhoto;
-
-    /**
      * 库存
      */
     private Integer inventory;
@@ -69,6 +64,11 @@ public class Goods {
      * 快递运费
      */
     private BigDecimal expressFreight;
+
+    /**
+     * 图片
+     */
+    private String pictureUrls;
 
     /**
      * 销量
@@ -127,9 +127,5 @@ public class Goods {
      */
     private String description;
 
-    /**
-     * 商品图片
-     */
-    private List<GoodsPicture> pictureList;
 
 }

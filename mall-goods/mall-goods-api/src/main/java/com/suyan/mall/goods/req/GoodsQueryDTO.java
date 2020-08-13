@@ -67,15 +67,6 @@ public class GoodsQueryDTO extends QueryDTO {
     @ApiModelProperty("列表价止")
     private BigDecimal listPriceTo;
 
-    @ApiModelProperty("主图")
-    private String mainPhoto;
-
-    @ApiModelProperty("主图列表")
-    private List<String> mainPhotoList;
-
-    @ApiModelProperty("主图模糊字段")
-    private String mainPhotoLike;
-
     @ApiModelProperty("库存")
     private Integer inventory;
 
