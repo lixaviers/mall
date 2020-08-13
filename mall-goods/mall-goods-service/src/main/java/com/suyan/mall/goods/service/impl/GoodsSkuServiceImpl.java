@@ -2,6 +2,8 @@ package com.suyan.mall.goods.service.impl;
 
 import com.suyan.mall.goods.biz.GoodsSkuBiz;
 import com.suyan.mall.goods.convertor.GoodsSkuConvertor;
+import com.suyan.mall.goods.convertor.GoodsSkuInventoryLogConvertor;
+import com.suyan.mall.goods.req.GoodsSkuInventoryLogDTO;
 import com.suyan.mall.goods.req.GoodsSkuQueryDTO;
 import com.suyan.mall.goods.resp.GoodsSkuVO;
 import com.suyan.mall.goods.service.IGoodsSkuService;
@@ -30,6 +32,11 @@ public class GoodsSkuServiceImpl implements IGoodsSkuService {
     @Override
     public GoodsSkuVO getGoodsSku(String skuCode) {
         return GoodsSkuConvertor.toGoodsSkuVO(goodsSkuBiz.getGoodsSku(skuCode));
+    }
+
+    @Override
+    public void updateInventory(GoodsSkuInventoryLogDTO logDTO) {
+        goodsSkuBiz.updateInventory(GoodsSkuInventoryLogConvertor.toGoodsSkuInventoryLog(logDTO));
     }
 
 }

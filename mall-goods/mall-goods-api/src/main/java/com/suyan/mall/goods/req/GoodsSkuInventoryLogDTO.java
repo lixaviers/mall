@@ -1,5 +1,6 @@
 package com.suyan.mall.goods.req;
 
+import com.suyan.mall.goods.enums.GoodsInventoryWayEnum;
 import com.suyan.service.BaseInterface;
 import com.suyan.service.UpdateInterface;
 import io.swagger.annotations.ApiModelProperty;
@@ -36,6 +37,7 @@ public class GoodsSkuInventoryLogDTO implements Serializable {
         
     /**
      * 库存方式 1.占用 2.归还
+     * @see com.suyan.mall.goods.enums.GoodsInventoryWayEnum
      */
     @ApiModelProperty("库存方式 1.占用 2.归还")
     @NotNull(message = "库存方式 1.占用 2.归还不能为空", groups = BaseInterface.class)
@@ -49,10 +51,10 @@ public class GoodsSkuInventoryLogDTO implements Serializable {
     private Integer inventory;
         
     /**
-     * 类型 3.砍价
+     * 类型 0.非活动 3.砍价
      */
-    @ApiModelProperty("类型 3.砍价")
-    @NotNull(message = "类型 3.砍价不能为空", groups = BaseInterface.class)
+    @ApiModelProperty("类型 0.非活动 3.砍价")
+    @NotNull(message = "类型 0.非活动 3.砍价不能为空", groups = BaseInterface.class)
     private Byte logType;
         
     /**

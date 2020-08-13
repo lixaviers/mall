@@ -1,5 +1,6 @@
 package com.suyan.mall.goods.service;
 
+import com.suyan.mall.goods.req.GoodsSkuInventoryLogDTO;
 import com.suyan.mall.goods.req.GoodsSkuQueryDTO;
 import com.suyan.mall.goods.resp.GoodsSkuVO;
 import com.suyan.query.QueryResultVO;
@@ -26,5 +27,12 @@ public interface IGoodsSkuService {
      * @return
      */
     GoodsSkuVO getGoodsSku(String skuCode);
+
+    /**
+     * 修改库存
+     *
+     * @param logDTO
+     */
+    void updateInventory(GoodsSkuInventoryLogDTO logDTO);
 
 }

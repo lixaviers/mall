@@ -12,4 +12,19 @@
         LIMIT 1
     </select>
 
+    <update id="deductionInventory">
+        UPDATE tb_goods_sku
+        SET inventory = inventory - #{inventory, jdbcType=INTEGER}
+        WHERE id = #{id, jdbcType=BIGINT}
+        AND inventory >= #{inventory, jdbcType=INTEGER}
+        AND is_deleted = 1
+    </update>
+
+    <update id="addInventory">
+        UPDATE tb_goods_sku
+        SET inventory = inventory + #{inventory, jdbcType=INTEGER}
+        WHERE id = #{id, jdbcType=BIGINT}
+        AND is_deleted = 1
+    </update>
+
 </mapper>

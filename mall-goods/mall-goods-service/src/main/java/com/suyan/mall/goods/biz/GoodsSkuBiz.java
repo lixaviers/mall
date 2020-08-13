@@ -2,12 +2,18 @@ package com.suyan.mall.goods.biz;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.suyan.exception.CommonException;
+import com.suyan.mall.goods.biz.async.GoodsSkuInventoryLogAsyncBiz;
 import com.suyan.mall.goods.constants.Constant;
+import com.suyan.mall.goods.constants.ExceptionDefGoods;
 import com.suyan.mall.goods.dao.biz.GoodsSkuBizMapper;
+import com.suyan.mall.goods.enums.GoodsInventoryWayEnum;
 import com.suyan.mall.goods.model.GoodsSku;
 import com.suyan.mall.goods.model.GoodsSkuExample;
+import com.suyan.mall.goods.model.GoodsSkuInventoryLog;
 import com.suyan.mall.goods.req.GoodsSkuQueryDTO;
 import com.suyan.query.QueryResultVO;
+import com.suyan.result.ResultCode;
 import com.suyan.utils.CollectionsUtil;
 import com.suyan.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +37,9 @@ public class GoodsSkuBiz {
 
     @Autowired
     private GoodsSkuBizMapper goodsSkuBizMapper;
+
+    @Autowired
+    private GoodsSkuInventoryLogAsyncBiz goodsSkuInventoryLogAsyncBiz;
 
 
     /**
@@ -151,5 +160,37 @@ public class GoodsSkuBiz {
         example.createCriteria().andGoodsIdEqualTo(goodsId).andIsDeletedEqualTo(false);
         goodsSkuBizMapper.updateByExampleSelective(goodsSku, example);
     }
+
+    /**
+     * 修改库存
+     *
+     * @param log
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public void updateInventory(GoodsSkuInventoryLog log) {
+        GoodsSku goodsSku = getGoodsSku(log.getGoodsSkuCode());
+        if (goodsSku == null || goodsSku.getIsDeleted()) {
+            throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品");
+        }
+        if (GoodsInventoryWayEnum.TAKE.equal(log.getInventoryWay())) {
+            // 占用
+            if (goodsSku.getInventory() < log.getInventory()) {
+                // 库存不足
+                throw new CommonException(ExceptionDefGoods.EXCEPTION_8001);
+            }
+            int count = goodsSkuBizMapper.deductionInventory(goodsSku.getId(), log.getInventory());
+            if (count < 1) {
+                // 库存不足
+                throw new CommonException(ExceptionDefGoods.EXCEPTION_8001);
+            }
+        } else if (GoodsInventoryWayEnum.THE_RETURN.equal(log.getInventoryWay())) {
+            // 归还
+            goodsSkuBizMapper.addInventory(goodsSku.getId(), log.getInventory());
+        }
+
+        // 异步添加记录
+        goodsSkuInventoryLogAsyncBiz.createGoodsSkuInventoryLog(log);
+    }
+
 
 }
