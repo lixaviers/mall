@@ -6,6 +6,7 @@ package com.suyan.mall.mmc.enums;
 public enum PromotionTypeEnum {
     COUPON                    ((byte) 1, "优惠券"),
     SUB_PROMOTION             ((byte) 2, "订单促销"),
+    BARGAIN                   ((byte) 3, "砍价"),
     ;
 
     private byte value;

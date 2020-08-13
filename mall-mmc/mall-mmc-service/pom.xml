@@ -20,6 +20,10 @@
             <groupId>com.suyan</groupId>
             <artifactId>mall-user-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.suyan</groupId>
+            <artifactId>mall-goods-api</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>

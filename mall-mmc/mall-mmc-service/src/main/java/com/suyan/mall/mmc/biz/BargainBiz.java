@@ -3,18 +3,21 @@ package com.suyan.mall.mmc.biz;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
+import com.suyan.mall.goods.enums.GoodsInventoryWayEnum;
+import com.suyan.mall.goods.feignClient.GoodsSkuFeignClient;
+import com.suyan.mall.goods.req.GoodsSkuInventoryLogDTO;
 import com.suyan.mall.mmc.constant.ExceptionDefMmc;
 import com.suyan.mall.mmc.dao.BargainMapper;
 import com.suyan.mall.mmc.enums.CommonStatusMmcEnum;
+import com.suyan.mall.mmc.enums.PromotionTypeEnum;
 import com.suyan.mall.mmc.model.Bargain;
 import com.suyan.mall.mmc.model.BargainExample;
-import com.suyan.mall.mmc.model.Coupon;
 import com.suyan.mall.mmc.req.BargainQueryDTO;
-import com.suyan.mall.user.resp.b.UserInfoVO;
-import com.suyan.mall.user.utils.UserUtil;
 import com.suyan.query.QueryResultVO;
+import com.suyan.result.Result;
 import com.suyan.result.ResultCode;
 import com.suyan.utils.CollectionsUtil;
+import com.suyan.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +41,9 @@ public class BargainBiz {
     @Autowired
     private BargainItemBiz bargainItemBiz;
 
+    @Autowired
+    private GoodsSkuFeignClient goodsSkuFeignClient;
+
     /**
      * 删除砍价
      *
@@ -59,6 +65,10 @@ public class BargainBiz {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Long createBargain(Bargain bargain) {
         checkGoods(bargain);
+
+        // 扣库存
+        updateGoodsInventory(bargain.getGoodsSkuCode(), GoodsInventoryWayEnum.TAKE.getValue(), bargain.getInventory(), null, "砍价占用库存");
+
         bargain.setActivityStatus(CommonStatusMmcEnum.SAVED.getValue());
         bargainMapper.insertSelective(bargain);
         bargainItemBiz.createBargainItem(bargain.getId(), bargain.getBargainItemList());
@@ -93,8 +103,46 @@ public class BargainBiz {
             throw new CommonException(ResultCode.NO_PERMISSION_OPERATE, "此砍价");
         }
         checkGoods(bargain);
+
+        // 库存差异
+        int number = bargain.getInventory() - bargainLast.getInventory();
+        if (number > 0) {
+            // 扣库存
+            updateGoodsInventory(bargain.getGoodsSkuCode(), GoodsInventoryWayEnum.TAKE.getValue(), bargain.getInventory(), bargain.getId(), "砍价编辑新增占用库存");
+        } else if (number < 0) {
+            // 还库存
+            updateGoodsInventory(bargain.getGoodsSkuCode(), GoodsInventoryWayEnum.THE_RETURN.getValue(), bargain.getInventory() * -1, bargain.getId(), "砍价编辑归还库存");
+        } else {
+            log.info("编辑库存未发生变化");
+        }
+
         bargainItemBiz.updateBargainItem(bargain.getId(), bargain.getBargainItemList());
         return bargainMapper.updateByPrimaryKeySelective(bargain);
+    }
+
+    /**
+     * 更新商品库存
+     *
+     * @param goodsSkuCode
+     * @param inventoryWay
+     * @param inventory
+     * @param associatedId
+     * @param associatedDesc
+     */
+    private void updateGoodsInventory(String goodsSkuCode, byte inventoryWay, int inventory, Long associatedId, String associatedDesc) {
+        GoodsSkuInventoryLogDTO dto = new GoodsSkuInventoryLogDTO();
+        dto.setGoodsSkuCode(goodsSkuCode);
+        dto.setInventoryWay(inventoryWay);
+        dto.setInventory(inventory);
+        dto.setAssociatedId(associatedId);
+        dto.setAssociatedDesc(associatedDesc);
+        dto.setLogType(PromotionTypeEnum.BARGAIN.getValue());
+        log.info("调用商品库存入参={}", JsonUtil.toJsonString(dto));
+        Result<Integer> result = goodsSkuFeignClient.updateInventory(dto);
+        log.info("调用商品库存出参={}", JsonUtil.toJsonString(result));
+        if (!result.isSuccess()) {
+            throw new CommonException(ResultCode.COMMON_MESSAGE, result.getMessage());
+        }
     }
 
     /**
