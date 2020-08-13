@@ -67,6 +67,12 @@ public class GoodsQueryDTO extends QueryDTO {
     @ApiModelProperty("列表价止")
     private BigDecimal listPriceTo;
 
+    @ApiModelProperty("起订量")
+    private Integer minimumQuantity;
+
+    @ApiModelProperty("起订量列表")
+    private List<Integer> minimumQuantityList;
+
     @ApiModelProperty("库存")
     private Integer inventory;
 

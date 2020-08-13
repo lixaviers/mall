@@ -11,6 +11,7 @@
     <result column="spec_value" jdbcType="VARCHAR" property="specValue" />
     <result column="original_price" jdbcType="DECIMAL" property="originalPrice" />
     <result column="list_price" jdbcType="DECIMAL" property="listPrice" />
+    <result column="minimum_quantity" jdbcType="INTEGER" property="minimumQuantity" />
     <result column="inventory" jdbcType="INTEGER" property="inventory" />
     <result column="express_freight" jdbcType="DECIMAL" property="expressFreight" />
     <result column="picture_urls" jdbcType="VARCHAR" property="pictureUrls" />
@@ -82,8 +83,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, shop_id, goods_name, goods_category_id, brand_id, is_more_spec, spec_value, original_price, 
-    list_price, inventory, express_freight, picture_urls, sales, per_person_limit, view_count, 
-    goods_status, create_time, update_time, is_deleted
+    list_price, minimum_quantity, inventory, express_freight, picture_urls, sales, per_person_limit, 
+    view_count, goods_status, create_time, update_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.goods.model.GoodsExample" resultMap="BaseResultMap">
     select
@@ -122,18 +123,18 @@
     </selectKey>
     insert into tb_goods (shop_id, goods_name, goods_category_id, 
       brand_id, is_more_spec, spec_value, 
-      original_price, list_price, inventory, 
-      express_freight, picture_urls, sales, 
-      per_person_limit, view_count, goods_status, 
-      create_time, update_time, is_deleted
-      )
+      original_price, list_price, minimum_quantity, 
+      inventory, express_freight, picture_urls, 
+      sales, per_person_limit, view_count, 
+      goods_status, create_time, update_time, 
+      is_deleted)
     values (#{shopId,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, #{goodsCategoryId,jdbcType=INTEGER}, 
       #{brandId,jdbcType=INTEGER}, #{isMoreSpec,jdbcType=BIT}, #{specValue,jdbcType=VARCHAR}, 
-      #{originalPrice,jdbcType=DECIMAL}, #{listPrice,jdbcType=DECIMAL}, #{inventory,jdbcType=INTEGER}, 
-      #{expressFreight,jdbcType=DECIMAL}, #{pictureUrls,jdbcType=VARCHAR}, #{sales,jdbcType=INTEGER}, 
-      #{perPersonLimit,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, #{goodsStatus,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
-      )
+      #{originalPrice,jdbcType=DECIMAL}, #{listPrice,jdbcType=DECIMAL}, #{minimumQuantity,jdbcType=INTEGER}, 
+      #{inventory,jdbcType=INTEGER}, #{expressFreight,jdbcType=DECIMAL}, #{pictureUrls,jdbcType=VARCHAR}, 
+      #{sales,jdbcType=INTEGER}, #{perPersonLimit,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, 
+      #{goodsStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.goods.model.Goods">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -164,6 +165,9 @@
       </if>
       <if test="listPrice != null">
         list_price,
+      </if>
+      <if test="minimumQuantity != null">
+        minimum_quantity,
       </if>
       <if test="inventory != null">
         inventory,
@@ -220,6 +224,9 @@
       </if>
       <if test="listPrice != null">
         #{listPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="minimumQuantity != null">
+        #{minimumQuantity,jdbcType=INTEGER},
       </if>
       <if test="inventory != null">
         #{inventory,jdbcType=INTEGER},
@@ -289,6 +296,9 @@
       <if test="record.listPrice != null">
         list_price = #{record.listPrice,jdbcType=DECIMAL},
       </if>
+      <if test="record.minimumQuantity != null">
+        minimum_quantity = #{record.minimumQuantity,jdbcType=INTEGER},
+      </if>
       <if test="record.inventory != null">
         inventory = #{record.inventory,jdbcType=INTEGER},
       </if>
@@ -335,6 +345,7 @@
       spec_value = #{record.specValue,jdbcType=VARCHAR},
       original_price = #{record.originalPrice,jdbcType=DECIMAL},
       list_price = #{record.listPrice,jdbcType=DECIMAL},
+      minimum_quantity = #{record.minimumQuantity,jdbcType=INTEGER},
       inventory = #{record.inventory,jdbcType=INTEGER},
       express_freight = #{record.expressFreight,jdbcType=DECIMAL},
       picture_urls = #{record.pictureUrls,jdbcType=VARCHAR},
@@ -375,6 +386,9 @@
       </if>
       <if test="listPrice != null">
         list_price = #{listPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="minimumQuantity != null">
+        minimum_quantity = #{minimumQuantity,jdbcType=INTEGER},
       </if>
       <if test="inventory != null">
         inventory = #{inventory,jdbcType=INTEGER},
@@ -419,6 +433,7 @@
       spec_value = #{specValue,jdbcType=VARCHAR},
       original_price = #{originalPrice,jdbcType=DECIMAL},
       list_price = #{listPrice,jdbcType=DECIMAL},
+      minimum_quantity = #{minimumQuantity,jdbcType=INTEGER},
       inventory = #{inventory,jdbcType=INTEGER},
       express_freight = #{expressFreight,jdbcType=DECIMAL},
       picture_urls = #{pictureUrls,jdbcType=VARCHAR},
@@ -488,6 +503,10 @@
             <if test="originalPriceTo != null"><![CDATA[AND original_price <= #{originalPriceTo,jdbcType=DECIMAL}]]></if>
             <if test="listPriceFrom != null"><![CDATA[AND list_price >= #{listPriceFrom,jdbcType=DECIMAL}]]></if>
             <if test="listPriceTo != null"><![CDATA[AND list_price <= #{listPriceTo,jdbcType=DECIMAL}]]></if>
+            <if test="minimumQuantity!=null">AND minimum_quantity = #{minimumQuantity,jdbcType=INTEGER}</if>
+            <if test="minimumQuantityList != null and minimumQuantityList.size > 0">
+                <foreach item="item" separator="," open="AND minimum_quantity in (" close=")" collection="minimumQuantityList">#{item,jdbcType=INTEGER}</foreach>
+            </if>
             <if test="inventory!=null">AND inventory = #{inventory,jdbcType=INTEGER}</if>
             <if test="inventoryList != null and inventoryList.size > 0">
                 <foreach item="item" separator="," open="AND inventory in (" close=")" collection="inventoryList">#{item,jdbcType=INTEGER}</foreach>
@@ -535,6 +554,7 @@
             spec_value,
             original_price,
             list_price,
+            minimum_quantity,
             inventory,
             express_freight,
             picture_urls,
@@ -553,6 +573,7 @@
             #{bean.specValue,jdbcType=VARCHAR} ,
             #{bean.originalPrice,jdbcType=DECIMAL} ,
             #{bean.listPrice,jdbcType=DECIMAL} ,
+            #{bean.minimumQuantity,jdbcType=INTEGER} ,
             #{bean.inventory,jdbcType=INTEGER} ,
             #{bean.expressFreight,jdbcType=DECIMAL} ,
             #{bean.pictureUrls,jdbcType=VARCHAR} ,

@@ -82,6 +82,13 @@ public class GoodsDTO implements Serializable {
     private BigDecimal listPrice;
 
     /**
+     * 起订量
+     */
+    @ApiModelProperty("起订量")
+    @NotNull(message = "起订量不能为空", groups = BaseInterface.class)
+    private Integer minimumQuantity;
+
+    /**
      * 库存
      */
     @ApiModelProperty("库存")

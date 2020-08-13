@@ -56,6 +56,11 @@ public class Goods {
     private BigDecimal listPrice;
 
     /**
+     * 起订量
+     */
+    private Integer minimumQuantity;
+
+    /**
      * 库存
      */
     private Integer inventory;

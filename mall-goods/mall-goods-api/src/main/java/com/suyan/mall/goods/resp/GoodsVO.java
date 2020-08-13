@@ -74,6 +74,12 @@ public class GoodsVO implements Serializable {
     private BigDecimal listPrice;
 
     /**
+     * 起订量
+     */
+    @ApiModelProperty("起订量")
+    private Integer minimumQuantity;
+
+    /**
      * 库存
      */
     @ApiModelProperty("库存")
