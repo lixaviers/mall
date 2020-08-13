@@ -2,14 +2,12 @@ package com.suyan.mall.goods.biz;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.suyan.exception.CommonException;
 import com.suyan.mall.goods.constants.Constant;
 import com.suyan.mall.goods.dao.biz.GoodsSkuBizMapper;
 import com.suyan.mall.goods.model.GoodsSku;
 import com.suyan.mall.goods.model.GoodsSkuExample;
 import com.suyan.mall.goods.req.GoodsSkuQueryDTO;
 import com.suyan.query.QueryResultVO;
-import com.suyan.result.ResultCode;
 import com.suyan.utils.CollectionsUtil;
 import com.suyan.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -138,6 +136,20 @@ public class GoodsSkuBiz {
     @Transactional(readOnly = true)
     public String getMaxSkuCode() {
         return goodsSkuBizMapper.getMaxSkuCode();
+    }
+
+    /**
+     * 更改状态
+     *
+     * @param goodsId
+     * @param goodsStatus
+     */
+    public void updateStatus(Long goodsId, Byte goodsStatus) {
+        GoodsSku goodsSku = new GoodsSku();
+        goodsSku.setCommonStatus(goodsStatus);
+        GoodsSkuExample example = new GoodsSkuExample();
+        example.createCriteria().andGoodsIdEqualTo(goodsId).andIsDeletedEqualTo(false);
+        goodsSkuBizMapper.updateByExampleSelective(goodsSku, example);
     }
 
 }

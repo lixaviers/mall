@@ -58,6 +58,7 @@ public class GoodsBiz {
         // 处理信息
         dealInfo(goods);
 
+        goods.setGoodsStatus(GoodsStatusEnum.NORMAL.getValue());
         goodsMapper.insertSelective(goods);
 
         goods.getSkuList().forEach(sku -> {
@@ -100,7 +101,6 @@ public class GoodsBiz {
             // 单规格
             goods.setSpecValue("");
         }
-        goods.setGoodsStatus(GoodsStatusEnum.NORMAL.getValue());
         goods.setSales(0);
         goods.setInventory(totalInventory);
         goods.setListPrice(minPirce);
@@ -282,5 +282,6 @@ public class GoodsBiz {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品");
         }
         goodsMapper.updateByPrimaryKeySelective(goods);
+        goodsSkuBiz.updateStatus(goods.getId(), goods.getGoodsStatus());
     }
 }
