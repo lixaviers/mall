@@ -49,31 +49,6 @@ public class ChannelDTO implements Serializable {
      */
     private String remark;
 
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 创建人
-     */
-    private String createUser;
-
-    /**
-     * 创建人名称
-     */
-    private String createUserName;
-
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
-
-    /**
-     * 是否删除：0.未删除，1.已删除
-     */
-    private Boolean isDeleted;
-
 
     /**
      * -------------------------------------------------
