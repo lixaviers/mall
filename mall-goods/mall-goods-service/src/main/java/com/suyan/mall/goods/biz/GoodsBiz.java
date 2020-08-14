@@ -3,7 +3,7 @@ package com.suyan.mall.goods.biz;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
-import com.suyan.mall.goods.dao.GoodsMapper;
+import com.suyan.mall.goods.dao.biz.GoodsBizMapper;
 import com.suyan.mall.goods.enums.GoodsStatusEnum;
 import com.suyan.mall.goods.model.Goods;
 import com.suyan.mall.goods.model.GoodsDescription;
@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 public class GoodsBiz {
 
     @Autowired
-    private GoodsMapper goodsMapper;
+    private GoodsBizMapper goodsBizMapper;
 
     @Autowired
     private GoodsSkuBiz goodsSkuBiz;
@@ -59,7 +59,7 @@ public class GoodsBiz {
         dealInfo(goods);
 
         goods.setGoodsStatus(GoodsStatusEnum.NORMAL.getValue());
-        goodsMapper.insertSelective(goods);
+        goodsBizMapper.insertSelective(goods);
 
         goods.getSkuList().forEach(sku -> {
             sku.setGoodsName(goods.getGoodsName());
@@ -102,7 +102,6 @@ public class GoodsBiz {
             goods.setSpecValue("");
         }
         goods.setSales(0);
-        goods.setInventory(totalInventory);
         goods.setListPrice(minPirce);
     }
 
@@ -201,7 +200,7 @@ public class GoodsBiz {
         goodsDescription.setDescription(goods.getDescription());
         goodsDescriptionBiz.updateGoodsDescription(goodsDescription);
 
-        return goodsMapper.updateByPrimaryKeySelective(goods);
+        return goodsBizMapper.updateByPrimaryKeySelective(goods);
     }
 
     /**
@@ -213,7 +212,7 @@ public class GoodsBiz {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer deleteGoods(Long id) {
         getBaseGoods(id);
-        return goodsMapper.deleteByPrimaryKey(id);
+        return goodsBizMapper.deleteByPrimaryKey(id);
     }
 
     /**
@@ -240,7 +239,7 @@ public class GoodsBiz {
 
     @Transactional(readOnly = true)
     public Goods getBaseGoods(Long id) {
-        Goods goods = goodsMapper.selectByPrimaryKey(id);
+        Goods goods = goodsBizMapper.selectByPrimaryKey(id);
         if (goods == null || goods.getIsDeleted()) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品");
         }
@@ -258,7 +257,7 @@ public class GoodsBiz {
         QueryResultVO<Goods> queryResult = new QueryResultVO<Goods>();
         // 使用分页插件PageHelper实现分页功能
         PageHelper.startPage(goodsQuery.getPageNo(), goodsQuery.getPageSize());
-        List<Goods> goodsList = goodsMapper.queryGoods(goodsQuery);
+        List<Goods> goodsList = goodsBizMapper.queryGoods(goodsQuery);
         PageInfo<Goods> pageInfo = new PageInfo<Goods>(goodsList);
         queryResult.setPageNo(pageInfo.getPageNum());
         queryResult.setPageSize(pageInfo.getPageSize());
@@ -281,7 +280,7 @@ public class GoodsBiz {
             // 非本店铺商品不能编辑
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品");
         }
-        goodsMapper.updateByPrimaryKeySelective(goods);
+        goodsBizMapper.updateByPrimaryKeySelective(goods);
         goodsSkuBiz.updateStatus(goods.getId(), goods.getGoodsStatus());
     }
 }

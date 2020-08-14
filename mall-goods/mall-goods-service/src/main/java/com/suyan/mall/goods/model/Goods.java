@@ -1,5 +1,6 @@
 package com.suyan.mall.goods.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -59,11 +60,6 @@ public class Goods {
      * 起订量
      */
     private Integer minimumQuantity;
-
-    /**
-     * 库存
-     */
-    private Integer inventory;
 
     /**
      * 快递运费
@@ -131,6 +127,12 @@ public class Goods {
      * 描述
      */
     private String description;
+
+    /**
+     * 库存
+     */
+    @ApiModelProperty("库存")
+    private Integer inventory;
 
 
 }

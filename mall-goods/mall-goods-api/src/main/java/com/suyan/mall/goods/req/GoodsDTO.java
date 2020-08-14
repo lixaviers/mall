@@ -89,13 +89,6 @@ public class GoodsDTO implements Serializable {
     private Integer minimumQuantity;
 
     /**
-     * 库存
-     */
-    @ApiModelProperty("库存")
-    @NotNull(message = "库存不能为空", groups = BaseInterface.class)
-    private Integer inventory;
-
-    /**
      * 快递运费
      */
     @ApiModelProperty("快递运费")

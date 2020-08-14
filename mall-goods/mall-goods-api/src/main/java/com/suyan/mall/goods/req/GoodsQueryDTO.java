@@ -73,12 +73,6 @@ public class GoodsQueryDTO extends QueryDTO {
     @ApiModelProperty("起订量列表")
     private List<Integer> minimumQuantityList;
 
-    @ApiModelProperty("库存")
-    private Integer inventory;
-
-    @ApiModelProperty("库存列表")
-    private List<Integer> inventoryList;
-
     @ApiModelProperty("快递运费起")
     private BigDecimal expressFreightFrom;
 

@@ -80,12 +80,6 @@ public class GoodsVO implements Serializable {
     private Integer minimumQuantity;
 
     /**
-     * 库存
-     */
-    @ApiModelProperty("库存")
-    private Integer inventory;
-
-    /**
      * 快递运费
      */
     @ApiModelProperty("快递运费")
@@ -163,5 +157,11 @@ public class GoodsVO implements Serializable {
      */
     @ApiModelProperty("商品详情")
     private String description;
+
+    /**
+     * 库存
+     */
+    @ApiModelProperty("库存")
+    private Integer inventory;
 
 }
