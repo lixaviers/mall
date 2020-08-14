@@ -61,7 +61,7 @@ public class SystemLogAsync {
             Result<Long> result = systemLogFeignClient.add(sysLog);
             log.info("{}", result);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 
