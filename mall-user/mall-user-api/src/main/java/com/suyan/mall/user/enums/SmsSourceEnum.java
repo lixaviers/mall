@@ -9,6 +9,7 @@ import com.suyan.utils.StringUtils;
 public enum SmsSourceEnum {
     STORE_LOGIN            ("storeLogin"),// 商户登录
     STORE_REGISTER         ("storeRegister"),// 商户注册
+    USER_REGISTER          ("userRegister"),// 用户注册
     ;
 
     private String value;

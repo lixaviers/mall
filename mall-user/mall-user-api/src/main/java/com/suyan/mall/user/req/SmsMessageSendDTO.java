@@ -37,7 +37,7 @@ public class SmsMessageSendDTO implements Serializable {
      *
      * @see com.suyan.mall.user.enums.SmsSourceEnum
      */
-    @ApiModelProperty("来源 shopRegister:店铺注册")
+    @ApiModelProperty("来源 shopRegister:店铺注册, userRegister:用户注册")
     @NotNull(message = "来源不能为空")
     @EnumValidate(message = "来源无效", enumClass = SmsSourceEnum.class)
     private String source;

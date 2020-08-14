@@ -53,7 +53,7 @@ public class UserDTO implements Serializable {
      * 手机号
      */
     @ApiModelProperty("手机号")
-    @NotNull(message = "手机号不能为空", groups = {StoreLogin.class, StoreRegister.class, UserLogin.class})
+    @NotNull(message = "手机号不能为空", groups = {StoreLogin.class, StoreRegister.class, UserLogin.class, UserRegister.class})
     @Size(max = 16, message = "手机号不能超过16位", groups = {StoreLogin.class, StoreRegister.class})
     private String mobile;
 
@@ -68,7 +68,7 @@ public class UserDTO implements Serializable {
      * 密码
      */
     @ApiModelProperty("密码")
-    @NotNull(message = "密码不能为空", groups = {StoreLogin.class, StoreRegister.class, UserLogin.class})
+    @NotNull(message = "密码不能为空", groups = {StoreLogin.class, StoreRegister.class, UserLogin.class, UserRegister.class})
     @Size(max = 30, message = "密码不能超过30位", groups = {StoreRegister.class})
     private String userPwd;
 
@@ -115,7 +115,7 @@ public class UserDTO implements Serializable {
     /**
      * 短信验证码
      */
-    @NotNull(message = "短信验证码不能为空", groups = {StoreRegister.class})
+    @NotNull(message = "短信验证码不能为空", groups = {StoreRegister.class, UserRegister.class})
     private String smsVerCode;
 
 
@@ -123,6 +123,12 @@ public class UserDTO implements Serializable {
      * 用户登录验证接口
      */
     public interface UserLogin {
+    }
+
+    /**
+     * 用户注册验证接口
+     */
+    public interface UserRegister {
     }
 
     /**

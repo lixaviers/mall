@@ -72,6 +72,12 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public UserInfoVO userRegister(UserDTO userDTO) {
+        User user = UserConvertor.toUser(userDTO);
+        return UserConvertor.toUserInfoVO(userBiz.userRegister(user));
+    }
+
+    @Override
     public UserInfoVO shopLogin(UserDTO userDTO) {
         User user = UserConvertor.toUser(userDTO);
         UserInfoVO userInfoVO = UserConvertor.toUserInfoVO(userBiz.shopLogin(user));

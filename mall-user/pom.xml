@@ -15,6 +15,7 @@
         <module>mall-user-api</module>
         <module>mall-user-service</module>
         <module>mall-user-b-web</module>
+        <module>mall-user-c-web</module>
     </modules>
 
 

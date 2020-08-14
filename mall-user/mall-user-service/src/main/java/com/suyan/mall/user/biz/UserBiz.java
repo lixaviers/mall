@@ -141,7 +141,7 @@ public class UserBiz {
      */
     @Transactional(readOnly = true)
     public User userLogin(User user) {
-        User userLast = getUserByUserName(UserSourceEnum.USER.getValue(), user.getMobile());
+        User userLast = getUserByMobile(UserSourceEnum.USER.getValue(), user.getMobile());
         if (Objects.isNull(userLast)) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "手机号");
         }
@@ -152,6 +152,29 @@ public class UserBiz {
             throw new CommonException(ResultCode.USER_DISABLE_ERROR);
         }
         return userLast;
+    }
+
+    /**
+     * 用户注册
+     *
+     * @param user
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public User userRegister(User user) {
+        User userLast = getUserByMobile(UserSourceEnum.USER.getValue(), user.getMobile());
+        if (userLast != null) {
+            throw new CommonException(ResultCode.DATA_EXIST, "手机号");
+        }
+        user.setUniqueUserId(generateUniqueUserId());
+        user.setUserPwd(passwordEncoderUtil.encode(user.getUserPwd()));
+        user.setUserStatus(CommonStatusEnum.NORMAL.getValue());
+        // 账号为手机号
+        user.setUserName(user.getMobile());
+        user.setNickName("素焉商城用户");
+        user.setUserSource(UserSourceEnum.USER.getValue());
+        userMapper.insertSelective(user);
+        return user;
     }
 
     /**
@@ -241,7 +264,7 @@ public class UserBiz {
     @Transactional(readOnly = true)
     public User getUserByUserName(Byte userSource, String userName) {
         UserExample example = new UserExample();
-        example.createCriteria().andUserNameEqualTo(userName).andUserSourceEqualTo(userSource).andIsDeletedEqualTo(false);
+        example.createCriteria().andMobileEqualTo(userName).andUserSourceEqualTo(userSource).andIsDeletedEqualTo(false);
         List<User> userList = userMapper.selectByExample(example);
         if (CollectionsUtil.isEmpty(userList)) {
             return null;

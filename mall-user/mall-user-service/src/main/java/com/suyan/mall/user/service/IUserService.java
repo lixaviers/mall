@@ -58,6 +58,13 @@ public interface IUserService {
     UserInfoVO userLogin(UserDTO userDTO);
 
     /**
+     * 用户注册
+     * @param userDTO
+     * @return
+     */
+    UserInfoVO userRegister(UserDTO userDTO);
+
+    /**
      * 店铺登录
      *
      * @param userDTO
