@@ -36,7 +36,7 @@ public class BaseController {
      * @return
      */
     protected UserInfoVO getUser() {
-        return UserUtil.getUser(SystemPlatformEnum.B.getCode());
+        return UserUtil.getUser(SystemPlatformEnum.C.getCode());
     }
 
 }
