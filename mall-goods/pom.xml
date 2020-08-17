@@ -15,6 +15,7 @@
         <module>mall-goods-api</module>
         <module>mall-goods-service</module>
         <module>mall-goods-b-web</module>
+        <module>mall-goods-c-web</module>
     </modules>
 
 </project>
