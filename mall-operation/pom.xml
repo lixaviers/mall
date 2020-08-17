@@ -15,6 +15,7 @@
         <module>mall-operation-api</module>
         <module>mall-operation-b-web</module>
         <module>mall-operation-service</module>
+        <module>mall-operation-c-web</module>
     </modules>
 
 </project>
