@@ -856,6 +856,66 @@ public class GoodsExample {
             return (Criteria) this;
         }
 
+        public Criteria andInventoryIsNull() {
+            addCriterion("inventory is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInventoryIsNotNull() {
+            addCriterion("inventory is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInventoryEqualTo(Integer value) {
+            addCriterion("inventory =", value, "inventory");
+            return (Criteria) this;
+        }
+
+        public Criteria andInventoryNotEqualTo(Integer value) {
+            addCriterion("inventory <>", value, "inventory");
+            return (Criteria) this;
+        }
+
+        public Criteria andInventoryGreaterThan(Integer value) {
+            addCriterion("inventory >", value, "inventory");
+            return (Criteria) this;
+        }
+
+        public Criteria andInventoryGreaterThanOrEqualTo(Integer value) {
+            addCriterion("inventory >=", value, "inventory");
+            return (Criteria) this;
+        }
+
+        public Criteria andInventoryLessThan(Integer value) {
+            addCriterion("inventory <", value, "inventory");
+            return (Criteria) this;
+        }
+
+        public Criteria andInventoryLessThanOrEqualTo(Integer value) {
+            addCriterion("inventory <=", value, "inventory");
+            return (Criteria) this;
+        }
+
+        public Criteria andInventoryIn(List<Integer> values) {
+            addCriterion("inventory in", values, "inventory");
+            return (Criteria) this;
+        }
+
+        public Criteria andInventoryNotIn(List<Integer> values) {
+            addCriterion("inventory not in", values, "inventory");
+            return (Criteria) this;
+        }
+
+        public Criteria andInventoryBetween(Integer value1, Integer value2) {
+            addCriterion("inventory between", value1, value2, "inventory");
+            return (Criteria) this;
+        }
+
+        public Criteria andInventoryNotBetween(Integer value1, Integer value2) {
+            addCriterion("inventory not between", value1, value2, "inventory");
+            return (Criteria) this;
+        }
+
         public Criteria andSalesIsNull() {
             addCriterion("sales is null");
             return (Criteria) this;

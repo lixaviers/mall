@@ -14,6 +14,7 @@
     <result column="minimum_quantity" jdbcType="INTEGER" property="minimumQuantity" />
     <result column="express_freight" jdbcType="DECIMAL" property="expressFreight" />
     <result column="picture_urls" jdbcType="VARCHAR" property="pictureUrls" />
+    <result column="inventory" jdbcType="INTEGER" property="inventory" />
     <result column="sales" jdbcType="INTEGER" property="sales" />
     <result column="per_person_limit" jdbcType="INTEGER" property="perPersonLimit" />
     <result column="view_count" jdbcType="INTEGER" property="viewCount" />
@@ -82,7 +83,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, shop_id, goods_name, goods_category_id, brand_id, is_more_spec, spec_value, original_price, 
-    list_price, minimum_quantity, express_freight, picture_urls, sales, per_person_limit, 
+    list_price, minimum_quantity, express_freight, picture_urls, inventory, sales, per_person_limit, 
     view_count, goods_status, create_time, update_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.goods.model.GoodsExample" resultMap="BaseResultMap">
@@ -123,17 +124,17 @@
     insert into tb_goods (shop_id, goods_name, goods_category_id, 
       brand_id, is_more_spec, spec_value, 
       original_price, list_price, minimum_quantity, 
-      express_freight, picture_urls, sales, 
-      per_person_limit, view_count, goods_status, 
-      create_time, update_time, is_deleted
-      )
+      express_freight, picture_urls, inventory, 
+      sales, per_person_limit, view_count, 
+      goods_status, create_time, update_time, 
+      is_deleted)
     values (#{shopId,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, #{goodsCategoryId,jdbcType=INTEGER}, 
       #{brandId,jdbcType=INTEGER}, #{isMoreSpec,jdbcType=BIT}, #{specValue,jdbcType=VARCHAR}, 
       #{originalPrice,jdbcType=DECIMAL}, #{listPrice,jdbcType=DECIMAL}, #{minimumQuantity,jdbcType=INTEGER}, 
-      #{expressFreight,jdbcType=DECIMAL}, #{pictureUrls,jdbcType=VARCHAR}, #{sales,jdbcType=INTEGER}, 
-      #{perPersonLimit,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, #{goodsStatus,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
-      )
+      #{expressFreight,jdbcType=DECIMAL}, #{pictureUrls,jdbcType=VARCHAR}, #{inventory,jdbcType=INTEGER}, 
+      #{sales,jdbcType=INTEGER}, #{perPersonLimit,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, 
+      #{goodsStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.goods.model.Goods">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -173,6 +174,9 @@
       </if>
       <if test="pictureUrls != null">
         picture_urls,
+      </if>
+      <if test="inventory != null">
+        inventory,
       </if>
       <if test="sales != null">
         sales,
@@ -229,6 +233,9 @@
       </if>
       <if test="pictureUrls != null">
         #{pictureUrls,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null">
+        #{inventory,jdbcType=INTEGER},
       </if>
       <if test="sales != null">
         #{sales,jdbcType=INTEGER},
@@ -298,6 +305,9 @@
       <if test="record.pictureUrls != null">
         picture_urls = #{record.pictureUrls,jdbcType=VARCHAR},
       </if>
+      <if test="record.inventory != null">
+        inventory = #{record.inventory,jdbcType=INTEGER},
+      </if>
       <if test="record.sales != null">
         sales = #{record.sales,jdbcType=INTEGER},
       </if>
@@ -338,6 +348,7 @@
       minimum_quantity = #{record.minimumQuantity,jdbcType=INTEGER},
       express_freight = #{record.expressFreight,jdbcType=DECIMAL},
       picture_urls = #{record.pictureUrls,jdbcType=VARCHAR},
+      inventory = #{record.inventory,jdbcType=INTEGER},
       sales = #{record.sales,jdbcType=INTEGER},
       per_person_limit = #{record.perPersonLimit,jdbcType=INTEGER},
       view_count = #{record.viewCount,jdbcType=INTEGER},
@@ -385,6 +396,9 @@
       <if test="pictureUrls != null">
         picture_urls = #{pictureUrls,jdbcType=VARCHAR},
       </if>
+      <if test="inventory != null">
+        inventory = #{inventory,jdbcType=INTEGER},
+      </if>
       <if test="sales != null">
         sales = #{sales,jdbcType=INTEGER},
       </if>
@@ -422,6 +436,7 @@
       minimum_quantity = #{minimumQuantity,jdbcType=INTEGER},
       express_freight = #{expressFreight,jdbcType=DECIMAL},
       picture_urls = #{pictureUrls,jdbcType=VARCHAR},
+      inventory = #{inventory,jdbcType=INTEGER},
       sales = #{sales,jdbcType=INTEGER},
       per_person_limit = #{perPersonLimit,jdbcType=INTEGER},
       view_count = #{viewCount,jdbcType=INTEGER},
@@ -494,6 +509,10 @@
             </if>
             <if test="expressFreightFrom != null"><![CDATA[AND express_freight >= #{expressFreightFrom,jdbcType=DECIMAL}]]></if>
             <if test="expressFreightTo != null"><![CDATA[AND express_freight <= #{expressFreightTo,jdbcType=DECIMAL}]]></if>
+            <if test="inventory!=null">AND inventory = #{inventory,jdbcType=INTEGER}</if>
+            <if test="inventoryList != null and inventoryList.size > 0">
+                <foreach item="item" separator="," open="AND inventory in (" close=")" collection="inventoryList">#{item,jdbcType=INTEGER}</foreach>
+            </if>
             <if test="sales!=null">AND sales = #{sales,jdbcType=INTEGER}</if>
             <if test="salesList != null and salesList.size > 0">
                 <foreach item="item" separator="," open="AND sales in (" close=")" collection="salesList">#{item,jdbcType=INTEGER}</foreach>
@@ -538,6 +557,7 @@
             minimum_quantity,
             express_freight,
             picture_urls,
+            inventory,
             sales,
             per_person_limit,
             view_count,
@@ -556,6 +576,7 @@
             #{bean.minimumQuantity,jdbcType=INTEGER} ,
             #{bean.expressFreight,jdbcType=DECIMAL} ,
             #{bean.pictureUrls,jdbcType=VARCHAR} ,
+            #{bean.inventory,jdbcType=INTEGER} ,
             #{bean.sales,jdbcType=INTEGER} ,
             #{bean.perPersonLimit,jdbcType=INTEGER} ,
             #{bean.viewCount,jdbcType=INTEGER} ,

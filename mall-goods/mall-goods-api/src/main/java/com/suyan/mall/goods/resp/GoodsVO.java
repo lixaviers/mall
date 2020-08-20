@@ -92,6 +92,12 @@ public class GoodsVO implements Serializable {
     private String pictureUrls;
 
     /**
+     * 库存
+     */
+    @ApiModelProperty("库存")
+    private Integer inventory;
+
+    /**
      * 销量
      */
     @ApiModelProperty("销量")
@@ -157,11 +163,5 @@ public class GoodsVO implements Serializable {
      */
     @ApiModelProperty("商品详情")
     private String description;
-
-    /**
-     * 库存
-     */
-    @ApiModelProperty("库存")
-    private Integer inventory;
 
 }

@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface GoodsBizMapper extends GoodsMapper {
 
-    List<Goods> queryGoods(GoodsQueryDTO goodsQuery);
-
     int updateInventory(@Param("id") Long id);
 
 }

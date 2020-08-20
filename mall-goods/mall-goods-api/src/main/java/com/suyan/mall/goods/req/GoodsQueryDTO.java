@@ -79,6 +79,12 @@ public class GoodsQueryDTO extends QueryDTO {
     @ApiModelProperty("快递运费止")
     private BigDecimal expressFreightTo;
 
+    @ApiModelProperty("库存")
+    private Integer inventory;
+
+    @ApiModelProperty("库存列表")
+    private List<Integer> inventoryList;
+
     @ApiModelProperty("销量")
     private Integer sales;
 

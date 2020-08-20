@@ -103,6 +103,12 @@ public class GoodsDTO implements Serializable {
     private String pictureUrls;
 
     /**
+     * 库存
+     */
+    @ApiModelProperty("库存")
+    private Integer inventory;
+
+    /**
      * 销量
      */
     @ApiModelProperty("销量")
