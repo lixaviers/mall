@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mall-goods-service</artifactId>
+    <artifactId>mall-goods-canal-es</artifactId>
 
     <dependencies>
         <dependency>
@@ -17,14 +17,18 @@
             <artifactId>mall-goods-dal</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
-            <groupId>com.suyan</groupId>
-            <artifactId>mall-user-api</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <version>2.1.0</version>
         </dependency>
+
     </dependencies>
 
 </project>

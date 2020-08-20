@@ -45,6 +45,12 @@ public class GoodsCategoryVO implements Serializable {
     private Byte categoryType;
 
     /**
+     * 层级
+     */
+    @ApiModelProperty("层级")
+    private Integer categoryLevel;
+
+    /**
      * 是否启用
      */
     @ApiModelProperty("是否启用")

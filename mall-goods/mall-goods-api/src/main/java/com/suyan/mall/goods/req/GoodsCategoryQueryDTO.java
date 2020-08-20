@@ -42,6 +42,12 @@ public class GoodsCategoryQueryDTO extends QueryDTO {
     @ApiModelProperty("类型 1.前台 2.后台列表")
     private List<Byte> categoryTypeList;
 
+    @ApiModelProperty("层级")
+    private Integer categoryLevel;
+
+    @ApiModelProperty("层级列表")
+    private List<Integer> categoryLevelList;
+
     @ApiModelProperty("是否启用")
     private Boolean isEnable;
 
@@ -59,6 +65,7 @@ public class GoodsCategoryQueryDTO extends QueryDTO {
 
     @ApiModelProperty("更新时间止")
     private LocalDateTime updateTimeTo;
+
 
 
     /**

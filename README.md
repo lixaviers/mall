@@ -41,6 +41,7 @@ mall
 ├── mall-goods-e-web         -- 10011
 ├── mall-goods-b-web         -- 10012
 ├── mall-goods-c-web         -- 10013
+├── mall-goods-canal-es      -- 10020
 ├── mall-mmc-e-web           -- 10014
 ├── mall-mmc-b-web           -- 10015
 ├── mall-mmc-c-web           -- 10016

@@ -6,12 +6,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class GoodsCategoryDTO implements Serializable {
+public class GoodsCategoryRelationDTO implements Serializable {
 
     /**
      * serialVersionUID
@@ -24,42 +23,20 @@ public class GoodsCategoryDTO implements Serializable {
      */
     @ApiModelProperty(value = "id", hidden = true)
     @NotNull(message = "id不能为空", groups = UpdateInterface.class)
-    private Integer id;
+    private Long id;
 
     /**
-     * 父类id
+     * 前台类目id
      */
-    @ApiModelProperty("父类id")
-    @NotNull(message = "父类id不能为空", groups = BaseInterface.class)
-    private Integer parentId;
+    @ApiModelProperty("前台类目id")
+    @NotNull(message = "前台类目id不能为空", groups = BaseInterface.class)
+    private Integer leftId;
 
     /**
-     * 类目名称
+     * 后台类目id
      */
-    @ApiModelProperty("类目名称")
-    @NotNull(message = "类目名称不能为空", groups = BaseInterface.class)
-    @Size(max = 32, message = "类目名称不能超过32位", groups = BaseInterface.class)
-    private String categoryName;
-
-    /**
-     * 类型 1.前台 2.后台
-     */
-    @ApiModelProperty("类型 1.前台 2.后台")
-    @NotNull(message = "类型 1.前台 2.后台不能为空", groups = BaseInterface.class)
-    private Byte categoryType;
-
-    /**
-     * 层级
-     */
-    @ApiModelProperty("层级")
-    private Integer categoryLevel;
-
-    /**
-     * 是否启用
-     */
-    @ApiModelProperty("是否启用")
-    @NotNull(message = "是否启用不能为空", groups = BaseInterface.class)
-    private Boolean isEnable;
+    @ApiModelProperty("后台类目id")
+    private Integer rightId;
 
     /**
      * 创建时间

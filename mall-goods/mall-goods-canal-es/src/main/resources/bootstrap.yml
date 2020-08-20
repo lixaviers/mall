@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: mall-goods-canal-es
+  profiles:
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/suyan_goods?useUnicode=true&useSSL=false&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: lixavier
+  data:
+    elasticsearch:
+      cluster-name: stpadv-stress-es-cluster
+      cluster-nodes: 10.10.25.89:25555
+rocketmq:
+  name-server: 10.10.25.148:9876
+server:
+  port: 10020

@@ -16,6 +16,8 @@
         <module>mall-goods-service</module>
         <module>mall-goods-b-web</module>
         <module>mall-goods-c-web</module>
+        <module>mall-goods-canal-es</module>
+        <module>mall-goods-dal</module>
     </modules>
 
 </project>

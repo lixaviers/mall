@@ -1,4 +1,8 @@
 spring:
+  data:
+    elasticsearch:
+      cluster-name: staples-branch-es-cluster
+      cluster-nodes: 10.10.7.129:25555
   application:
     name: mall-goods-b-web
   profiles:
