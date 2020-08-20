@@ -1,6 +1,8 @@
 package com.suyan.utils;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -73,4 +75,9 @@ public class DateUtils {
         Date date = new Date(source * 1000);
         return simpleDateFormat.format(date);
     }
+
+    public static String formatterDateTime(LocalDateTime localDateTime) {
+        return DateTimeFormatter.ofPattern(DATE_TO_STRING_DETAIAL_PATTERN).format(localDateTime);
+    }
+
 }
