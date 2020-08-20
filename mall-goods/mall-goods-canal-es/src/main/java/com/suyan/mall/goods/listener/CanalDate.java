@@ -24,7 +24,7 @@ public class CanalDate<T> {
      */
     private String old;
     /**
-     * 类型 UPDATE更新
+     * 类型
      */
     private String type;
     private List<T> data;

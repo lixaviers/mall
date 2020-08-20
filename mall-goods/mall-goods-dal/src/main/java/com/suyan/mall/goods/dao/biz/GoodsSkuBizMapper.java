@@ -25,4 +25,6 @@ public interface GoodsSkuBizMapper extends GoodsSkuMapper {
      */
     int addInventory(@Param("id") Long id, @Param("inventory") int inventory);
 
+    int getSumInventoryByGoodsId(@Param("goodsId") Long goodsId);
+
 }

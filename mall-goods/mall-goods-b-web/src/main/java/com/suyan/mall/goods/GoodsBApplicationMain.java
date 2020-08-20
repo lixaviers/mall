@@ -18,7 +18,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableTransactionManagement
 public class GoodsBApplicationMain {
     public static void main(String[] args) {
-        System.setProperty("es.set.netty.runtime.available.processors", "false");
         SpringApplication.run(GoodsBApplicationMain.class, args);
         log.info("goods b start ok ");
     }

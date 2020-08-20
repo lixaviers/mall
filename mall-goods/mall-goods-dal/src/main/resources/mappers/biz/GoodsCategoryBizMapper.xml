@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suyan.mall.goods.dao.biz.GoodsCategoryBizMapper">
+
+    <select id="getForegroundCategorysByBackgroundCategoryId" resultMap="com.suyan.mall.goods.dao.GoodsCategoryMapper.BaseResultMap">
+        SELECT
+            tb_goods_category.id,
+            tb_goods_category.parent_id,
+            tb_goods_category.category_name,
+            tb_goods_category.category_type,
+            tb_goods_category.category_level,
+            tb_goods_category.full_id_path,
+            tb_goods_category.full_name_path,
+            tb_goods_category.is_enable,
+            tb_goods_category.create_time,
+            tb_goods_category.update_time
+        FROM
+            tb_goods_category
+            INNER JOIN tb_goods_category_relation ON tb_goods_category.id = tb_goods_category_relation.left_id
+        WHERE
+            tb_goods_category_relation.right_id = #{backgroundCategoryId, jdbcType=INTEGER}
+    </select>
+
+</mapper>

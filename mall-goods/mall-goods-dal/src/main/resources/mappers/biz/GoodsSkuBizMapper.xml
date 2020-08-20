@@ -27,4 +27,14 @@
         AND is_deleted = 1
     </update>
 
+    <select id="getSumInventoryByGoodsId" resultType="java.lang.Integer">
+        SELECT
+            IFNULL( SUM( inventory ), 0 )
+        FROM
+            tb_goods_sku
+        WHERE
+            is_deleted = 0
+            AND goods_id = #{goodsId, jdbcType=BIGINT}
+    </select>
+
 </mapper>

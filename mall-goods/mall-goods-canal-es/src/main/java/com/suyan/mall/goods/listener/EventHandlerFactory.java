@@ -2,6 +2,7 @@ package com.suyan.mall.goods.listener;
 
 import com.google.common.collect.Maps;
 import com.suyan.mall.goods.listener.handler.GoodsEventHandler;
+import com.suyan.mall.goods.listener.handler.GoodsSkuEventHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class EventHandlerFactory {
 
     private GoodsEventHandler goodsEventHandler;
+    private GoodsSkuEventHandler goodsSkuEventHandler;
 
     private final Map<String, EventHandler> handlers = Maps.newConcurrentMap();
 
@@ -23,6 +25,7 @@ public class EventHandlerFactory {
     public void init() {
         log.info("Initializing events handlers");
         handlers.put("tb_goods", goodsEventHandler);
+        handlers.put("tb_goods_sku", goodsSkuEventHandler);
     }
 
     public EventHandler getHandler(String tableName) {
@@ -32,8 +35,9 @@ public class EventHandlerFactory {
     }
 
     @Autowired
-    public EventHandlerFactory(GoodsEventHandler goodsEventHandler) {
+    public EventHandlerFactory(GoodsEventHandler goodsEventHandler, GoodsSkuEventHandler goodsSkuEventHandler) {
         this.goodsEventHandler = goodsEventHandler;
+        this.goodsSkuEventHandler = goodsSkuEventHandler;
     }
 
 }

@@ -6,6 +6,6 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 
 public interface GoodsRepository extends ElasticsearchRepository<GoodsES, Long> {
 
-    Goods getGoodsById(Long id);
+    GoodsES getGoodsById(Long id);
 
 }

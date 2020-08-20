@@ -20,8 +20,6 @@ public class AbstractSimpleEventHandler<T> implements EventHandler {
 
     protected final Map<String, BiConsumer<T, T>> actions = Maps.newConcurrentMap();
 
-    private final ObjectMapper objectMapper;
-
     private final ConsumerService consumerService;
 
     public void initActions() {
@@ -39,6 +37,7 @@ public class AbstractSimpleEventHandler<T> implements EventHandler {
             log.warn("not support actions:{}", canalDate.getType());
             return;
         }
+        canalDate.getOld();
         if (CollectionsUtil.isNotEmpty(canalDate.getData())) {
             for (Object object : canalDate.getData()) {
                 T after = JSON.parseObject(object.toString(), entityClass);

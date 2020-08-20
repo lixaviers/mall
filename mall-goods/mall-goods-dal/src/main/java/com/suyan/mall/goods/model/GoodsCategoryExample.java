@@ -415,6 +415,146 @@ public class GoodsCategoryExample {
             return (Criteria) this;
         }
 
+        public Criteria andFullIdPathIsNull() {
+            addCriterion("full_id_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullIdPathIsNotNull() {
+            addCriterion("full_id_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullIdPathEqualTo(String value) {
+            addCriterion("full_id_path =", value, "fullIdPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullIdPathNotEqualTo(String value) {
+            addCriterion("full_id_path <>", value, "fullIdPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullIdPathGreaterThan(String value) {
+            addCriterion("full_id_path >", value, "fullIdPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullIdPathGreaterThanOrEqualTo(String value) {
+            addCriterion("full_id_path >=", value, "fullIdPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullIdPathLessThan(String value) {
+            addCriterion("full_id_path <", value, "fullIdPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullIdPathLessThanOrEqualTo(String value) {
+            addCriterion("full_id_path <=", value, "fullIdPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullIdPathLike(String value) {
+            addCriterion("full_id_path like", value, "fullIdPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullIdPathNotLike(String value) {
+            addCriterion("full_id_path not like", value, "fullIdPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullIdPathIn(List<String> values) {
+            addCriterion("full_id_path in", values, "fullIdPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullIdPathNotIn(List<String> values) {
+            addCriterion("full_id_path not in", values, "fullIdPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullIdPathBetween(String value1, String value2) {
+            addCriterion("full_id_path between", value1, value2, "fullIdPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullIdPathNotBetween(String value1, String value2) {
+            addCriterion("full_id_path not between", value1, value2, "fullIdPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathIsNull() {
+            addCriterion("full_name_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathIsNotNull() {
+            addCriterion("full_name_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathEqualTo(String value) {
+            addCriterion("full_name_path =", value, "fullNamePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathNotEqualTo(String value) {
+            addCriterion("full_name_path <>", value, "fullNamePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathGreaterThan(String value) {
+            addCriterion("full_name_path >", value, "fullNamePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathGreaterThanOrEqualTo(String value) {
+            addCriterion("full_name_path >=", value, "fullNamePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathLessThan(String value) {
+            addCriterion("full_name_path <", value, "fullNamePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathLessThanOrEqualTo(String value) {
+            addCriterion("full_name_path <=", value, "fullNamePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathLike(String value) {
+            addCriterion("full_name_path like", value, "fullNamePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathNotLike(String value) {
+            addCriterion("full_name_path not like", value, "fullNamePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathIn(List<String> values) {
+            addCriterion("full_name_path in", values, "fullNamePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathNotIn(List<String> values) {
+            addCriterion("full_name_path not in", values, "fullNamePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathBetween(String value1, String value2) {
+            addCriterion("full_name_path between", value1, value2, "fullNamePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFullNamePathNotBetween(String value1, String value2) {
+            addCriterion("full_name_path not between", value1, value2, "fullNamePath");
+            return (Criteria) this;
+        }
+
         public Criteria andIsEnableIsNull() {
             addCriterion("is_enable is null");
             return (Criteria) this;

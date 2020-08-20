@@ -1,125 +1,119 @@
 package com.suyan.mall.goods.es.model;
 
-import com.suyan.mall.goods.model.GoodsSku;
-import com.suyan.mall.goods.model.GoodsSpecification;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
-@Document(indexName = "opluso_alias", type = "_doc", shards = 3, replicas = 1)
+@Document(indexName = "suyan_goods", type = "goods", shards = 3, replicas = 1)
 public class GoodsES {
-
 
     /**
      * id
      */
+    @Id
     private Long id;
 
     /**
      * 店铺id
      */
+    @Field(type = FieldType.Long)
     private Long shopId;
 
     /**
      * 商品名称
      */
+    @Field(type = FieldType.Text, analyzer = "full_match_analyzer")
     private String goodsName;
+
+    /**
+     * 前台类目id
+     */
+    @Field(type = FieldType.Text, analyzer = "standard")
+    private String goodsForegroundCategoryIdStr;
+
+    /**
+     * 前台类目名称
+     */
+    @Field(type = FieldType.Text, analyzer = "whitespace")
+    private String goodsForegroundCategoryNameStr;
 
     /**
      * 后台类目id
      */
-    private Integer goodsCategoryId;
+    @Field(type = FieldType.Integer)
+    private Integer goodsBackgroundCategoryId;
 
     /**
      * 品牌id
      */
+    @Field(type = FieldType.Integer)
     private Integer brandId;
 
     /**
      * 品牌名称
      */
+    @Field(type = FieldType.Text, analyzer = "whitespace")
     private String brandName;
-
-    /**
-     * 是否多规格
-     */
-    private Boolean isMoreSpec;
-
-    /**
-     * 规格值json
-     */
-    private String specValue;
-
-    /**
-     * 原价
-     */
-    private BigDecimal originalPrice;
 
     /**
      * 列表价
      */
+    @Field(type = FieldType.Double)
     private BigDecimal listPrice;
 
     /**
-     * 起订量
+     * 图片 keyword：不分词，只能搜索该字段的完整的值，只用于 filtering
      */
-    private Integer minimumQuantity;
-
-    /**
-     * 快递运费
-     */
-    private BigDecimal expressFreight;
-
-    /**
-     * 图片
-     */
+    @Field(type = FieldType.Keyword)
     private String pictureUrls;
+
+    /**
+     * 库存
+     */
+    @Field(type = FieldType.Integer)
+    private Integer inventory;
 
     /**
      * 销量
      */
+    @Field(type = FieldType.Integer)
     private Integer sales;
-
-    /**
-     * 限制每人可以购买数量 0.不限购
-     */
-    private Integer perPersonLimit;
 
     /**
      * 浏览量
      */
+    @Field(type = FieldType.Integer)
     private Integer viewCount;
 
     /**
      * 状态
      */
+    @Field(type = FieldType.Integer)
     private Byte goodsStatus;
 
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    @Field(type = FieldType.Keyword)
+    private String createTime;
 
     /**
      * 更新时间
      */
-    private LocalDateTime updateTime;
+    @Field(type = FieldType.Keyword)
+    private String updateTime;
 
     /**
      * 是否删除: 0.未删除 1.已删除
      */
+    @Field(type = FieldType.Boolean)
     private Boolean isDeleted;
-
-    /**
-     * 库存
-     */
-    @ApiModelProperty("库存")
-    private Integer inventory;
 
 
 }

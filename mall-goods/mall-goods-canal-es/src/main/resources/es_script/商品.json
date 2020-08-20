@@ -1,0 +1,86 @@
+{
+  "settings": {
+    "index": {
+      "analysis": {
+        "analyzer": {
+          "full_match_analyzer": {
+            "tokenizer": "full_match_tokenizer"
+          }
+        },
+        "tokenizer": {
+          "full_match_tokenizer": {
+            "type": "ngram",
+            "min_gram": "1",
+            "max_gram": "64",
+            "token_chars": ["letter", "digit"]
+          }
+        }
+      },
+      "number_of_shards": "3",
+      "number_of_replicas": "1",
+      "max_result_window" : 50000
+    }
+  },
+  "mappings": {
+    "goods": {
+      "properties": {
+        "id": {
+          "type": "long"
+        },
+        "shopId": {
+          "type": "long"
+        },
+        "goodsName": {
+          "analyzer": "full_match_analyzer",
+          "type": "text"
+        },
+        "goodsForegroundCategoryIdStr": {
+          "analyzer": "standard",
+          "type": "text"
+        },
+        "goodsForegroundCategoryNameStr": {
+          "analyzer": "whitespace",
+          "type": "text"
+        },
+        "goodsBackgroundCategoryId": {
+          "type": "integer"
+        },
+        "brandId": {
+          "type": "integer"
+        },
+        "brandName": {
+          "analyzer": "whitespace",
+          "type": "text"
+        },
+        "listPrice": {
+          "type": "double"
+        },
+        "pictureUrls": {
+          "type": "keyword"
+        },
+        "inventory": {
+          "type": "integer"
+        },
+        "sales": {
+          "type": "integer"
+        },
+        "viewCount": {
+          "type": "integer"
+        },
+        "goodsStatus": {
+          "type": "integer"
+        },
+        "createTime": {
+          "type": "keyword"
+        },
+        "updateTime": {
+          "type": "keyword"
+        },
+        "isDeleted": {
+          "type": "boolean"
+        }
+      }
+    }
+
+  }
+}

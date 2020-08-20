@@ -7,6 +7,8 @@
     <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
     <result column="category_type" jdbcType="TINYINT" property="categoryType" />
     <result column="category_level" jdbcType="INTEGER" property="categoryLevel" />
+    <result column="full_id_path" jdbcType="VARCHAR" property="fullIdPath" />
+    <result column="full_name_path" jdbcType="VARCHAR" property="fullNamePath" />
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -70,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, parent_id, category_name, category_type, category_level, is_enable, create_time, 
-    update_time
+    id, parent_id, category_name, category_type, category_level, full_id_path, full_name_path, 
+    is_enable, create_time, update_time
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.goods.model.GoodsCategoryExample" resultMap="BaseResultMap">
     select
@@ -109,11 +111,13 @@
       select LAST_INSERT_ID()
     </selectKey>
     insert into tb_goods_category (parent_id, category_name, category_type, 
-      category_level, is_enable, create_time, 
-      update_time)
+      category_level, full_id_path, full_name_path, 
+      is_enable, create_time, update_time
+      )
     values (#{parentId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{categoryType,jdbcType=TINYINT}, 
-      #{categoryLevel,jdbcType=INTEGER}, #{isEnable,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{categoryLevel,jdbcType=INTEGER}, #{fullIdPath,jdbcType=VARCHAR}, #{fullNamePath,jdbcType=VARCHAR}, 
+      #{isEnable,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.goods.model.GoodsCategory">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -132,6 +136,12 @@
       </if>
       <if test="categoryLevel != null">
         category_level,
+      </if>
+      <if test="fullIdPath != null">
+        full_id_path,
+      </if>
+      <if test="fullNamePath != null">
+        full_name_path,
       </if>
       <if test="isEnable != null">
         is_enable,
@@ -155,6 +165,12 @@
       </if>
       <if test="categoryLevel != null">
         #{categoryLevel,jdbcType=INTEGER},
+      </if>
+      <if test="fullIdPath != null">
+        #{fullIdPath,jdbcType=VARCHAR},
+      </if>
+      <if test="fullNamePath != null">
+        #{fullNamePath,jdbcType=VARCHAR},
       </if>
       <if test="isEnable != null">
         #{isEnable,jdbcType=BIT},
@@ -191,6 +207,12 @@
       <if test="record.categoryLevel != null">
         category_level = #{record.categoryLevel,jdbcType=INTEGER},
       </if>
+      <if test="record.fullIdPath != null">
+        full_id_path = #{record.fullIdPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fullNamePath != null">
+        full_name_path = #{record.fullNamePath,jdbcType=VARCHAR},
+      </if>
       <if test="record.isEnable != null">
         is_enable = #{record.isEnable,jdbcType=BIT},
       </if>
@@ -212,6 +234,8 @@
       category_name = #{record.categoryName,jdbcType=VARCHAR},
       category_type = #{record.categoryType,jdbcType=TINYINT},
       category_level = #{record.categoryLevel,jdbcType=INTEGER},
+      full_id_path = #{record.fullIdPath,jdbcType=VARCHAR},
+      full_name_path = #{record.fullNamePath,jdbcType=VARCHAR},
       is_enable = #{record.isEnable,jdbcType=BIT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP}
@@ -234,6 +258,12 @@
       <if test="categoryLevel != null">
         category_level = #{categoryLevel,jdbcType=INTEGER},
       </if>
+      <if test="fullIdPath != null">
+        full_id_path = #{fullIdPath,jdbcType=VARCHAR},
+      </if>
+      <if test="fullNamePath != null">
+        full_name_path = #{fullNamePath,jdbcType=VARCHAR},
+      </if>
       <if test="isEnable != null">
         is_enable = #{isEnable,jdbcType=BIT},
       </if>
@@ -252,6 +282,8 @@
       category_name = #{categoryName,jdbcType=VARCHAR},
       category_type = #{categoryType,jdbcType=TINYINT},
       category_level = #{categoryLevel,jdbcType=INTEGER},
+      full_id_path = #{fullIdPath,jdbcType=VARCHAR},
+      full_name_path = #{fullNamePath,jdbcType=VARCHAR},
       is_enable = #{isEnable,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
@@ -299,6 +331,16 @@
             <if test="categoryLevelList != null and categoryLevelList.size > 0">
                 <foreach item="item" separator="," open="AND category_level in (" close=")" collection="categoryLevelList">#{item,jdbcType=INTEGER}</foreach>
             </if>
+            <if test="fullIdPath!=null and fullIdPath!=''">AND full_id_path = #{fullIdPath,jdbcType=VARCHAR}</if>
+            <if test="fullIdPathLike != null and fullIdPathLike != '' ">AND full_id_path LIKE concat(#{fullIdPathLike,jdbcType=VARCHAR},'%')</if>
+            <if test="fullIdPathList != null and fullIdPathList.size > 0">
+                <foreach item="item" separator="," open="AND full_id_path in (" close=")" collection="fullIdPathList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
+            <if test="fullNamePath!=null and fullNamePath!=''">AND full_name_path = #{fullNamePath,jdbcType=VARCHAR}</if>
+            <if test="fullNamePathLike != null and fullNamePathLike != '' ">AND full_name_path LIKE concat(#{fullNamePathLike,jdbcType=VARCHAR},'%')</if>
+            <if test="fullNamePathList != null and fullNamePathList.size > 0">
+                <foreach item="item" separator="," open="AND full_name_path in (" close=")" collection="fullNamePathList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
             <if test="isEnable!=null">AND is_enable = #{isEnable,jdbcType=BOOLEAN}</if>
             <if test="isEnableList != null and isEnableList.size > 0">
                 <foreach item="item" separator="," open="AND is_enable in (" close=")" collection="isEnableList">#{item,jdbcType=BOOLEAN}</foreach>
@@ -320,6 +362,8 @@
             category_name,
             category_type,
             category_level,
+            full_id_path,
+            full_name_path,
             is_enable,
         </trim>
         <foreach collection="modelList" item="bean" index="index" separator=",">
@@ -328,6 +372,8 @@
             #{bean.categoryName,jdbcType=VARCHAR} ,
             #{bean.categoryType,jdbcType=TINYINT} ,
             #{bean.categoryLevel,jdbcType=INTEGER} ,
+            #{bean.fullIdPath,jdbcType=VARCHAR} ,
+            #{bean.fullNamePath,jdbcType=VARCHAR} ,
             #{bean.isEnable,jdbcType=BOOLEAN} ,
             </trim>
         </foreach>

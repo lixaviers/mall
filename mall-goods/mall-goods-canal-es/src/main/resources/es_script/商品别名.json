@@ -1,0 +1,5 @@
+{
+  "actions": [
+    { "add": { "index": "suyan_goods_20200820", "alias": "suyan_goods" }}
+  ]
+}

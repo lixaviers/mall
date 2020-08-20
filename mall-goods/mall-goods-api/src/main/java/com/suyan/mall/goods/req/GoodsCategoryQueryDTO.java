@@ -48,6 +48,24 @@ public class GoodsCategoryQueryDTO extends QueryDTO {
     @ApiModelProperty("层级列表")
     private List<Integer> categoryLevelList;
 
+    @ApiModelProperty("类目id全路径")
+    private String fullIdPath;
+
+    @ApiModelProperty("类目id全路径列表")
+    private List<String> fullIdPathList;
+
+    @ApiModelProperty("类目id全路径模糊字段")
+    private String fullIdPathLike;
+
+    @ApiModelProperty("类目名称全路径")
+    private String fullNamePath;
+
+    @ApiModelProperty("类目名称全路径列表")
+    private List<String> fullNamePathList;
+
+    @ApiModelProperty("类目名称全路径模糊字段")
+    private String fullNamePathLike;
+
     @ApiModelProperty("是否启用")
     private Boolean isEnable;
 

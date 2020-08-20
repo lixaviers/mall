@@ -110,5 +110,12 @@
         </choose>
     </select>
 
+    <update id="updateInventory">
+        UPDATE tb_goods
+        SET inventory = ( SELECT sum( inventory ) FROM tb_goods_sku WHERE is_deleted = 0 AND goods_id = #{id, jdbcType=BIGINT} )
+        WHERE
+            id = #{id, jdbcType=BIGINT}
+    </update>
+
 
 </mapper>

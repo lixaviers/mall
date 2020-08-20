@@ -16,7 +16,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableTransactionManagement
 public class GoodsCanalESApplicationMain {
     public static void main(String[] args) {
-        System.setProperty("es.set.netty.runtime.available.processors", "false");
         SpringApplication.run(GoodsCanalESApplicationMain.class, args);
         log.info("goods canal es start ok ");
     }

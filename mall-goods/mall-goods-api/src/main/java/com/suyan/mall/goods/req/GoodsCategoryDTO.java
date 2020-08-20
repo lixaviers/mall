@@ -55,6 +55,20 @@ public class GoodsCategoryDTO implements Serializable {
     private Integer categoryLevel;
 
     /**
+     * 类目id全路径
+     */
+    @ApiModelProperty("类目id全路径")
+    @Size(max = 255, message = "类目id全路径不能超过255位", groups = BaseInterface.class)
+    private String fullIdPath;
+
+    /**
+     * 类目名称全路径
+     */
+    @ApiModelProperty("类目名称全路径")
+    @Size(max = 255, message = "类目名称全路径不能超过255位", groups = BaseInterface.class)
+    private String fullNamePath;
+
+    /**
      * 是否启用
      */
     @ApiModelProperty("是否启用")

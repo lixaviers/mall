@@ -1,8 +1,12 @@
 package com.suyan.mall.goods.model;
 
+import com.suyan.mall.goods.resp.GoodsCategoryVO;
+import com.suyan.utils.CollectionsUtil;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class GoodsCategory {
@@ -34,6 +38,16 @@ public class GoodsCategory {
     private Integer categoryLevel;
 
     /**
+     * 类目id全路径
+     */
+    private String fullIdPath;
+
+    /**
+     * 类目名称全路径
+     */
+    private String fullNamePath;
+
+    /**
      * 是否启用
      */
     private Boolean isEnable;
@@ -55,5 +69,20 @@ public class GoodsCategory {
      * -------------------------------------------------
      */
 
+
+    /**
+     * 子类目集合
+     */
+    private List<GoodsCategory> childCategoryList;
+
+    /**
+     * 增加子类目
+     */
+    public void addChildCategoryList(GoodsCategory categoryVO) {
+        if (CollectionsUtil.isEmpty(childCategoryList)) {
+            childCategoryList = new ArrayList<>();
+        }
+        childCategoryList.add(categoryVO);
+    }
 
 }
