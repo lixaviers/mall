@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
 import com.suyan.mall.goods.enums.GoodsInventoryWayEnum;
-import com.suyan.mall.goods.feignClient.GoodsSkuFeignClient;
+import com.suyan.mall.goods.feignClient.b.GoodsSkuFeignClient;
 import com.suyan.mall.goods.req.GoodsSkuInventoryLogDTO;
 import com.suyan.mall.mmc.constant.ExceptionDefMmc;
 import com.suyan.mall.mmc.dao.BargainMapper;
