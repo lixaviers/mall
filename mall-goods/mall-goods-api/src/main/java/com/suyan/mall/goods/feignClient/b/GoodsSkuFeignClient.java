@@ -1,4 +1,4 @@
-package com.suyan.mall.goods.feignClient;
+package com.suyan.mall.goods.feignClient.b;
 
 import com.suyan.mall.goods.req.GoodsSkuInventoryLogDTO;
 import com.suyan.result.Result;
@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(value = "mall-goods-b-web", path = "/feign/goodsSku")
+@FeignClient(value = "mall-goods-b-web", path = "/feign/b/goodsSku")
 public interface GoodsSkuFeignClient {
 
     /**

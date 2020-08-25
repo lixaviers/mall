@@ -3,16 +3,9 @@
     "index": {
       "analysis": {
         "analyzer": {
-          "full_match_analyzer": {
-            "tokenizer": "full_match_tokenizer"
-          }
-        },
-        "tokenizer": {
-          "full_match_tokenizer": {
-            "type": "ngram",
-            "min_gram": "1",
-            "max_gram": "64",
-            "token_chars": ["letter", "digit"]
+          "goods":{
+            "filter":["standard", "lowercase", "stop", "porter_stem"],
+            "tokenizer":"standard"
           }
         }
       },
@@ -31,16 +24,22 @@
           "type": "long"
         },
         "goodsName": {
-          "analyzer": "full_match_analyzer",
-          "type": "text"
+          "analyzer":"ik_smart",
+          "type":"text"
         },
         "goodsForegroundCategoryIdStr": {
-          "analyzer": "standard",
-          "type": "text"
+          "fielddata":true,
+          "norms":false,
+          "analyzer":"standard",
+          "type":"text",
+          "index_options":"docs"
         },
         "goodsForegroundCategoryNameStr": {
-          "analyzer": "whitespace",
-          "type": "text"
+          "fielddata":true,
+          "norms":false,
+          "analyzer":"standard",
+          "type":"text",
+          "index_options":"docs"
         },
         "goodsBackgroundCategoryId": {
           "type": "integer"

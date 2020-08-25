@@ -7,7 +7,6 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Data
 @Document(indexName = "suyan_goods", type = "goods", shards = 3, replicas = 1)
@@ -28,13 +27,13 @@ public class GoodsES {
     /**
      * 商品名称
      */
-    @Field(type = FieldType.Text, analyzer = "full_match_analyzer")
+    @Field(type = FieldType.Text, analyzer = "ik_smart")
     private String goodsName;
 
     /**
      * 前台类目id
      */
-    @Field(type = FieldType.Text, analyzer = "standard")
+    @Field(type = FieldType.Text, analyzer = "standard", fielddata = true)
     private String goodsForegroundCategoryIdStr;
 
     /**
@@ -52,7 +51,7 @@ public class GoodsES {
     /**
      * 品牌id
      */
-    @Field(type = FieldType.Integer)
+    @Field(type = FieldType.Integer, fielddata = true)
     private Integer brandId;
 
     /**

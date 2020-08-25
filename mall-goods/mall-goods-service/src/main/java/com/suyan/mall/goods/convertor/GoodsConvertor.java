@@ -1,13 +1,16 @@
 package com.suyan.mall.goods.convertor;
 
 import com.alibaba.fastjson.JSON;
+import com.suyan.mall.goods.es.model.GoodsES;
 import com.suyan.mall.goods.model.Goods;
 import com.suyan.mall.goods.model.GoodsSpecification;
 import com.suyan.mall.goods.req.GoodsDTO;
+import com.suyan.mall.goods.resp.GoodsSearchVO;
 import com.suyan.mall.goods.resp.GoodsSpecificationNameVO;
 import com.suyan.mall.goods.resp.GoodsVO;
 import com.suyan.query.QueryResultVO;
 import com.suyan.utils.BeanUtil;
+import com.suyan.utils.CollectionsUtil;
 import com.suyan.utils.StringUtils;
 import org.springframework.cglib.beans.BeanCopier;
 
@@ -22,6 +25,7 @@ public abstract class GoodsConvertor {
 
     private static final BeanCopier beanCopierForGoodsVO = BeanCopier.create(Goods.class, GoodsVO.class, false);
     private static final BeanCopier beanCopierForGoods = BeanCopier.create(GoodsDTO.class, Goods.class, false);
+    private static final BeanCopier beanCopierForGoodsSearchVO = BeanCopier.create(GoodsES.class, GoodsSearchVO.class, false);
 
     public static GoodsVO toGoodsVO(Goods goods) {
         if (goods == null) {
@@ -75,4 +79,24 @@ public abstract class GoodsConvertor {
         queryResultInfo.setRecords(toGoodsVOList(queryResult.getRecords()));
         return queryResultInfo;
     }
+
+
+    public static GoodsSearchVO toGoodsSearchVO(GoodsES goodsES) {
+        GoodsSearchVO goodsSearchVO = new GoodsSearchVO();
+        beanCopierForGoodsSearchVO.copy(goodsES, goodsSearchVO, null);
+        return goodsSearchVO;
+    }
+
+    public static List<GoodsSearchVO> toGoodsSearchVOList(List<GoodsES> beanList) {
+        if (CollectionsUtil.isNotEmpty(beanList)) {
+            List<GoodsSearchVO> returnList = new ArrayList<>(beanList.size());
+            for (GoodsES goodsES : beanList) {
+                returnList.add(toGoodsSearchVO(goodsES));
+            }
+            return returnList;
+        }
+        return null;
+    }
+
+
 }

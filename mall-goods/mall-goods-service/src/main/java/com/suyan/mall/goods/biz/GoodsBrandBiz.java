@@ -1,14 +1,16 @@
 package com.suyan.mall.goods.biz;
 
-import com.suyan.mall.goods.dao.biz.GoodsBrandBizMapper;
-import lombok.extern.slf4j.Slf4j;
-import com.suyan.mall.goods.model.GoodsBrand;
-import com.suyan.mall.goods.req.GoodsBrandQueryDTO;
-import com.suyan.exception.CommonException;
-import com.suyan.query.QueryResultVO;
-import com.suyan.result.ResultCode;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.suyan.exception.CommonException;
+import com.suyan.mall.goods.dao.biz.GoodsBrandBizMapper;
+import com.suyan.mall.goods.model.GoodsBrand;
+import com.suyan.mall.goods.model.GoodsBrandExample;
+import com.suyan.mall.goods.req.GoodsBrandQueryDTO;
+import com.suyan.query.QueryResultVO;
+import com.suyan.result.ResultCode;
+import com.suyan.utils.CollectionsUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -43,31 +45,31 @@ public class GoodsBrandBiz {
 
     /**
      * 创建商品品牌
-     * 
+     *
      * @param goodsBrand
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer createGoodsBrand(GoodsBrand goodsBrand) {
         // TODO: Describe business logic and implement it
-        goodsBrandBizMapper.insertSelective( goodsBrand );
+        goodsBrandBizMapper.insertSelective(goodsBrand);
         return goodsBrand.getId();
     }
 
     /**
-    * 批量创建
-    *
-    * @param goodsBrandList
-    * @return
-    */
+     * 批量创建
+     *
+     * @param goodsBrandList
+     * @return
+     */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public int batchCreateGoodsBrand(List<GoodsBrand> goodsBrandList) {
-        return goodsBrandBizMapper.insertBatch( goodsBrandList );
+        return goodsBrandBizMapper.insertBatch(goodsBrandList);
     }
 
     /**
      * 更新商品品牌
-     * 
+     *
      * @param goodsBrand
      * @return
      */
@@ -76,10 +78,10 @@ public class GoodsBrandBiz {
         getBaseGoodsBrand(goodsBrand.getId());
         return goodsBrandBizMapper.updateByPrimaryKeySelective(goodsBrand);
     }
-    
+
     /**
      * 根据ID获取商品品牌信息
-     * 
+     *
      * @param id
      * @return
      */
@@ -91,7 +93,7 @@ public class GoodsBrandBiz {
     @Transactional(readOnly = true)
     public GoodsBrand getBaseGoodsBrand(Integer id) {
         GoodsBrand goodsBrand = goodsBrandBizMapper.selectByPrimaryKey(id);
-        if(goodsBrand == null || goodsBrand.getIsDeleted()) {
+        if (goodsBrand == null || goodsBrand.getIsDeleted()) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品品牌");
         }
         return goodsBrand;
@@ -99,7 +101,7 @@ public class GoodsBrandBiz {
 
     /**
      * 分页查询商品品牌信息
-     * 
+     *
      * @param goodsBrandQuery
      * @return
      */
@@ -120,12 +122,29 @@ public class GoodsBrandBiz {
 
     /**
      * 根据商品类目id获取商品品牌
+     *
      * @param categoryId
      * @return
      */
     @Transactional(readOnly = true)
     public List<GoodsBrand> getGoodsBrandListByCategoryId(Integer categoryId) {
         return goodsBrandBizMapper.getGoodsBrandListByCategoryId(categoryId);
+    }
+
+    /**
+     * 根据id列表查询
+     *
+     * @param idList
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<GoodsBrand> getGoodsBrandByIdList(List<Integer> idList) {
+        if (CollectionsUtil.isNotEmpty(idList)) {
+            GoodsBrandExample example = new GoodsBrandExample();
+            example.createCriteria().andIdIn(idList).andIsDeletedEqualTo(false);
+            return goodsBrandBizMapper.selectByExample(example);
+        }
+        return null;
     }
 
 }

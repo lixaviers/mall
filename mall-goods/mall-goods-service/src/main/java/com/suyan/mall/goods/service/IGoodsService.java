@@ -2,8 +2,12 @@ package com.suyan.mall.goods.service;
 
 import com.suyan.mall.goods.req.GoodsDTO;
 import com.suyan.mall.goods.req.GoodsQueryDTO;
+import com.suyan.mall.goods.req.GoodsSearchDTO;
+import com.suyan.mall.goods.resp.GoodsSearchVO;
 import com.suyan.mall.goods.resp.GoodsVO;
 import com.suyan.query.QueryResultVO;
+
+import java.util.Map;
 
 
 /**
@@ -44,6 +48,8 @@ public interface IGoodsService {
      */
     GoodsVO getGoods(Long id);
 
+    GoodsVO getGoodsForC(Long id);
+
     /**
      * 分页查询商品信息
      *
@@ -58,5 +64,13 @@ public interface IGoodsService {
      * @param goodsDTO
      */
     void shelves(GoodsDTO goodsDTO);
+
+    /**
+     * 商品搜索
+     *
+     * @param goodsSearchDTO
+     * @return
+     */
+    Map<String, Object> search(GoodsSearchDTO goodsSearchDTO);
 
 }

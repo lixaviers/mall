@@ -19,6 +19,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class GoodsCApplicationMain {
     public static void main(String[] args) {
         SpringApplication.run(GoodsCApplicationMain.class, args);
-        log.info("goods b start ok ");
+        log.info("goods c start ok ");
     }
 }

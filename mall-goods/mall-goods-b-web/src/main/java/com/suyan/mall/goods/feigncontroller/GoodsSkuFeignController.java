@@ -1,6 +1,6 @@
 package com.suyan.mall.goods.feigncontroller;
 
-import com.suyan.mall.goods.feignClient.GoodsSkuFeignClient;
+import com.suyan.mall.goods.feignClient.b.GoodsSkuFeignClient;
 import com.suyan.mall.goods.req.GoodsSkuInventoryLogDTO;
 import com.suyan.mall.goods.service.IGoodsSkuService;
 import com.suyan.result.Result;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RequestMapping("/feign/goodsSku")
+@RequestMapping("/feign/b/goodsSku")
 @RestController
 @Api(tags = "商品skufeign管理接口")
 public class GoodsSkuFeignController implements GoodsSkuFeignClient {

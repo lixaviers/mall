@@ -1,6 +1,5 @@
 package com.suyan.mall.goods.model;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -72,6 +71,11 @@ public class Goods {
     private String pictureUrls;
 
     /**
+     * 库存
+     */
+    private Integer inventory;
+
+    /**
      * 销量
      */
     private Integer sales;
@@ -127,12 +131,6 @@ public class Goods {
      * 描述
      */
     private String description;
-
-    /**
-     * 库存
-     */
-    @ApiModelProperty("库存")
-    private Integer inventory;
 
 
 }
