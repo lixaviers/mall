@@ -1,7 +1,7 @@
 package com.suyan.mall.operation.async;
 
 import com.suyan.mall.operation.annotation.SysLog;
-import com.suyan.mall.operation.feignClient.SystemLogFeignClient;
+import com.suyan.mall.operation.feignClient.b.SystemLogFeignClient;
 import com.suyan.mall.operation.req.SystemLogDTO;
 import com.suyan.mall.user.resp.b.UserInfoVO;
 import com.suyan.result.Result;

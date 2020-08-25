@@ -1,6 +1,6 @@
 package com.suyan.mall.operation.feigncontroller;
 
-import com.suyan.mall.operation.feignClient.ShopFeignClient;
+import com.suyan.mall.operation.feignClient.b.ShopFeignClient;
 import com.suyan.mall.operation.resp.ShopVO;
 import com.suyan.mall.operation.service.IShopService;
 import com.suyan.result.Result;

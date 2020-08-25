@@ -1,4 +1,4 @@
-package com.suyan.mall.operation.feignClient;
+package com.suyan.mall.operation.feignClient.b;
 
 import com.suyan.mall.operation.req.SystemLogDTO;
 import com.suyan.result.Result;

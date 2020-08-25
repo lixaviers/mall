@@ -1,6 +1,6 @@
 package com.suyan.mall.operation.feigncontroller;
 
-import com.suyan.mall.operation.feignClient.SystemLogFeignClient;
+import com.suyan.mall.operation.feignClient.b.SystemLogFeignClient;
 import com.suyan.mall.operation.req.SystemLogDTO;
 import com.suyan.mall.operation.service.ISystemLogService;
 import com.suyan.result.Result;

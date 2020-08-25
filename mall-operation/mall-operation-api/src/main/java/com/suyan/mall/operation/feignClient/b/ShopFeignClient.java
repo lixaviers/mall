@@ -1,4 +1,4 @@
-package com.suyan.mall.operation.feignClient;
+package com.suyan.mall.operation.feignClient.b;
 
 import com.suyan.mall.operation.resp.ShopVO;
 import com.suyan.result.Result;
