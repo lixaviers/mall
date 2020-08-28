@@ -69,6 +69,11 @@ public class DeliverAddress {
     private String detailedAddress;
 
     /**
+     * 地址
+     */
+    private String address;
+
+    /**
      * 是否默认
      */
     private Boolean isDefault;

@@ -54,7 +54,7 @@ public class DeliverAddressBiz {
             // 非自己地址不能删除
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "收货地址");
         }
-        return deliverAddressMapper.deleteByPrimaryKey(id);
+        return deliverAddressMapper.logicalDeleteByPrimaryKey(id);
     }
 
     /**
@@ -85,6 +85,7 @@ public class DeliverAddressBiz {
 
     /**
      * 设置默认
+     *
      * @param deliverAddress
      */
     private void setDefault(DeliverAddress deliverAddress) {
@@ -134,8 +135,9 @@ public class DeliverAddressBiz {
         deliverAddress.setProvinceName(province.getName());
         deliverAddress.setCityCode(city.getAddressCode());
         deliverAddress.setCityName(city.getName());
-        deliverAddress.setAreaCode(area.getAreaCode());
+        deliverAddress.setAreaCode(area.getAddressCode());
         deliverAddress.setAreaName(area.getName());
+        deliverAddress.setAddress(province.getName() + city.getName() + area.getName() + deliverAddress.getDetailedAddress());
     }
 
 
@@ -165,6 +167,7 @@ public class DeliverAddressBiz {
             deliverAddress.setCityName(null);
             deliverAddress.setAreaCode(null);
             deliverAddress.setAreaName(null);
+            deliverAddress.setAddress(deliverAddressLast.getProvinceName() + deliverAddressLast.getCityName() + deliverAddressLast.getAreaName() + deliverAddress.getDetailedAddress());
         }
 
         if (deliverAddress.getIsDefault() && !deliverAddressLast.getIsDefault()) {
@@ -213,6 +216,23 @@ public class DeliverAddressBiz {
         queryResult.setTotalRecords(pageInfo.getTotal());
         queryResult.setRecords(deliverAddressList);
         return queryResult;
+    }
+
+    /**
+     * 获取用户地址-C端
+     *
+     * @return
+     */
+    public DeliverAddress getAddress() {
+        UserInfoVO user = UserUtil.getUser();
+        DeliverAddressExample example = new DeliverAddressExample();
+        example.createCriteria().andIsDeletedEqualTo(false).andUniqueUserIdEqualTo(user.getUniqueUserId());
+        example.setOrderByClause("is_default desc, id desc");
+        List<DeliverAddress> deliverAddressList = deliverAddressMapper.selectByExample(example);
+        if (CollectionsUtil.isNotEmpty(deliverAddressList)) {
+            return deliverAddressList.get(0);
+        }
+        return null;
     }
 
 }

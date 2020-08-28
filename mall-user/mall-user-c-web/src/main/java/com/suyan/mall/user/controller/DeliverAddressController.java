@@ -25,9 +25,8 @@ public class DeliverAddressController extends BaseController {
     private IDeliverAddressService deliverAddressService;
 
     @ApiOperation(value = "删除收货地址", notes = "删除收货地址")
-    @PostMapping("delete")
+    @PostMapping("delete/{id}")
     public Result<Integer> delete(@PathVariable Long id) {
-        UserInfoVO user = getUser();
         return Result.newSuccess(deliverAddressService.deleteDeliverAddress(id));
     }
 
@@ -41,6 +40,12 @@ public class DeliverAddressController extends BaseController {
             deliverAddressService.updateDeliverAddress(deliverAddressDTO);
         }
         return Result.newSuccess();
+    }
+
+    @ApiOperation(value = "获取收货地址信息", notes = "获取收货地址信息")
+    @GetMapping("getAddress")
+    public Result<DeliverAddressVO> getAddress() {
+        return Result.newSuccess(deliverAddressService.getAddress());
     }
 
     @ApiOperation(value = "获取收货地址信息", notes = "根据收货地址ID获取收货地址信息")

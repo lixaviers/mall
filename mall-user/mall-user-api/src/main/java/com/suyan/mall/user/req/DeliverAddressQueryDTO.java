@@ -120,6 +120,15 @@ public class DeliverAddressQueryDTO extends QueryDTO {
     @ApiModelProperty("详细地址模糊字段")
     private String detailedAddressLike;
 
+    @ApiModelProperty("地址")
+    private String address;
+
+    @ApiModelProperty("地址列表")
+    private List<String> addressList;
+
+    @ApiModelProperty("地址模糊字段")
+    private String addressLike;
+
     @ApiModelProperty("是否默认")
     private Boolean isDefault;
 
@@ -143,6 +152,7 @@ public class DeliverAddressQueryDTO extends QueryDTO {
 
     @ApiModelProperty("是否删除列表")
     private List<Boolean> isDeletedList;
+
 
 
     /**

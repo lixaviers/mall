@@ -1,18 +1,15 @@
 package com.suyan.mall.user.service.impl;
 
-import com.suyan.mall.user.service.IDeliverAddressService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.suyan.mall.user.biz.DeliverAddressBiz;
 import com.suyan.mall.user.convertor.DeliverAddressConvertor;
-import com.suyan.mall.user.model.DeliverAddress;
 import com.suyan.mall.user.req.DeliverAddressDTO;
 import com.suyan.mall.user.req.DeliverAddressQueryDTO;
 import com.suyan.mall.user.resp.DeliverAddressVO;
+import com.suyan.mall.user.service.IDeliverAddressService;
 import com.suyan.query.QueryResultVO;
-
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 /**
@@ -42,13 +39,18 @@ public class DeliverAddressServiceImpl implements IDeliverAddressService {
     }
 
     @Override
-    public DeliverAddressVO getDeliverAddress(Long id ) {
+    public DeliverAddressVO getDeliverAddress(Long id) {
         return DeliverAddressConvertor.toDeliverAddressVO(deliverAddressBiz.getDeliverAddress(id));
     }
 
     @Override
     public QueryResultVO<DeliverAddressVO> queryDeliverAddress(DeliverAddressQueryDTO deliverAddressQueryDTO) {
         return DeliverAddressConvertor.toQueryResult(deliverAddressBiz.queryDeliverAddress(deliverAddressQueryDTO));
+    }
+
+    @Override
+    public DeliverAddressVO getAddress() {
+        return DeliverAddressConvertor.toDeliverAddressVO(deliverAddressBiz.getAddress());
     }
 
 }

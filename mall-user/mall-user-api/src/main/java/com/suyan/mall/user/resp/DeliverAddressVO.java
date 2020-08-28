@@ -90,6 +90,12 @@ public class DeliverAddressVO implements Serializable {
     private String detailedAddress;
 
     /**
+     * 地址
+     */
+    @ApiModelProperty("地址")
+    private String address;
+
+    /**
      * 是否默认
      */
     @ApiModelProperty("是否默认")

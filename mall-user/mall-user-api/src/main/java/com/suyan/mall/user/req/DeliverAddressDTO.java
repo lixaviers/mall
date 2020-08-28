@@ -97,8 +97,15 @@ public class DeliverAddressDTO implements Serializable {
      * 详细地址
      */
     @ApiModelProperty("详细地址")
-    @Size(max = 255, message = "详细地址不能超过255位", groups = BaseInterface.class)
+    @Size(max = 100, message = "详细地址不能超过100位", groups = BaseInterface.class)
     private String detailedAddress;
+
+    /**
+     * 地址
+     */
+    @ApiModelProperty("地址")
+    @Size(max = 255, message = "地址不能超过255位", groups = BaseInterface.class)
+    private String address;
 
     /**
      * 是否默认

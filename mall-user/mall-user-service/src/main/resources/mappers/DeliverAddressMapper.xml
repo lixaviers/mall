@@ -14,6 +14,7 @@
     <result column="area_code" jdbcType="VARCHAR" property="areaCode" />
     <result column="area_name" jdbcType="VARCHAR" property="areaName" />
     <result column="detailed_address" jdbcType="VARCHAR" property="detailedAddress" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="is_default" jdbcType="BIT" property="isDefault" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -79,8 +80,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, unique_user_id, consignee, mobile, zip_code, province_code, province_name, city_code, 
-    city_name, area_code, area_name, detailed_address, is_default, create_time, update_time, 
-    is_deleted
+    city_name, area_code, area_name, detailed_address, address, is_default, create_time, 
+    update_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.user.model.DeliverAddressExample" resultMap="BaseResultMap">
     select
@@ -120,15 +121,15 @@
     insert into tb_deliver_address (unique_user_id, consignee, mobile, 
       zip_code, province_code, province_name, 
       city_code, city_name, area_code, 
-      area_name, detailed_address, is_default, 
-      create_time, update_time, is_deleted
-      )
+      area_name, detailed_address, address, 
+      is_default, create_time, update_time, 
+      is_deleted)
     values (#{uniqueUserId,jdbcType=VARCHAR}, #{consignee,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{zipCode,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, 
       #{cityCode,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, 
-      #{areaName,jdbcType=VARCHAR}, #{detailedAddress,jdbcType=VARCHAR}, #{isDefault,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
-      )
+      #{areaName,jdbcType=VARCHAR}, #{detailedAddress,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{isDefault,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.user.model.DeliverAddress">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -168,6 +169,9 @@
       </if>
       <if test="detailedAddress != null">
         detailed_address,
+      </if>
+      <if test="address != null">
+        address,
       </if>
       <if test="isDefault != null">
         is_default,
@@ -215,6 +219,9 @@
       </if>
       <if test="detailedAddress != null">
         #{detailedAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
       </if>
       <if test="isDefault != null">
         #{isDefault,jdbcType=BIT},
@@ -275,6 +282,9 @@
       <if test="record.detailedAddress != null">
         detailed_address = #{record.detailedAddress,jdbcType=VARCHAR},
       </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
       <if test="record.isDefault != null">
         is_default = #{record.isDefault,jdbcType=BIT},
       </if>
@@ -306,6 +316,7 @@
       area_code = #{record.areaCode,jdbcType=VARCHAR},
       area_name = #{record.areaName,jdbcType=VARCHAR},
       detailed_address = #{record.detailedAddress,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
       is_default = #{record.isDefault,jdbcType=BIT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -350,6 +361,9 @@
       <if test="detailedAddress != null">
         detailed_address = #{detailedAddress,jdbcType=VARCHAR},
       </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
       <if test="isDefault != null">
         is_default = #{isDefault,jdbcType=BIT},
       </if>
@@ -378,6 +392,7 @@
       area_code = #{areaCode,jdbcType=VARCHAR},
       area_name = #{areaName,jdbcType=VARCHAR},
       detailed_address = #{detailedAddress,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
       is_default = #{isDefault,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -471,6 +486,11 @@
             <if test="detailedAddressList != null and detailedAddressList.size > 0">
                 <foreach item="item" separator="," open="AND detailed_address in (" close=")" collection="detailedAddressList">#{item,jdbcType=VARCHAR}</foreach>
             </if>
+            <if test="address!=null and address!=''">AND address = #{address,jdbcType=VARCHAR}</if>
+            <if test="addressLike != null and addressLike != '' ">AND address LIKE concat(#{addressLike,jdbcType=VARCHAR},'%')</if>
+            <if test="addressList != null and addressList.size > 0">
+                <foreach item="item" separator="," open="AND address in (" close=")" collection="addressList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
             <if test="isDefault!=null">AND is_default = #{isDefault,jdbcType=BOOLEAN}</if>
             <if test="isDefaultList != null and isDefaultList.size > 0">
                 <foreach item="item" separator="," open="AND is_default in (" close=")" collection="isDefaultList">#{item,jdbcType=BOOLEAN}</foreach>
@@ -503,6 +523,7 @@
             area_code,
             area_name,
             detailed_address,
+            address,
             is_default,
         </trim>
         <foreach collection="modelList" item="bean" index="index" separator=",">
@@ -518,6 +539,7 @@
             #{bean.areaCode,jdbcType=VARCHAR} ,
             #{bean.areaName,jdbcType=VARCHAR} ,
             #{bean.detailedAddress,jdbcType=VARCHAR} ,
+            #{bean.address,jdbcType=VARCHAR} ,
             #{bean.isDefault,jdbcType=BOOLEAN} ,
             </trim>
         </foreach>
