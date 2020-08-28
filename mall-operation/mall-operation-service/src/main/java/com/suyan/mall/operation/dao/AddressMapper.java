@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface AddressMapper {
-    
+
     long countByExample(AddressExample example);
 
     int deleteByExample(AddressExample example);
@@ -34,7 +34,6 @@ public interface AddressMapper {
     Address selectByPrimaryKeyForUpdate(Integer id);
 
     int insertBatch(@Param("modelList") List<Address> modelList);
-
 
 
 }

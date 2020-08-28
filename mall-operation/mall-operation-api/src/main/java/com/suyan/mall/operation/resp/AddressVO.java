@@ -1,18 +1,21 @@
 package com.suyan.mall.operation.resp;
 
+import com.suyan.utils.CollectionsUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @ApiModel("地址")
 public class AddressVO implements Serializable {
 
-    /**   
+    /**
      * serialVersionUID
-     */ 
+     */
     private static final long serialVersionUID = 1L;
 
 
@@ -53,5 +56,20 @@ public class AddressVO implements Serializable {
      * -------------------------------------------------
      */
 
+
+    /**
+     * 子地址集合
+     */
+    private List<AddressVO> children;
+
+    /**
+     * 增加子地址
+     */
+    public void addChildCategoryList(AddressVO addressVO) {
+        if (CollectionsUtil.isEmpty(children)) {
+            children = new ArrayList<>();
+        }
+        children.add(addressVO);
+    }
 
 }

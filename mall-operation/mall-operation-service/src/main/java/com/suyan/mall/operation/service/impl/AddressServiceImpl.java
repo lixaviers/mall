@@ -2,6 +2,7 @@ package com.suyan.mall.operation.service.impl;
 
 import com.suyan.mall.operation.biz.AddressBiz;
 import com.suyan.mall.operation.convertor.AddressConvertor;
+import com.suyan.mall.operation.req.c.AddressListDTO;
 import com.suyan.mall.operation.resp.AddressVO;
 import com.suyan.mall.operation.service.IAddressService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,5 +30,14 @@ public class AddressServiceImpl implements IAddressService {
         return AddressConvertor.toAddressVOList(addressBiz.getAddress(id));
     }
 
+    @Override
+    public List<AddressVO> getTree() {
+        return AddressConvertor.toTree(AddressConvertor.toAddressVOList(addressBiz.getAddress()));
+    }
+
+    @Override
+    public List<AddressVO> getAddressList(AddressListDTO dto) {
+        return AddressConvertor.toAddressVOList(addressBiz.getAddressList(dto));
+    }
 
 }

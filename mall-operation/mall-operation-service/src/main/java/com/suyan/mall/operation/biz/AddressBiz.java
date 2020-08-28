@@ -4,7 +4,10 @@ import com.suyan.exception.CommonException;
 import com.suyan.mall.operation.dao.AddressMapper;
 import com.suyan.mall.operation.model.Address;
 import com.suyan.mall.operation.model.AddressExample;
+import com.suyan.mall.operation.req.c.AddressListDTO;
+import com.suyan.mall.operation.resp.AddressVO;
 import com.suyan.result.ResultCode;
+import com.suyan.utils.CollectionsUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +49,19 @@ public class AddressBiz {
      * @return
      */
     @Transactional(readOnly = true)
+    public List<Address> getAddress() {
+        AddressExample example = new AddressExample();
+        example.createCriteria().andIdNotEqualTo(1);
+        example.setOrderByClause("order_num");
+        return addressMapper.selectByExample(example);
+    }
+
+    /**
+     * 获取地址信息
+     *
+     * @return
+     */
+    @Transactional(readOnly = true)
     public Address getBaseAddress(Integer id, String error) {
         Address address = addressMapper.selectByPrimaryKey(id);
         if (address == null) {
@@ -55,4 +71,12 @@ public class AddressBiz {
     }
 
 
+    public List<Address> getAddressList(AddressListDTO dto) {
+        if (CollectionsUtil.isNotEmpty(dto.getIdList())) {
+            AddressExample example = new AddressExample();
+            example.createCriteria().andIdIn(dto.getIdList());
+            return addressMapper.selectByExample(example);
+        }
+        return null;
+    }
 }

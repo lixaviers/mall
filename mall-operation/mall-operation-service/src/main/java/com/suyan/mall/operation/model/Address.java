@@ -22,14 +22,34 @@ public class Address {
     private String name;
     
     /**
-     * 排序
+     * 拼音
      */
-    private Integer orderNum;
+    private String pinyin;
+    
+    /**
+     * 编码
+     */
+    private String addressCode;
+    
+    /**
+     * 区号
+     */
+    private String areaCode;
+    
+    /**
+     * 邮政编码
+     */
+    private String zipCode;
     
     /**
      * 层级
      */
     private Byte addressLevel;
+    
+    /**
+     * 排序
+     */
+    private Integer orderNum;
     
 
     /**

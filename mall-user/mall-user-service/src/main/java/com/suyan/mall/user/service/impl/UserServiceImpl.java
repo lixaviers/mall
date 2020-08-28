@@ -1,6 +1,6 @@
 package com.suyan.mall.user.service.impl;
 
-import com.suyan.mall.operation.feignClient.ShopFeignClient;
+import com.suyan.mall.operation.feignClient.b.ShopFeignClient;
 import com.suyan.mall.operation.resp.ShopVO;
 import com.suyan.mall.user.biz.UserBiz;
 import com.suyan.mall.user.convertor.UserConvertor;

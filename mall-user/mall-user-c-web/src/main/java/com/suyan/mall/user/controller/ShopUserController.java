@@ -1,7 +1,6 @@
 package com.suyan.mall.user.controller;
 
 import com.suyan.annotation.PassLogin;
-import com.suyan.controller.BaseController;
 import com.suyan.mall.user.constants.Constant;
 import com.suyan.mall.user.constants.RedisKey;
 import com.suyan.mall.user.enums.SmsSourceEnum;

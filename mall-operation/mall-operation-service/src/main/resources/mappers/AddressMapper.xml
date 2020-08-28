@@ -5,8 +5,12 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="pinyin" jdbcType="VARCHAR" property="pinyin" />
+    <result column="address_code" jdbcType="VARCHAR" property="addressCode" />
+    <result column="area_code" jdbcType="VARCHAR" property="areaCode" />
+    <result column="zip_code" jdbcType="VARCHAR" property="zipCode" />
     <result column="address_level" jdbcType="TINYINT" property="addressLevel" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, parent_id, name, order_num, address_level
+    id, parent_id, name, pinyin, address_code, area_code, zip_code, address_level, order_num
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.operation.model.AddressExample" resultMap="BaseResultMap">
     select
@@ -104,10 +108,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       select LAST_INSERT_ID()
     </selectKey>
-    insert into tb_address (parent_id, name, order_num, 
-      address_level)
-    values (#{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{orderNum,jdbcType=INTEGER}, 
-      #{addressLevel,jdbcType=TINYINT})
+    insert into tb_address (parent_id, name, pinyin, 
+      address_code, area_code, zip_code, 
+      address_level, order_num)
+    values (#{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pinyin,jdbcType=VARCHAR}, 
+      #{addressCode,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR}, 
+      #{addressLevel,jdbcType=TINYINT}, #{orderNum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.operation.model.Address">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -121,11 +127,23 @@
       <if test="name != null">
         name,
       </if>
-      <if test="orderNum != null">
-        order_num,
+      <if test="pinyin != null">
+        pinyin,
+      </if>
+      <if test="addressCode != null">
+        address_code,
+      </if>
+      <if test="areaCode != null">
+        area_code,
+      </if>
+      <if test="zipCode != null">
+        zip_code,
       </if>
       <if test="addressLevel != null">
         address_level,
+      </if>
+      <if test="orderNum != null">
+        order_num,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -135,11 +153,23 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="orderNum != null">
-        #{orderNum,jdbcType=INTEGER},
+      <if test="pinyin != null">
+        #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="addressCode != null">
+        #{addressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="zipCode != null">
+        #{zipCode,jdbcType=VARCHAR},
       </if>
       <if test="addressLevel != null">
         #{addressLevel,jdbcType=TINYINT},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -161,11 +191,23 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.orderNum != null">
-        order_num = #{record.orderNum,jdbcType=INTEGER},
+      <if test="record.pinyin != null">
+        pinyin = #{record.pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addressCode != null">
+        address_code = #{record.addressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaCode != null">
+        area_code = #{record.areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zipCode != null">
+        zip_code = #{record.zipCode,jdbcType=VARCHAR},
       </if>
       <if test="record.addressLevel != null">
         address_level = #{record.addressLevel,jdbcType=TINYINT},
+      </if>
+      <if test="record.orderNum != null">
+        order_num = #{record.orderNum,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -177,8 +219,12 @@
     set id = #{record.id,jdbcType=INTEGER},
       parent_id = #{record.parentId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
-      order_num = #{record.orderNum,jdbcType=INTEGER},
-      address_level = #{record.addressLevel,jdbcType=TINYINT}
+      pinyin = #{record.pinyin,jdbcType=VARCHAR},
+      address_code = #{record.addressCode,jdbcType=VARCHAR},
+      area_code = #{record.areaCode,jdbcType=VARCHAR},
+      zip_code = #{record.zipCode,jdbcType=VARCHAR},
+      address_level = #{record.addressLevel,jdbcType=TINYINT},
+      order_num = #{record.orderNum,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -192,11 +238,23 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="orderNum != null">
-        order_num = #{orderNum,jdbcType=INTEGER},
+      <if test="pinyin != null">
+        pinyin = #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="addressCode != null">
+        address_code = #{addressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="zipCode != null">
+        zip_code = #{zipCode,jdbcType=VARCHAR},
       </if>
       <if test="addressLevel != null">
         address_level = #{addressLevel,jdbcType=TINYINT},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -205,8 +263,12 @@
     update tb_address
     set parent_id = #{parentId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
-      order_num = #{orderNum,jdbcType=INTEGER},
-      address_level = #{addressLevel,jdbcType=TINYINT}
+      pinyin = #{pinyin,jdbcType=VARCHAR},
+      address_code = #{addressCode,jdbcType=VARCHAR},
+      area_code = #{areaCode,jdbcType=VARCHAR},
+      zip_code = #{zipCode,jdbcType=VARCHAR},
+      address_level = #{addressLevel,jdbcType=TINYINT},
+      order_num = #{orderNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -221,18 +283,25 @@
     </select>
     
     <insert id="insertBatch" parameterType="java.util.List">
-        insert into tb_address (
+        <trim prefix="insert into tb_address (" suffix=") values" suffixOverrides=",">
             parent_id,
             name,
-            order_num,
-            address_level        )
-        values
+            pinyin,
+            address_code,
+            area_code,
+            zip_code,
+            address_level,
+            order_num        </trim>
         <foreach collection="modelList" item="bean" index="index" separator=",">
-        (
+            <trim prefix="(" suffix=")" suffixOverrides=",">
             #{bean.parentId,jdbcType=INTEGER} ,
             #{bean.name,jdbcType=VARCHAR} ,
-            #{bean.orderNum,jdbcType=INTEGER} ,
-            #{bean.addressLevel,jdbcType=TINYINT}         )
+            #{bean.pinyin,jdbcType=VARCHAR} ,
+            #{bean.addressCode,jdbcType=VARCHAR} ,
+            #{bean.areaCode,jdbcType=VARCHAR} ,
+            #{bean.zipCode,jdbcType=VARCHAR} ,
+            #{bean.addressLevel,jdbcType=TINYINT} ,
+            #{bean.orderNum,jdbcType=INTEGER}             </trim>
         </foreach>
     </insert>
 

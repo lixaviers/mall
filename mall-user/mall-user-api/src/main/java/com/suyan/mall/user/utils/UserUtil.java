@@ -28,6 +28,10 @@ public class UserUtil {
         return getUser(SystemPlatformEnum.B.getCode());
     }
 
+    public static UserInfoVO getUser() {
+        return getUser(SystemPlatformEnum.C.getCode());
+    }
+
     /**
      * 设置用户信息
      *

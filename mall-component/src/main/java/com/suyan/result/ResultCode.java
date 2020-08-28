@@ -71,7 +71,7 @@ public enum ResultCode {
     //----------------------------------------
     API_INVLID_SIGN(800, "签名错误"),
     API_INVLID_FROM(801, "没有权限访问"),
-    API_INVLID_DATA(802, "请求数据错误"),
+    API_INVLID_DATA(802, "请求%s数据错误"),
     API_INVLID_DATA_FORMAT(803, "数据格式不符合要求"),
     API_INVLID_API(804, "api【%s】不存在"),
     EXTERNAL_SYSTEM_ERROR(805, "调用外部系统[%s]出错"),
