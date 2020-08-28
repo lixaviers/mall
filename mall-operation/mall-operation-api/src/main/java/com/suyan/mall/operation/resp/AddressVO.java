@@ -1,13 +1,10 @@
 package com.suyan.mall.operation.resp;
 
-import com.suyan.utils.CollectionsUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @ApiModel("地址")
@@ -38,10 +35,28 @@ public class AddressVO implements Serializable {
     private String name;
 
     /**
-     * 排序
+     * 拼音
      */
-    @ApiModelProperty("排序")
-    private Integer orderNum;
+    @ApiModelProperty("拼音")
+    private String pinyin;
+
+    /**
+     * 编码
+     */
+    @ApiModelProperty("编码")
+    private String addressCode;
+
+    /**
+     * 区号
+     */
+    @ApiModelProperty("区号")
+    private String areaCode;
+
+    /**
+     * 邮政编码
+     */
+    @ApiModelProperty("邮政编码")
+    private String zipCode;
 
     /**
      * 层级
@@ -49,27 +64,17 @@ public class AddressVO implements Serializable {
     @ApiModelProperty("层级")
     private Byte addressLevel;
 
+    /**
+     * 排序
+     */
+    @ApiModelProperty("排序")
+    private Integer orderNum;
+
 
     /**
      * -------------------------------------------------
      * 上面字段由工具自动生成，请在下面添加扩充字段
      * -------------------------------------------------
      */
-
-
-    /**
-     * 子地址集合
-     */
-    private List<AddressVO> children;
-
-    /**
-     * 增加子地址
-     */
-    public void addChildCategoryList(AddressVO addressVO) {
-        if (CollectionsUtil.isEmpty(children)) {
-            children = new ArrayList<>();
-        }
-        children.add(addressVO);
-    }
 
 }

@@ -7,11 +7,11 @@
     <result column="consignee" jdbcType="VARCHAR" property="consignee" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="zip_code" jdbcType="VARCHAR" property="zipCode" />
-    <result column="province_id" jdbcType="INTEGER" property="provinceId" />
+    <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
     <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
-    <result column="city_id" jdbcType="INTEGER" property="cityId" />
+    <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
     <result column="city_name" jdbcType="VARCHAR" property="cityName" />
-    <result column="area_id" jdbcType="INTEGER" property="areaId" />
+    <result column="area_code" jdbcType="VARCHAR" property="areaCode" />
     <result column="area_name" jdbcType="VARCHAR" property="areaName" />
     <result column="detailed_address" jdbcType="VARCHAR" property="detailedAddress" />
     <result column="is_default" jdbcType="BIT" property="isDefault" />
@@ -78,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unique_user_id, consignee, mobile, zip_code, province_id, province_name, city_id, 
-    city_name, area_id, area_name, detailed_address, is_default, create_time, update_time, 
+    id, unique_user_id, consignee, mobile, zip_code, province_code, province_name, city_code, 
+    city_name, area_code, area_name, detailed_address, is_default, create_time, update_time, 
     is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.user.model.DeliverAddressExample" resultMap="BaseResultMap">
@@ -118,14 +118,14 @@
       select LAST_INSERT_ID()
     </selectKey>
     insert into tb_deliver_address (unique_user_id, consignee, mobile, 
-      zip_code, province_id, province_name, 
-      city_id, city_name, area_id, 
+      zip_code, province_code, province_name, 
+      city_code, city_name, area_code, 
       area_name, detailed_address, is_default, 
       create_time, update_time, is_deleted
       )
     values (#{uniqueUserId,jdbcType=VARCHAR}, #{consignee,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{zipCode,jdbcType=VARCHAR}, #{provinceId,jdbcType=INTEGER}, #{provinceName,jdbcType=VARCHAR}, 
-      #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, 
+      #{zipCode,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, 
+      #{cityCode,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, 
       #{areaName,jdbcType=VARCHAR}, #{detailedAddress,jdbcType=VARCHAR}, #{isDefault,jdbcType=BIT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
       )
@@ -148,20 +148,20 @@
       <if test="zipCode != null">
         zip_code,
       </if>
-      <if test="provinceId != null">
-        province_id,
+      <if test="provinceCode != null">
+        province_code,
       </if>
       <if test="provinceName != null">
         province_name,
       </if>
-      <if test="cityId != null">
-        city_id,
+      <if test="cityCode != null">
+        city_code,
       </if>
       <if test="cityName != null">
         city_name,
       </if>
-      <if test="areaId != null">
-        area_id,
+      <if test="areaCode != null">
+        area_code,
       </if>
       <if test="areaName != null">
         area_name,
@@ -195,20 +195,20 @@
       <if test="zipCode != null">
         #{zipCode,jdbcType=VARCHAR},
       </if>
-      <if test="provinceId != null">
-        #{provinceId,jdbcType=INTEGER},
+      <if test="provinceCode != null">
+        #{provinceCode,jdbcType=VARCHAR},
       </if>
       <if test="provinceName != null">
         #{provinceName,jdbcType=VARCHAR},
       </if>
-      <if test="cityId != null">
-        #{cityId,jdbcType=INTEGER},
+      <if test="cityCode != null">
+        #{cityCode,jdbcType=VARCHAR},
       </if>
       <if test="cityName != null">
         #{cityName,jdbcType=VARCHAR},
       </if>
-      <if test="areaId != null">
-        #{areaId,jdbcType=INTEGER},
+      <if test="areaCode != null">
+        #{areaCode,jdbcType=VARCHAR},
       </if>
       <if test="areaName != null">
         #{areaName,jdbcType=VARCHAR},
@@ -254,20 +254,20 @@
       <if test="record.zipCode != null">
         zip_code = #{record.zipCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.provinceId != null">
-        province_id = #{record.provinceId,jdbcType=INTEGER},
+      <if test="record.provinceCode != null">
+        province_code = #{record.provinceCode,jdbcType=VARCHAR},
       </if>
       <if test="record.provinceName != null">
         province_name = #{record.provinceName,jdbcType=VARCHAR},
       </if>
-      <if test="record.cityId != null">
-        city_id = #{record.cityId,jdbcType=INTEGER},
+      <if test="record.cityCode != null">
+        city_code = #{record.cityCode,jdbcType=VARCHAR},
       </if>
       <if test="record.cityName != null">
         city_name = #{record.cityName,jdbcType=VARCHAR},
       </if>
-      <if test="record.areaId != null">
-        area_id = #{record.areaId,jdbcType=INTEGER},
+      <if test="record.areaCode != null">
+        area_code = #{record.areaCode,jdbcType=VARCHAR},
       </if>
       <if test="record.areaName != null">
         area_name = #{record.areaName,jdbcType=VARCHAR},
@@ -299,11 +299,11 @@
       consignee = #{record.consignee,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       zip_code = #{record.zipCode,jdbcType=VARCHAR},
-      province_id = #{record.provinceId,jdbcType=INTEGER},
+      province_code = #{record.provinceCode,jdbcType=VARCHAR},
       province_name = #{record.provinceName,jdbcType=VARCHAR},
-      city_id = #{record.cityId,jdbcType=INTEGER},
+      city_code = #{record.cityCode,jdbcType=VARCHAR},
       city_name = #{record.cityName,jdbcType=VARCHAR},
-      area_id = #{record.areaId,jdbcType=INTEGER},
+      area_code = #{record.areaCode,jdbcType=VARCHAR},
       area_name = #{record.areaName,jdbcType=VARCHAR},
       detailed_address = #{record.detailedAddress,jdbcType=VARCHAR},
       is_default = #{record.isDefault,jdbcType=BIT},
@@ -329,20 +329,20 @@
       <if test="zipCode != null">
         zip_code = #{zipCode,jdbcType=VARCHAR},
       </if>
-      <if test="provinceId != null">
-        province_id = #{provinceId,jdbcType=INTEGER},
+      <if test="provinceCode != null">
+        province_code = #{provinceCode,jdbcType=VARCHAR},
       </if>
       <if test="provinceName != null">
         province_name = #{provinceName,jdbcType=VARCHAR},
       </if>
-      <if test="cityId != null">
-        city_id = #{cityId,jdbcType=INTEGER},
+      <if test="cityCode != null">
+        city_code = #{cityCode,jdbcType=VARCHAR},
       </if>
       <if test="cityName != null">
         city_name = #{cityName,jdbcType=VARCHAR},
       </if>
-      <if test="areaId != null">
-        area_id = #{areaId,jdbcType=INTEGER},
+      <if test="areaCode != null">
+        area_code = #{areaCode,jdbcType=VARCHAR},
       </if>
       <if test="areaName != null">
         area_name = #{areaName,jdbcType=VARCHAR},
@@ -371,11 +371,11 @@
       consignee = #{consignee,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       zip_code = #{zipCode,jdbcType=VARCHAR},
-      province_id = #{provinceId,jdbcType=INTEGER},
+      province_code = #{provinceCode,jdbcType=VARCHAR},
       province_name = #{provinceName,jdbcType=VARCHAR},
-      city_id = #{cityId,jdbcType=INTEGER},
+      city_code = #{cityCode,jdbcType=VARCHAR},
       city_name = #{cityName,jdbcType=VARCHAR},
-      area_id = #{areaId,jdbcType=INTEGER},
+      area_code = #{areaCode,jdbcType=VARCHAR},
       area_name = #{areaName,jdbcType=VARCHAR},
       detailed_address = #{detailedAddress,jdbcType=VARCHAR},
       is_default = #{isDefault,jdbcType=BIT},
@@ -436,27 +436,30 @@
             <if test="zipCodeList != null and zipCodeList.size > 0">
                 <foreach item="item" separator="," open="AND zip_code in (" close=")" collection="zipCodeList">#{item,jdbcType=VARCHAR}</foreach>
             </if>
-            <if test="provinceId!=null">AND province_id = #{provinceId,jdbcType=INTEGER}</if>
-            <if test="provinceIdList != null and provinceIdList.size > 0">
-                <foreach item="item" separator="," open="AND province_id in (" close=")" collection="provinceIdList">#{item,jdbcType=INTEGER}</foreach>
+            <if test="provinceCode!=null and provinceCode!=''">AND province_code = #{provinceCode,jdbcType=VARCHAR}</if>
+            <if test="provinceCodeLike != null and provinceCodeLike != '' ">AND province_code LIKE concat(#{provinceCodeLike,jdbcType=VARCHAR},'%')</if>
+            <if test="provinceCodeList != null and provinceCodeList.size > 0">
+                <foreach item="item" separator="," open="AND province_code in (" close=")" collection="provinceCodeList">#{item,jdbcType=VARCHAR}</foreach>
             </if>
             <if test="provinceName!=null and provinceName!=''">AND province_name = #{provinceName,jdbcType=VARCHAR}</if>
             <if test="provinceNameLike != null and provinceNameLike != '' ">AND province_name LIKE concat(#{provinceNameLike,jdbcType=VARCHAR},'%')</if>
             <if test="provinceNameList != null and provinceNameList.size > 0">
                 <foreach item="item" separator="," open="AND province_name in (" close=")" collection="provinceNameList">#{item,jdbcType=VARCHAR}</foreach>
             </if>
-            <if test="cityId!=null">AND city_id = #{cityId,jdbcType=INTEGER}</if>
-            <if test="cityIdList != null and cityIdList.size > 0">
-                <foreach item="item" separator="," open="AND city_id in (" close=")" collection="cityIdList">#{item,jdbcType=INTEGER}</foreach>
+            <if test="cityCode!=null and cityCode!=''">AND city_code = #{cityCode,jdbcType=VARCHAR}</if>
+            <if test="cityCodeLike != null and cityCodeLike != '' ">AND city_code LIKE concat(#{cityCodeLike,jdbcType=VARCHAR},'%')</if>
+            <if test="cityCodeList != null and cityCodeList.size > 0">
+                <foreach item="item" separator="," open="AND city_code in (" close=")" collection="cityCodeList">#{item,jdbcType=VARCHAR}</foreach>
             </if>
             <if test="cityName!=null and cityName!=''">AND city_name = #{cityName,jdbcType=VARCHAR}</if>
             <if test="cityNameLike != null and cityNameLike != '' ">AND city_name LIKE concat(#{cityNameLike,jdbcType=VARCHAR},'%')</if>
             <if test="cityNameList != null and cityNameList.size > 0">
                 <foreach item="item" separator="," open="AND city_name in (" close=")" collection="cityNameList">#{item,jdbcType=VARCHAR}</foreach>
             </if>
-            <if test="areaId!=null">AND area_id = #{areaId,jdbcType=INTEGER}</if>
-            <if test="areaIdList != null and areaIdList.size > 0">
-                <foreach item="item" separator="," open="AND area_id in (" close=")" collection="areaIdList">#{item,jdbcType=INTEGER}</foreach>
+            <if test="areaCode!=null and areaCode!=''">AND area_code = #{areaCode,jdbcType=VARCHAR}</if>
+            <if test="areaCodeLike != null and areaCodeLike != '' ">AND area_code LIKE concat(#{areaCodeLike,jdbcType=VARCHAR},'%')</if>
+            <if test="areaCodeList != null and areaCodeList.size > 0">
+                <foreach item="item" separator="," open="AND area_code in (" close=")" collection="areaCodeList">#{item,jdbcType=VARCHAR}</foreach>
             </if>
             <if test="areaName!=null and areaName!=''">AND area_name = #{areaName,jdbcType=VARCHAR}</if>
             <if test="areaNameLike != null and areaNameLike != '' ">AND area_name LIKE concat(#{areaNameLike,jdbcType=VARCHAR},'%')</if>
@@ -493,11 +496,11 @@
             consignee,
             mobile,
             zip_code,
-            province_id,
+            province_code,
             province_name,
-            city_id,
+            city_code,
             city_name,
-            area_id,
+            area_code,
             area_name,
             detailed_address,
             is_default,
@@ -508,11 +511,11 @@
             #{bean.consignee,jdbcType=VARCHAR} ,
             #{bean.mobile,jdbcType=VARCHAR} ,
             #{bean.zipCode,jdbcType=VARCHAR} ,
-            #{bean.provinceId,jdbcType=INTEGER} ,
+            #{bean.provinceCode,jdbcType=VARCHAR} ,
             #{bean.provinceName,jdbcType=VARCHAR} ,
-            #{bean.cityId,jdbcType=INTEGER} ,
+            #{bean.cityCode,jdbcType=VARCHAR} ,
             #{bean.cityName,jdbcType=VARCHAR} ,
-            #{bean.areaId,jdbcType=INTEGER} ,
+            #{bean.areaCode,jdbcType=VARCHAR} ,
             #{bean.areaName,jdbcType=VARCHAR} ,
             #{bean.detailedAddress,jdbcType=VARCHAR} ,
             #{bean.isDefault,jdbcType=BOOLEAN} ,

@@ -36,4 +36,7 @@ public interface AddressMapper {
     int insertBatch(@Param("modelList") List<Address> modelList);
 
 
+    Address selectByAddressCode(@Param("addressCode") String addressCode);
+
+
 }

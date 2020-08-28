@@ -8,7 +8,6 @@ import com.suyan.mall.user.service.IDeliverAddressService;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.Result;
 import com.suyan.service.BaseInterface;
-import com.suyan.service.UpdateInterface;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -32,16 +31,16 @@ public class DeliverAddressController extends BaseController {
         return Result.newSuccess(deliverAddressService.deleteDeliverAddress(id));
     }
 
-    @ApiOperation(value = "创建收货地址", notes = "创建收货地址")
-    @PostMapping("add")
-    public Result<Long> add(@Validated({BaseInterface.class}) @RequestBody DeliverAddressDTO deliverAddressDTO) {
-        return Result.newSuccess(deliverAddressService.createDeliverAddress(deliverAddressDTO));
-    }
-
-    @ApiOperation(value = "更新收货地址", notes = "更新收货地址")
-    @PostMapping("update")
-    public Result<Integer> update(@Validated({UpdateInterface.class}) @RequestBody DeliverAddressDTO deliverAddressDTO) {
-        return Result.newSuccess(deliverAddressService.updateDeliverAddress(deliverAddressDTO));
+    @ApiOperation(value = "创建/更新收货地址", notes = "创建/更新收货地址")
+    @PostMapping("addOrUpdate")
+    public Result<Long> addOrUpdate(@Validated({BaseInterface.class}) @RequestBody DeliverAddressDTO deliverAddressDTO) {
+        deliverAddressDTO.setUniqueUserId(getUser().getUniqueUserId());
+        if (deliverAddressDTO.getId() == null) {
+            deliverAddressService.createDeliverAddress(deliverAddressDTO);
+        } else {
+            deliverAddressService.updateDeliverAddress(deliverAddressDTO);
+        }
+        return Result.newSuccess();
     }
 
     @ApiOperation(value = "获取收货地址信息", notes = "根据收货地址ID获取收货地址信息")
@@ -53,6 +52,7 @@ public class DeliverAddressController extends BaseController {
     @ApiOperation(value = "获取收货地址列表信息", notes = "分页获取收货地址列表信息")
     @PostMapping("query")
     public Result<QueryResultVO<DeliverAddressVO>> queryDeliverAddress(@Validated @RequestBody DeliverAddressQueryDTO deliverAddressQueryDTO) {
+        deliverAddressQueryDTO.setUniqueUserId(getUser().getUniqueUserId());
         deliverAddressQueryDTO.setIsDeleted(false);
         return Result.newSuccess(deliverAddressService.queryDeliverAddress(deliverAddressQueryDTO));
     }

@@ -4,11 +4,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
 import com.suyan.mall.operation.feignClient.c.AddressFeignClient;
-import com.suyan.mall.operation.req.c.AddressListDTO;
 import com.suyan.mall.operation.resp.AddressVO;
 import com.suyan.mall.user.constants.ExceptionDefUser;
 import com.suyan.mall.user.dao.DeliverAddressMapper;
 import com.suyan.mall.user.model.DeliverAddress;
+import com.suyan.mall.user.model.DeliverAddressExample;
 import com.suyan.mall.user.req.DeliverAddressQueryDTO;
 import com.suyan.mall.user.resp.b.UserInfoVO;
 import com.suyan.mall.user.utils.UserUtil;
@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -66,7 +65,16 @@ public class DeliverAddressBiz {
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Long createDeliverAddress(DeliverAddress deliverAddress) {
+
+        List<DeliverAddress> deliverAddresses = deliverAddressMapper.selectByUniqueUserId(deliverAddress.getUniqueUserId());
+        if (CollectionsUtil.isNotEmpty(deliverAddresses) && deliverAddresses.size() >= 20) {
+            // 地址最多创建20个
+            throw new CommonException(ExceptionDefUser.EXCEPTION_4002);
+        }
+
         getAddressInfo(deliverAddress);
+
+        setDefault(deliverAddress);
 
         UserInfoVO user = UserUtil.getUser();
         deliverAddress.setUniqueUserId(user.getUniqueUserId());
@@ -75,12 +83,24 @@ public class DeliverAddressBiz {
 
     }
 
+    /**
+     * 设置默认
+     * @param deliverAddress
+     */
+    private void setDefault(DeliverAddress deliverAddress) {
+        if (deliverAddress.getIsDefault()) {
+            DeliverAddress bean = new DeliverAddress();
+            bean.setIsDefault(false);
+            DeliverAddressExample example = new DeliverAddressExample();
+            example.createCriteria().andUniqueUserIdEqualTo(deliverAddress.getUniqueUserId()).andIsDefaultEqualTo(true);
+            deliverAddressMapper.updateByExampleSelective(bean, example);
+        }
+    }
+
     private void getAddressInfo(DeliverAddress deliverAddress) {
         // 查询地址
-        AddressListDTO dto = new AddressListDTO();
-        dto.setIdList(Arrays.asList(deliverAddress.getProvinceId(), deliverAddress.getCityId(), deliverAddress.getAreaId()));
-        log.info("调用查询地址信息入参={}", JsonUtil.toJsonString(dto));
-        Result<List<AddressVO>> result = addressFeignClient.getAddressList(dto);
+        log.info("调用查询地址信息入参={}", deliverAddress.getAreaCode());
+        Result<List<AddressVO>> result = addressFeignClient.getAddressByCode(deliverAddress.getAreaCode());
         log.info("调用查询地址信息出参={}", JsonUtil.toJsonString(result));
         if (!result.isSuccess()) {
             throw new CommonException(ResultCode.API_INVLID_DATA, "地址信息");
@@ -93,11 +113,11 @@ public class DeliverAddressBiz {
         AddressVO city = null;
         AddressVO area = null;
         for (AddressVO addressVO : addressVOList) {
-            if (deliverAddress.getProvinceId().equals(addressVO.getId())) {
+            if (addressVO.getAddressLevel().intValue() == 1) {
                 province = addressVO;
-            } else if (deliverAddress.getCityId().equals(addressVO.getId())) {
+            } else if (addressVO.getAddressLevel().intValue() == 2) {
                 city = addressVO;
-            } else if (deliverAddress.getAreaId().equals(addressVO.getId())) {
+            } else if (addressVO.getAddressLevel().intValue() == 3) {
                 area = addressVO;
             }
         }
@@ -110,8 +130,11 @@ public class DeliverAddressBiz {
         if (!area.getParentId().equals(city.getId())) {
             throw new CommonException(ResultCode.COMMON_PARAM_INVALID, "区");
         }
+        deliverAddress.setProvinceCode(province.getAddressCode());
         deliverAddress.setProvinceName(province.getName());
+        deliverAddress.setCityCode(city.getAddressCode());
         deliverAddress.setCityName(city.getName());
+        deliverAddress.setAreaCode(area.getAreaCode());
         deliverAddress.setAreaName(area.getName());
     }
 
@@ -132,14 +155,20 @@ public class DeliverAddressBiz {
         }
 
         // 判断省、市、区是否改变
-        if (!deliverAddress.getProvinceId().equals(deliverAddressLast.getProvinceId()) || !deliverAddress.getCityId().equals(deliverAddressLast.getCityId())
-                || !deliverAddress.getAreaId().equals(deliverAddressLast.getAreaId())) {
+        if (!deliverAddress.getAreaCode().equals(deliverAddressLast.getAreaCode())) {
             // 重新设置名称
             getAddressInfo(deliverAddress);
         } else {
+            deliverAddress.setProvinceCode(null);
             deliverAddress.setProvinceName(null);
+            deliverAddress.setCityCode(null);
             deliverAddress.setCityName(null);
+            deliverAddress.setAreaCode(null);
             deliverAddress.setAreaName(null);
+        }
+
+        if (deliverAddress.getIsDefault() && !deliverAddressLast.getIsDefault()) {
+            setDefault(deliverAddress);
         }
 
         return deliverAddressMapper.updateByPrimaryKeySelective(deliverAddress);

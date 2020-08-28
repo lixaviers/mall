@@ -24,11 +24,4 @@ public class AddressController {
     @Autowired
     private IAddressService addressService;
 
-    @ApiOperation(value = "获取地址信息", notes = "获取地址信息")
-    @GetMapping("getTree")
-    @PassLogin
-    public Result<List<AddressVO>> getTree() {
-        return Result.newSuccess(addressService.getTree());
-    }
-
 }

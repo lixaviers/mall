@@ -8,15 +8,12 @@ import com.suyan.result.Result;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Slf4j
-@RequestMapping("/feign/c/shop")
+@RequestMapping("/feign/c/address")
 @RestController
 @Api(tags = "地址feign管理接口")
 public class AddressFeignController implements AddressFeignClient {
@@ -24,10 +21,10 @@ public class AddressFeignController implements AddressFeignClient {
     @Autowired
     private IAddressService addressService;
 
-    @GetMapping(value = "/getAddressList")
+    @GetMapping(value = "/getAddressByCode")
     @Override
-    public Result<List<AddressVO>> getAddressList(@RequestBody AddressListDTO dto) {
-        return Result.newSuccess(addressService.getAddressList(dto));
+    public Result<List<AddressVO>> getAddressByCode(@RequestParam("addressCode") String addressCode) {
+        return Result.newSuccess(addressService.getAddressByCode(addressCode));
     }
 
 }

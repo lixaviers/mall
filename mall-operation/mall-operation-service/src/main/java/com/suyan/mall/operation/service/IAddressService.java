@@ -19,17 +19,11 @@ public interface IAddressService {
     List<AddressVO> getAddress(Integer id);
 
     /**
-     * 获取地址树
-     * @return
-     */
-    List<AddressVO> getTree();
-
-    /**
-     * 根据列表获取地址信息
+     * 根据编码获取信息
      *
-     * @param dto
+     * @param addressCode
      * @return
      */
-    List<AddressVO> getAddressList(AddressListDTO dto);
+    List<AddressVO> getAddressByCode(String addressCode);
 
 }

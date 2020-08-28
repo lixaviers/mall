@@ -31,13 +31,8 @@ public class AddressServiceImpl implements IAddressService {
     }
 
     @Override
-    public List<AddressVO> getTree() {
-        return AddressConvertor.toTree(AddressConvertor.toAddressVOList(addressBiz.getAddress()));
-    }
-
-    @Override
-    public List<AddressVO> getAddressList(AddressListDTO dto) {
-        return AddressConvertor.toAddressVOList(addressBiz.getAddressList(dto));
+    public List<AddressVO> getAddressByCode(String addressCode) {
+        return AddressConvertor.toAddressVOList(addressBiz.getAddressByCode(addressCode));
     }
 
 }

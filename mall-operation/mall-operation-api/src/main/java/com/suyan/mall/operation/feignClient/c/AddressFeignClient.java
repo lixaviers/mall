@@ -6,6 +6,7 @@ import com.suyan.result.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -14,12 +15,12 @@ import java.util.List;
 public interface AddressFeignClient {
 
     /**
-     * 根据id获取地址信息
+     * 根据编码获取信息
      *
-     * @param dto 地址id
+     * @param addressCode 地址id
      * @return
      */
-    @GetMapping(value = "/getAddressList")
-    Result<List<AddressVO>> getAddressList(@RequestBody AddressListDTO dto);
+    @GetMapping(value = "/getAddressByCode")
+    Result<List<AddressVO>> getAddressByCode(@RequestParam("addressCode") String addressCode);
 
 }

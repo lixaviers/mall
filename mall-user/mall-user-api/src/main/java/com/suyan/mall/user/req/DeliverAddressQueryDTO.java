@@ -57,11 +57,14 @@ public class DeliverAddressQueryDTO extends QueryDTO {
     @ApiModelProperty("邮政编码模糊字段")
     private String zipCodeLike;
 
-    @ApiModelProperty("省份id")
-    private Integer provinceId;
+    @ApiModelProperty("省份编码")
+    private String provinceCode;
 
-    @ApiModelProperty("省份id列表")
-    private List<Integer> provinceIdList;
+    @ApiModelProperty("省份编码列表")
+    private List<String> provinceCodeList;
+
+    @ApiModelProperty("省份编码模糊字段")
+    private String provinceCodeLike;
 
     @ApiModelProperty("省份名称")
     private String provinceName;
@@ -72,11 +75,14 @@ public class DeliverAddressQueryDTO extends QueryDTO {
     @ApiModelProperty("省份名称模糊字段")
     private String provinceNameLike;
 
-    @ApiModelProperty("城市id")
-    private Integer cityId;
+    @ApiModelProperty("城市编码")
+    private String cityCode;
 
-    @ApiModelProperty("城市id列表")
-    private List<Integer> cityIdList;
+    @ApiModelProperty("城市编码列表")
+    private List<String> cityCodeList;
+
+    @ApiModelProperty("城市编码模糊字段")
+    private String cityCodeLike;
 
     @ApiModelProperty("城市名称")
     private String cityName;
@@ -87,11 +93,14 @@ public class DeliverAddressQueryDTO extends QueryDTO {
     @ApiModelProperty("城市名称模糊字段")
     private String cityNameLike;
 
-    @ApiModelProperty("区id")
-    private Integer areaId;
+    @ApiModelProperty("区编码")
+    private String areaCode;
 
-    @ApiModelProperty("区id列表")
-    private List<Integer> areaIdList;
+    @ApiModelProperty("区编码列表")
+    private List<String> areaCodeList;
+
+    @ApiModelProperty("区编码模糊字段")
+    private String areaCodeLike;
 
     @ApiModelProperty("区名称")
     private String areaName;
@@ -134,7 +143,6 @@ public class DeliverAddressQueryDTO extends QueryDTO {
 
     @ApiModelProperty("是否删除列表")
     private List<Boolean> isDeletedList;
-
 
 
     /**

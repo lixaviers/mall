@@ -305,5 +305,11 @@
         </foreach>
     </insert>
 
+    <select id="selectByAddressCode" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_address
+        WHERE  address_code = #{addressCode,jdbcType=VARCHAR}
+    </select>
 
 </mapper>

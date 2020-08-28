@@ -1,8 +1,8 @@
 package com.suyan.mall.user.resp;
 
-import lombok.Data;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @ApiModel("收货地址")
 public class DeliverAddressVO implements Serializable {
 
-    /**   
+    /**
      * serialVersionUID
-     */ 
+     */
     private static final long serialVersionUID = 1L;
 
 
@@ -48,10 +48,10 @@ public class DeliverAddressVO implements Serializable {
     private String zipCode;
 
     /**
-     * 省份id
+     * 省份编码
      */
-    @ApiModelProperty("省份id")
-    private Integer provinceId;
+    @ApiModelProperty("省份编码")
+    private String provinceCode;
 
     /**
      * 省份名称
@@ -60,10 +60,10 @@ public class DeliverAddressVO implements Serializable {
     private String provinceName;
 
     /**
-     * 城市id
+     * 城市编码
      */
-    @ApiModelProperty("城市id")
-    private Integer cityId;
+    @ApiModelProperty("城市编码")
+    private String cityCode;
 
     /**
      * 城市名称
@@ -72,10 +72,10 @@ public class DeliverAddressVO implements Serializable {
     private String cityName;
 
     /**
-     * 区id
+     * 区编码
      */
-    @ApiModelProperty("区id")
-    private Integer areaId;
+    @ApiModelProperty("区编码")
+    private String areaCode;
 
     /**
      * 区名称
