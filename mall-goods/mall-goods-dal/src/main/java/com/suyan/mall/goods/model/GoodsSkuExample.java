@@ -426,6 +426,76 @@ public class GoodsSkuExample {
             return (Criteria) this;
         }
 
+        public Criteria andGoodsPictureIsNull() {
+            addCriterion("goods_picture is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPictureIsNotNull() {
+            addCriterion("goods_picture is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPictureEqualTo(String value) {
+            addCriterion("goods_picture =", value, "goodsPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPictureNotEqualTo(String value) {
+            addCriterion("goods_picture <>", value, "goodsPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPictureGreaterThan(String value) {
+            addCriterion("goods_picture >", value, "goodsPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPictureGreaterThanOrEqualTo(String value) {
+            addCriterion("goods_picture >=", value, "goodsPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPictureLessThan(String value) {
+            addCriterion("goods_picture <", value, "goodsPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPictureLessThanOrEqualTo(String value) {
+            addCriterion("goods_picture <=", value, "goodsPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPictureLike(String value) {
+            addCriterion("goods_picture like", value, "goodsPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPictureNotLike(String value) {
+            addCriterion("goods_picture not like", value, "goodsPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPictureIn(List<String> values) {
+            addCriterion("goods_picture in", values, "goodsPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPictureNotIn(List<String> values) {
+            addCriterion("goods_picture not in", values, "goodsPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPictureBetween(String value1, String value2) {
+            addCriterion("goods_picture between", value1, value2, "goodsPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPictureNotBetween(String value1, String value2) {
+            addCriterion("goods_picture not between", value1, value2, "goodsPicture");
+            return (Criteria) this;
+        }
+
         public Criteria andSpecValueIsNull() {
             addCriterion("spec_value is null");
             return (Criteria) this;

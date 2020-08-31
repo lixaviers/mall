@@ -49,6 +49,12 @@ public class GoodsSkuVO implements Serializable {
     private String goodsName;
 
     /**
+     * 商品图片
+     */
+    @ApiModelProperty("商品图片")
+    private String goodsPicture;
+
+    /**
      * 规格值
      */
     @ApiModelProperty("规格值")

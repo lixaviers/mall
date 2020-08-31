@@ -52,6 +52,15 @@ public class GoodsSkuQueryDTO extends QueryDTO {
     @ApiModelProperty("商品名称模糊字段")
     private String goodsNameLike;
 
+    @ApiModelProperty("商品图片")
+    private String goodsPicture;
+
+    @ApiModelProperty("商品图片列表")
+    private List<String> goodsPictureList;
+
+    @ApiModelProperty("商品图片模糊字段")
+    private String goodsPictureLike;
+
     @ApiModelProperty("价格起")
     private BigDecimal priceFrom;
 
@@ -93,6 +102,7 @@ public class GoodsSkuQueryDTO extends QueryDTO {
 
     @ApiModelProperty("是否删除: 0.未删除 1.已删除列表")
     private List<Boolean> isDeletedList;
+
 
 
     /**

@@ -56,6 +56,13 @@ public class GoodsSkuDTO implements Serializable {
     private String goodsName;
 
     /**
+     * 商品图片
+     */
+    @ApiModelProperty("商品图片")
+    @Size(max = 255, message = "商品图片不能超过255位", groups = BaseInterface.class)
+    private String goodsPicture;
+
+    /**
      * 规格值
      */
     @ApiModelProperty("规格值")

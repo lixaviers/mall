@@ -7,6 +7,7 @@
     <result column="shop_id" jdbcType="BIGINT" property="shopId" />
     <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
     <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_picture" jdbcType="VARCHAR" property="goodsPicture" />
     <result column="spec_value" jdbcType="VARCHAR" property="specValue" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="inventory" jdbcType="INTEGER" property="inventory" />
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, sku_code, shop_id, goods_id, goods_name, spec_value, price, inventory, sales, 
-    common_status, create_time, update_time, is_deleted
+    id, sku_code, shop_id, goods_id, goods_name, goods_picture, spec_value, price, inventory, 
+    sales, common_status, create_time, update_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.goods.model.GoodsSkuExample" resultMap="BaseResultMap">
     select
@@ -114,15 +115,15 @@
       select LAST_INSERT_ID()
     </selectKey>
     insert into tb_goods_sku (sku_code, shop_id, goods_id, 
-      goods_name, spec_value, price, 
-      inventory, sales, common_status, 
-      create_time, update_time, is_deleted
-      )
+      goods_name, goods_picture, spec_value, 
+      price, inventory, sales, 
+      common_status, create_time, update_time, 
+      is_deleted)
     values (#{skuCode,jdbcType=VARCHAR}, #{shopId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, 
-      #{goodsName,jdbcType=VARCHAR}, #{specValue,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{inventory,jdbcType=INTEGER}, #{sales,jdbcType=INTEGER}, #{commonStatus,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
-      )
+      #{goodsName,jdbcType=VARCHAR}, #{goodsPicture,jdbcType=VARCHAR}, #{specValue,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{inventory,jdbcType=INTEGER}, #{sales,jdbcType=INTEGER}, 
+      #{commonStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.goods.model.GoodsSku">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -141,6 +142,9 @@
       </if>
       <if test="goodsName != null">
         goods_name,
+      </if>
+      <if test="goodsPicture != null">
+        goods_picture,
       </if>
       <if test="specValue != null">
         spec_value,
@@ -179,6 +183,9 @@
       </if>
       <if test="goodsName != null">
         #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture != null">
+        #{goodsPicture,jdbcType=VARCHAR},
       </if>
       <if test="specValue != null">
         #{specValue,jdbcType=VARCHAR},
@@ -230,6 +237,9 @@
       <if test="record.goodsName != null">
         goods_name = #{record.goodsName,jdbcType=VARCHAR},
       </if>
+      <if test="record.goodsPicture != null">
+        goods_picture = #{record.goodsPicture,jdbcType=VARCHAR},
+      </if>
       <if test="record.specValue != null">
         spec_value = #{record.specValue,jdbcType=VARCHAR},
       </if>
@@ -266,6 +276,7 @@
       shop_id = #{record.shopId,jdbcType=BIGINT},
       goods_id = #{record.goodsId,jdbcType=BIGINT},
       goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      goods_picture = #{record.goodsPicture,jdbcType=VARCHAR},
       spec_value = #{record.specValue,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=DECIMAL},
       inventory = #{record.inventory,jdbcType=INTEGER},
@@ -292,6 +303,9 @@
       </if>
       <if test="goodsName != null">
         goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture != null">
+        goods_picture = #{goodsPicture,jdbcType=VARCHAR},
       </if>
       <if test="specValue != null">
         spec_value = #{specValue,jdbcType=VARCHAR},
@@ -326,6 +340,7 @@
       shop_id = #{shopId,jdbcType=BIGINT},
       goods_id = #{goodsId,jdbcType=BIGINT},
       goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_picture = #{goodsPicture,jdbcType=VARCHAR},
       spec_value = #{specValue,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       inventory = #{inventory,jdbcType=INTEGER},
@@ -386,6 +401,11 @@
             <if test="goodsNameList != null and goodsNameList.size > 0">
                 <foreach item="item" separator="," open="AND goods_name in (" close=")" collection="goodsNameList">#{item,jdbcType=VARCHAR}</foreach>
             </if>
+            <if test="goodsPicture!=null and goodsPicture!=''">AND goods_picture = #{goodsPicture,jdbcType=VARCHAR}</if>
+            <if test="goodsPictureLike != null and goodsPictureLike != '' ">AND goods_picture LIKE concat(#{goodsPictureLike,jdbcType=VARCHAR},'%')</if>
+            <if test="goodsPictureList != null and goodsPictureList.size > 0">
+                <foreach item="item" separator="," open="AND goods_picture in (" close=")" collection="goodsPictureList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
             <if test="priceFrom != null"><![CDATA[AND price >= #{priceFrom,jdbcType=DECIMAL}]]></if>
             <if test="priceTo != null"><![CDATA[AND price <= #{priceTo,jdbcType=DECIMAL}]]></if>
             <if test="inventory!=null">AND inventory = #{inventory,jdbcType=INTEGER}</if>
@@ -421,6 +441,7 @@
             shop_id,
             goods_id,
             goods_name,
+            goods_picture,
             spec_value,
             price,
             inventory,
@@ -433,6 +454,7 @@
             #{bean.shopId,jdbcType=BIGINT} ,
             #{bean.goodsId,jdbcType=BIGINT} ,
             #{bean.goodsName,jdbcType=VARCHAR} ,
+            #{bean.goodsPicture,jdbcType=VARCHAR} ,
             #{bean.specValue,jdbcType=VARCHAR} ,
             #{bean.price,jdbcType=DECIMAL} ,
             #{bean.inventory,jdbcType=INTEGER} ,

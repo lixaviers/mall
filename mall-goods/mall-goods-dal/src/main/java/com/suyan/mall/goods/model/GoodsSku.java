@@ -35,6 +35,11 @@ public class GoodsSku {
     private String goodsName;
 
     /**
+     * 商品图片
+     */
+    private String goodsPicture;
+
+    /**
      * 规格值
      */
     private String specValue;

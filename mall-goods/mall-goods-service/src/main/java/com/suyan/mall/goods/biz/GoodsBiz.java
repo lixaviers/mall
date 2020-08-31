@@ -82,10 +82,10 @@ public class GoodsBiz {
         goods.setGoodsStatus(GoodsStatusEnum.NORMAL.getValue());
         goodsBizMapper.insertSelective(goods);
 
-        goods.getSkuList().forEach(sku -> {
-            sku.setGoodsName(goods.getGoodsName());
+        /*goods.getSkuList().forEach(sku -> {
             sku.setGoodsId(goods.getId());
-        });
+            sku.setGoodsName(goods.getGoodsName());
+        });*/
         goodsSkuBiz.batchCreateGoodsSku(goods.getSkuList());
 
         // 添加商品描述
@@ -104,8 +104,9 @@ public class GoodsBiz {
         int totalInventory = 0;
 
         for (GoodsSku goodsSku : goods.getSkuList()) {
-            goodsSku.setGoodsName(goods.getGoodsName());
             goodsSku.setGoodsId(goods.getId());
+            goodsSku.setGoodsName(goods.getGoodsName());
+            goodsSku.setGoodsPicture(goods.getPictureUrls().split(",")[0]);
             goodsSku.setShopId(goods.getShopId());
             goodsSku.setSales(0);
             goodsSku.setCommonStatus(GoodsStatusEnum.NORMAL.getValue());
