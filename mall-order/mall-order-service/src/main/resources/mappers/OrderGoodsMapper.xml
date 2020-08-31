@@ -7,9 +7,11 @@
     <result column="shop_id" jdbcType="BIGINT" property="shopId" />
     <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
     <result column="goods_sku_code" jdbcType="VARCHAR" property="goodsSkuCode" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
     <result column="spec_value" jdbcType="VARCHAR" property="specValue" />
     <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice" />
     <result column="goods_number" jdbcType="INTEGER" property="goodsNumber" />
+    <result column="goods_picture" jdbcType="VARCHAR" property="goodsPicture" />
     <result column="total_amount" jdbcType="DECIMAL" property="totalAmount" />
     <result column="actual_amount" jdbcType="DECIMAL" property="actualAmount" />
     <result column="promotion_amount" jdbcType="DECIMAL" property="promotionAmount" />
@@ -85,10 +87,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unique_user_id, shop_id, order_number, goods_sku_code, spec_value, goods_price, 
-    goods_number, total_amount, actual_amount, promotion_amount, freight_amount, common_status, 
-    create_time, pay_time, delivery_time, confirm_goods_time, evaluation_time, initiate_refund_time, 
-    refund_time, end_time, update_time, is_deleted
+    id, unique_user_id, shop_id, order_number, goods_sku_code, goods_name, spec_value, 
+    goods_price, goods_number, goods_picture, total_amount, actual_amount, promotion_amount, 
+    freight_amount, common_status, create_time, pay_time, delivery_time, confirm_goods_time, 
+    evaluation_time, initiate_refund_time, refund_time, end_time, update_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.order.model.OrderGoodsExample" resultMap="BaseResultMap">
     select
@@ -126,19 +128,21 @@
       select LAST_INSERT_ID()
     </selectKey>
     insert into tb_order_goods (unique_user_id, shop_id, order_number, 
-      goods_sku_code, spec_value, goods_price, 
-      goods_number, total_amount, actual_amount, 
-      promotion_amount, freight_amount, common_status, 
-      create_time, pay_time, delivery_time, 
-      confirm_goods_time, evaluation_time, initiate_refund_time, 
+      goods_sku_code, goods_name, spec_value, 
+      goods_price, goods_number, goods_picture, 
+      total_amount, actual_amount, promotion_amount, 
+      freight_amount, common_status, create_time, 
+      pay_time, delivery_time, confirm_goods_time, 
+      evaluation_time, initiate_refund_time, 
       refund_time, end_time, update_time, 
       is_deleted)
     values (#{uniqueUserId,jdbcType=VARCHAR}, #{shopId,jdbcType=BIGINT}, #{orderNumber,jdbcType=VARCHAR}, 
-      #{goodsSkuCode,jdbcType=VARCHAR}, #{specValue,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL}, 
-      #{goodsNumber,jdbcType=INTEGER}, #{totalAmount,jdbcType=DECIMAL}, #{actualAmount,jdbcType=DECIMAL}, 
-      #{promotionAmount,jdbcType=DECIMAL}, #{freightAmount,jdbcType=DECIMAL}, #{commonStatus,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, #{deliveryTime,jdbcType=TIMESTAMP}, 
-      #{confirmGoodsTime,jdbcType=TIMESTAMP}, #{evaluationTime,jdbcType=TIMESTAMP}, #{initiateRefundTime,jdbcType=TIMESTAMP}, 
+      #{goodsSkuCode,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{specValue,jdbcType=VARCHAR}, 
+      #{goodsPrice,jdbcType=DECIMAL}, #{goodsNumber,jdbcType=INTEGER}, #{goodsPicture,jdbcType=VARCHAR}, 
+      #{totalAmount,jdbcType=DECIMAL}, #{actualAmount,jdbcType=DECIMAL}, #{promotionAmount,jdbcType=DECIMAL}, 
+      #{freightAmount,jdbcType=DECIMAL}, #{commonStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{deliveryTime,jdbcType=TIMESTAMP}, #{confirmGoodsTime,jdbcType=TIMESTAMP}, 
+      #{evaluationTime,jdbcType=TIMESTAMP}, #{initiateRefundTime,jdbcType=TIMESTAMP}, 
       #{refundTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{isDeleted,jdbcType=BIT})
   </insert>
@@ -160,6 +164,9 @@
       <if test="goodsSkuCode != null">
         goods_sku_code,
       </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
       <if test="specValue != null">
         spec_value,
       </if>
@@ -168,6 +175,9 @@
       </if>
       <if test="goodsNumber != null">
         goods_number,
+      </if>
+      <if test="goodsPicture != null">
+        goods_picture,
       </if>
       <if test="totalAmount != null">
         total_amount,
@@ -228,6 +238,9 @@
       <if test="goodsSkuCode != null">
         #{goodsSkuCode,jdbcType=VARCHAR},
       </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
       <if test="specValue != null">
         #{specValue,jdbcType=VARCHAR},
       </if>
@@ -236,6 +249,9 @@
       </if>
       <if test="goodsNumber != null">
         #{goodsNumber,jdbcType=INTEGER},
+      </if>
+      <if test="goodsPicture != null">
+        #{goodsPicture,jdbcType=VARCHAR},
       </if>
       <if test="totalAmount != null">
         #{totalAmount,jdbcType=DECIMAL},
@@ -308,6 +324,9 @@
       <if test="record.goodsSkuCode != null">
         goods_sku_code = #{record.goodsSkuCode,jdbcType=VARCHAR},
       </if>
+      <if test="record.goodsName != null">
+        goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      </if>
       <if test="record.specValue != null">
         spec_value = #{record.specValue,jdbcType=VARCHAR},
       </if>
@@ -316,6 +335,9 @@
       </if>
       <if test="record.goodsNumber != null">
         goods_number = #{record.goodsNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsPicture != null">
+        goods_picture = #{record.goodsPicture,jdbcType=VARCHAR},
       </if>
       <if test="record.totalAmount != null">
         total_amount = #{record.totalAmount,jdbcType=DECIMAL},
@@ -374,9 +396,11 @@
       shop_id = #{record.shopId,jdbcType=BIGINT},
       order_number = #{record.orderNumber,jdbcType=VARCHAR},
       goods_sku_code = #{record.goodsSkuCode,jdbcType=VARCHAR},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
       spec_value = #{record.specValue,jdbcType=VARCHAR},
       goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
       goods_number = #{record.goodsNumber,jdbcType=INTEGER},
+      goods_picture = #{record.goodsPicture,jdbcType=VARCHAR},
       total_amount = #{record.totalAmount,jdbcType=DECIMAL},
       actual_amount = #{record.actualAmount,jdbcType=DECIMAL},
       promotion_amount = #{record.promotionAmount,jdbcType=DECIMAL},
@@ -411,6 +435,9 @@
       <if test="goodsSkuCode != null">
         goods_sku_code = #{goodsSkuCode,jdbcType=VARCHAR},
       </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
       <if test="specValue != null">
         spec_value = #{specValue,jdbcType=VARCHAR},
       </if>
@@ -419,6 +446,9 @@
       </if>
       <if test="goodsNumber != null">
         goods_number = #{goodsNumber,jdbcType=INTEGER},
+      </if>
+      <if test="goodsPicture != null">
+        goods_picture = #{goodsPicture,jdbcType=VARCHAR},
       </if>
       <if test="totalAmount != null">
         total_amount = #{totalAmount,jdbcType=DECIMAL},
@@ -474,9 +504,11 @@
       shop_id = #{shopId,jdbcType=BIGINT},
       order_number = #{orderNumber,jdbcType=VARCHAR},
       goods_sku_code = #{goodsSkuCode,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
       spec_value = #{specValue,jdbcType=VARCHAR},
       goods_price = #{goodsPrice,jdbcType=DECIMAL},
       goods_number = #{goodsNumber,jdbcType=INTEGER},
+      goods_picture = #{goodsPicture,jdbcType=VARCHAR},
       total_amount = #{totalAmount,jdbcType=DECIMAL},
       actual_amount = #{actualAmount,jdbcType=DECIMAL},
       promotion_amount = #{promotionAmount,jdbcType=DECIMAL},
@@ -545,11 +577,21 @@
             <if test="goodsSkuCodeList != null and goodsSkuCodeList.size > 0">
                 <foreach item="item" separator="," open="AND goods_sku_code in (" close=")" collection="goodsSkuCodeList">#{item,jdbcType=VARCHAR}</foreach>
             </if>
+            <if test="goodsName!=null and goodsName!=''">AND goods_name = #{goodsName,jdbcType=VARCHAR}</if>
+            <if test="goodsNameLike != null and goodsNameLike != '' ">AND goods_name LIKE concat(#{goodsNameLike,jdbcType=VARCHAR},'%')</if>
+            <if test="goodsNameList != null and goodsNameList.size > 0">
+                <foreach item="item" separator="," open="AND goods_name in (" close=")" collection="goodsNameList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
             <if test="goodsPriceFrom != null"><![CDATA[AND goods_price >= #{goodsPriceFrom,jdbcType=DECIMAL}]]></if>
             <if test="goodsPriceTo != null"><![CDATA[AND goods_price <= #{goodsPriceTo,jdbcType=DECIMAL}]]></if>
             <if test="goodsNumber!=null">AND goods_number = #{goodsNumber,jdbcType=INTEGER}</if>
             <if test="goodsNumberList != null and goodsNumberList.size > 0">
                 <foreach item="item" separator="," open="AND goods_number in (" close=")" collection="goodsNumberList">#{item,jdbcType=INTEGER}</foreach>
+            </if>
+            <if test="goodsPicture!=null and goodsPicture!=''">AND goods_picture = #{goodsPicture,jdbcType=VARCHAR}</if>
+            <if test="goodsPictureLike != null and goodsPictureLike != '' ">AND goods_picture LIKE concat(#{goodsPictureLike,jdbcType=VARCHAR},'%')</if>
+            <if test="goodsPictureList != null and goodsPictureList.size > 0">
+                <foreach item="item" separator="," open="AND goods_picture in (" close=")" collection="goodsPictureList">#{item,jdbcType=VARCHAR}</foreach>
             </if>
             <if test="totalAmountFrom != null"><![CDATA[AND total_amount >= #{totalAmountFrom,jdbcType=DECIMAL}]]></if>
             <if test="totalAmountTo != null"><![CDATA[AND total_amount <= #{totalAmountTo,jdbcType=DECIMAL}]]></if>
@@ -598,9 +640,11 @@
             shop_id,
             order_number,
             goods_sku_code,
+            goods_name,
             spec_value,
             goods_price,
             goods_number,
+            goods_picture,
             total_amount,
             actual_amount,
             promotion_amount,
@@ -620,9 +664,11 @@
             #{bean.shopId,jdbcType=BIGINT} ,
             #{bean.orderNumber,jdbcType=VARCHAR} ,
             #{bean.goodsSkuCode,jdbcType=VARCHAR} ,
+            #{bean.goodsName,jdbcType=VARCHAR} ,
             #{bean.specValue,jdbcType=VARCHAR} ,
             #{bean.goodsPrice,jdbcType=DECIMAL} ,
             #{bean.goodsNumber,jdbcType=INTEGER} ,
+            #{bean.goodsPicture,jdbcType=VARCHAR} ,
             #{bean.totalAmount,jdbcType=DECIMAL} ,
             #{bean.actualAmount,jdbcType=DECIMAL} ,
             #{bean.promotionAmount,jdbcType=DECIMAL} ,

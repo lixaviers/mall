@@ -71,9 +71,10 @@ public class OrderBiz {
             if (goodsSkuVO == null) {
                 throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品" + orderGoods.getGoodsSkuCode());
             }
-            // todo 商品名
+            orderGoods.setGoodsName(goodsSkuVO.getGoodsName());
             orderGoods.setGoodsPrice(goodsSkuVO.getPrice());
             orderGoods.setSpecValue(goodsSkuVO.getSpecValue());
+            orderGoods.setGoodsPicture(goodsSkuVO.getGoodsPicture());
             // sku总金额
             BigDecimal skuTotalAmount = orderGoods.getGoodsPrice().multiply(new BigDecimal(orderGoods.getGoodsNumber()));
             orderGoods.setTotalAmount(skuTotalAmount);
@@ -121,21 +122,8 @@ public class OrderBiz {
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer deleteOrder(Long id) {
-        // TODO: Describe business logic and implement it
         getBaseOrder(id);
         return orderMapper.logicalDeleteByPrimaryKey(id);
-    }
-
-    /**
-     * 批量创建
-     *
-     * @param orderList
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public int batchCreateOrder(List<Order> orderList) {
-        // TODO: Describe business logic and implement it
-        return orderMapper.insertBatch(orderList);
     }
 
     /**

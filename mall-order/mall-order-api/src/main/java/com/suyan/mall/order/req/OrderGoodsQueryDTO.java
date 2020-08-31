@@ -55,6 +55,15 @@ public class OrderGoodsQueryDTO extends QueryDTO {
     @ApiModelProperty("商品编码模糊字段")
     private String goodsSkuCodeLike;
 
+    @ApiModelProperty("商品名称")
+    private String goodsName;
+
+    @ApiModelProperty("商品名称列表")
+    private List<String> goodsNameList;
+
+    @ApiModelProperty("商品名称模糊字段")
+    private String goodsNameLike;
+
     @ApiModelProperty("商品价格起")
     private BigDecimal goodsPriceFrom;
 
@@ -66,6 +75,15 @@ public class OrderGoodsQueryDTO extends QueryDTO {
 
     @ApiModelProperty("商品数量列表")
     private List<Integer> goodsNumberList;
+
+    @ApiModelProperty("商品图片")
+    private String goodsPicture;
+
+    @ApiModelProperty("商品图片列表")
+    private List<String> goodsPictureList;
+
+    @ApiModelProperty("商品图片模糊字段")
+    private String goodsPictureLike;
 
     @ApiModelProperty("总金额起")
     private BigDecimal totalAmountFrom;

@@ -1,8 +1,8 @@
 package com.suyan.mall.order.resp;
 
-import lombok.Data;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @ApiModel("订单商品")
 public class OrderGoodsVO implements Serializable {
 
-    /**   
+    /**
      * serialVersionUID
-     */ 
+     */
     private static final long serialVersionUID = 1L;
 
 
@@ -49,6 +49,12 @@ public class OrderGoodsVO implements Serializable {
     private String goodsSkuCode;
 
     /**
+     * 商品名称
+     */
+    @ApiModelProperty("商品名称")
+    private String goodsName;
+
+    /**
      * 规格值
      */
     @ApiModelProperty("规格值")
@@ -65,6 +71,12 @@ public class OrderGoodsVO implements Serializable {
      */
     @ApiModelProperty("商品数量")
     private Integer goodsNumber;
+
+    /**
+     * 商品图片
+     */
+    @ApiModelProperty("商品图片")
+    private String goodsPicture;
 
     /**
      * 总金额

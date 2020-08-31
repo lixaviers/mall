@@ -54,6 +54,13 @@ public class OrderGoodsDTO implements Serializable {
     private String goodsSkuCode;
 
     /**
+     * 商品名称
+     */
+    @ApiModelProperty("商品名称")
+    @Size(max = 64, message = "商品名称不能超过64位", groups = BaseInterface.class)
+    private String goodsName;
+
+    /**
      * 规格值
      */
     @ApiModelProperty("规格值")
@@ -72,6 +79,13 @@ public class OrderGoodsDTO implements Serializable {
     @ApiModelProperty("商品数量")
     @NotNull(message = "商品数量不能为空", groups = BaseInterface.class)
     private Integer goodsNumber;
+
+    /**
+     * 商品图片
+     */
+    @ApiModelProperty("商品图片")
+    @Size(max = 255, message = "商品图片不能超过255位", groups = BaseInterface.class)
+    private String goodsPicture;
 
     /**
      * 总金额
