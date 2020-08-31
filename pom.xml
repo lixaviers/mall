@@ -16,6 +16,7 @@
         <module>mall-goods</module>
         <module>mall-file</module>
         <module>mall-mmc</module>
+        <module>mall-order</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -27,6 +28,7 @@
         <mall.operation.api.version>1.0-SNAPSHOT</mall.operation.api.version>
         <mall.goods.api.version>1.0-SNAPSHOT</mall.goods.api.version>
         <mall.mmc.api.version>1.0-SNAPSHOT</mall.mmc.api.version>
+        <mall.order.api.version>1.0-SNAPSHOT</mall.order.api.version>
 
         <mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
         <pagehelper-spring-boot-starter.version>1.2.12</pagehelper-spring-boot-starter.version>
@@ -97,6 +99,11 @@
                 <groupId>com.suyan</groupId>
                 <artifactId>mall-mmc-api</artifactId>
                 <version>${mall.mmc.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.suyan</groupId>
+                <artifactId>mall-order-api</artifactId>
+                <version>${mall.order.api.version}</version>
             </dependency>
 
 

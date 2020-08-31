@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: mall-order-c-web
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        # 注册地址
+        server-addr: 10.10.25.148:8848,10.10.25.148:8849,10.10.25.148:8850
+        # 文件后缀yaml
+        file-extension: yaml
+        # 命名空间：dev
+        namespace: 43be2f0b-96a8-4f9c-bb1b-6b991be59ea7
+        # 共享配置，多个使用,分隔
+        shared-dataids: common-dev.yaml,nacos-dev.yaml,redis-dev.yaml
+        # 哪些共享配置支持动态刷新，多个使用,分隔
+        refreshable-dataids: common-dev.yaml,nacos-dev.yaml,redis-dev.yaml
+  main:
+    allow-bean-definition-overriding: true
