@@ -11,7 +11,9 @@ import com.suyan.mall.goods.enums.GoodsInventoryWayEnum;
 import com.suyan.mall.goods.model.GoodsSku;
 import com.suyan.mall.goods.model.GoodsSkuExample;
 import com.suyan.mall.goods.model.GoodsSkuInventoryLog;
+import com.suyan.mall.goods.req.GoodsSkuDTO;
 import com.suyan.mall.goods.req.GoodsSkuQueryDTO;
+import com.suyan.mall.goods.req.c.GoodsSkuDeductionInventoryDTO;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.ResultCode;
 import com.suyan.utils.CollectionsUtil;
@@ -116,6 +118,13 @@ public class GoodsSkuBiz {
         return goodsSkuBizMapper.selectBySkuCode(skuCode);
     }
 
+    @Transactional(readOnly = true)
+    public List<GoodsSku> getGoodsSku(List<String> skuCodeList) {
+        GoodsSkuExample example = new GoodsSkuExample();
+        example.createCriteria().andSkuCodeIn(skuCodeList).andIsDeletedEqualTo(false);
+        return goodsSkuBizMapper.selectByExample(example);
+    }
+
     /**
      * 分页查询商品规格信息
      *
@@ -191,6 +200,24 @@ public class GoodsSkuBiz {
         // 异步添加记录
         goodsSkuInventoryLogAsyncBiz.createGoodsSkuInventoryLog(log);
     }
+
+
+    /**
+     * 批量扣减库存
+     *
+     * @param dto
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public void deductionInventory(GoodsSkuDeductionInventoryDTO dto) {
+        for (GoodsSkuDTO goodsSkuDTO : dto.getGoodsSkuList()) {
+            int count = goodsSkuBizMapper.deductionInventorySku(goodsSkuDTO.getSkuCode(), goodsSkuDTO.getNumber());
+            if (count < 1) {
+                // 库存不足
+                throw new CommonException(ExceptionDefGoods.EXCEPTION_8001);
+            }
+        }
+    }
+
 
 
 }

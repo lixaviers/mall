@@ -5,6 +5,7 @@ import com.suyan.service.UpdateInterface;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -30,7 +31,7 @@ public class GoodsSkuDTO implements Serializable {
      * 商品编码
      */
     @ApiModelProperty("商品编码")
-    @NotNull(message = "商品编码不能为空", groups = BaseInterface.class)
+    @NotNull(message = "商品编码不能为空", groups = {BaseInterface.class, DeductionInventory.class})
     @Size(max = 32, message = "商品编码不能超过32位", groups = BaseInterface.class)
     private String skuCode;
 
@@ -96,5 +97,19 @@ public class GoodsSkuDTO implements Serializable {
      * -------------------------------------------------
      */
 
+    /**
+     * 数量
+     */
+    @ApiModelProperty("数量")
+    @NotNull(message = "数量不能为空", groups = DeductionInventory.class)
+    @Min(message = "数量不能小于0", value = 1, groups = DeductionInventory.class)
+    private Integer number;
+
+    /**
+     * 扣减库存验证
+     */
+    public interface DeductionInventory {
+
+    }
 
 }

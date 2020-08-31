@@ -16,6 +16,8 @@ public interface GoodsSkuBizMapper extends GoodsSkuMapper {
      */
     int deductionInventory(@Param("id") Long id, @Param("inventory") int inventory);
 
+    int deductionInventorySku(@Param("skuCode") String skuCode, @Param("inventory") int inventory);
+
     /**
      * 加库存
      *
