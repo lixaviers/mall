@@ -44,11 +44,22 @@ public class CodeGeneratorUtil {
      *
      * @return
      */
-    public static String generateOrderNumber() {
+    public static String generateOrderNumber(String uniqueUserId) {
+        // 根据用户openId取模
+        char[] chars = uniqueUserId.substring(0, 2).toCharArray();
+        StringBuffer stringBuffer = new StringBuffer();
+        for (char aChar : chars) {
+            stringBuffer.append((int) aChar);
+        }
+        String str = stringBuffer.toString();
+        if (str.length() > 4) {
+            str = str.substring(0, 4);
+        }
+
         LocalDateTime now = LocalDateTime.now();
-        String time = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS").format(now);
-        String randomString = getRandomString(7, NUMBERS);
-        return time + randomString;
+        String time = DateTimeFormatter.ofPattern("yyMMddHHmmssSSS").format(now);
+        String randomString = getRandomString(5, NUMBERS);
+        return time + randomString + str;
     }
 
 
@@ -60,13 +71,13 @@ public class CodeGeneratorUtil {
         String str = time + randomString;
         blackhole.consume(str);
         return str;
-    }
+    }*/
 
     public static void main(String[] args) throws Exception {
-        Options opt = new OptionsBuilder().include(CodeGeneratorUtil.class.getSimpleName())
-                .warmupIterations(5).measurementIterations(10)
-                .mode(Mode.Throughput).forks(3).build();
-        new Runner(opt).run();
-    }*/
+        System.out.println(generateOrderNumber("TuvnJDAlHPoOG1xA"));
+        System.out.println(generateOrderNumber("AuvnJDAlHPoOG1xA"));
+        System.out.println(generateOrderNumber("SuvnJDAlHPoOG1xA"));
+        System.out.println(generateOrderNumber("CuvnJDAlHPoOG1xA"));
+    }
 
 }
