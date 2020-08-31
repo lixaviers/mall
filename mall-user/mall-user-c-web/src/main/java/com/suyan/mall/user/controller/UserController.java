@@ -28,7 +28,7 @@ import java.util.UUID;
 @RequestMapping("/c/user")
 @RestController
 @Api(value = "/c/user", tags = "用户管理接口")
-public class ShopUserController extends BaseController {
+public class UserController extends BaseController {
 
     @Autowired
     private IUserService userService;

@@ -118,6 +118,13 @@ public class UserDTO implements Serializable {
     @NotNull(message = "短信验证码不能为空", groups = {StoreRegister.class, UserRegister.class})
     private String smsVerCode;
 
+    /**
+     * 店铺id
+     */
+    @ApiModelProperty("店铺id")
+    @NotNull(message = "店铺不能为空", groups = {UserLogin.class})
+    private Long shopId;
+
 
     /**
      * 用户登录验证接口
