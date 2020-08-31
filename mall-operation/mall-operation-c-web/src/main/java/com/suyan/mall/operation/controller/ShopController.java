@@ -3,6 +3,9 @@ package com.suyan.mall.operation.controller;
 import com.suyan.annotation.PassLogin;
 import com.suyan.mall.operation.resp.ShopVO;
 import com.suyan.mall.operation.service.IShopService;
+import com.suyan.mall.user.enums.SystemPlatformEnum;
+import com.suyan.mall.user.resp.b.UserInfoVO;
+import com.suyan.mall.user.utils.UserUtil;
 import com.suyan.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,12 +25,17 @@ public class ShopController extends BaseController {
     @Autowired
     private IShopService shopService;
 
-    @ApiOperation(value = "店铺信息", notes = "店铺信息")
-    @GetMapping("getShop/{id}")
+    @ApiOperation(value = "店铺信息", notes = "店铺信息(设置用户店铺id)")
+    @GetMapping("getShopInfo/{id}")
     @PassLogin
-    public Result<ShopVO> getShop(@PathVariable Long id) {
+    public Result<ShopVO> getShopInfo(@PathVariable Long id) {
         ShopVO shop = shopService.getShop(id);
         shop.setUniqueUserId(null);
+        UserInfoVO user = getUser();
+        if (user.getShopId() == null || !shop.getId().equals(user.getShopId())) {
+            user.setShopId(shop.getId());
+            UserUtil.setRedisUser(user, user.getSessionId(), SystemPlatformEnum.C.getCode());
+        }
         return Result.newSuccess(shop);
     }
 
