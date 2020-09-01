@@ -3,14 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>mall-order</artifactId>
+        <artifactId>mall-pay</artifactId>
         <groupId>com.suyan</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mall-order-api</artifactId>
-    <version>${mall.order.api.version}</version>
+    <artifactId>mall-pay-api</artifactId>
+    <version>${mall.pay.api.version}</version>
 
     <dependencies>
         <dependency>
@@ -22,5 +22,6 @@
             <artifactId>mall-user-api</artifactId>
         </dependency>
     </dependencies>
+
 
 </project>

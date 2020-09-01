@@ -32,7 +32,7 @@ public class ShopController extends BaseController {
         ShopVO shop = shopService.getShop(id);
         shop.setUniqueUserId(null);
         UserInfoVO user = getUser();
-        if (user.getShopId() == null || !shop.getId().equals(user.getShopId())) {
+        if (user != null && (user.getShopId() == null || !shop.getId().equals(user.getShopId()))) {
             user.setShopId(shop.getId());
             UserUtil.setRedisUser(user, user.getSessionId(), SystemPlatformEnum.C.getCode());
         }

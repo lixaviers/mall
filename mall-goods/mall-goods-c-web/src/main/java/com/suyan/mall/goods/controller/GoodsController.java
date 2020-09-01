@@ -1,5 +1,6 @@
 package com.suyan.mall.goods.controller;
 
+import com.suyan.annotation.PassLogin;
 import com.suyan.mall.goods.req.GoodsSearchDTO;
 import com.suyan.mall.goods.resp.GoodsVO;
 import com.suyan.mall.goods.service.IGoodsService;
@@ -24,12 +25,14 @@ public class GoodsController extends BaseController {
 
     @ApiOperation(value = "商品搜索", notes = "分页商品搜索信息")
     @PostMapping("search")
+    @PassLogin
     public Result<Map<String, Object>> search(@Validated @RequestBody GoodsSearchDTO goodsSearchDTO) {
         return Result.newSuccess(goodsService.search(goodsSearchDTO));
     }
 
     @ApiOperation(value = "获取商品信息", notes = "根据商品ID获取商品信息")
     @GetMapping("get/{id}")
+    @PassLogin
     public Result<GoodsVO> get(@PathVariable Long id) {
         return Result.newSuccess(goodsService.getGoodsForC(id));
     }
