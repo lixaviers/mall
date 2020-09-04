@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
 import com.suyan.mall.goods.feignClient.c.GoodsSkuCFeignClient;
 import com.suyan.mall.goods.resp.GoodsSkuVO;
+import com.suyan.mall.order.client.GoodsSkuClient;
 import com.suyan.mall.order.dao.OrderMapper;
 import com.suyan.mall.order.enums.OrderStatusEnum;
 import com.suyan.mall.order.model.Order;
@@ -42,7 +43,7 @@ public class OrderBiz {
     private OrderMapper orderMapper;
 
     @Autowired
-    private GoodsSkuCFeignClient goodsSkuCFeignClient;
+    private GoodsSkuClient goodsSkuClient;
 
     /**
      * 创建订单
@@ -54,12 +55,8 @@ public class OrderBiz {
         // 1、查询商品信息
         List<OrderGoods> orderGoodsList = order.getOrderGoodsList();
         List<String> goodsSkuCodeList = orderGoodsList.stream().map(OrderGoods::getGoodsSkuCode).collect(Collectors.toList());
-        log.info("根据商品编码列表查询商品信息入参={}", JsonUtil.toJsonString(goodsSkuCodeList));
-        Result<List<GoodsSkuVO>> result = goodsSkuCFeignClient.get(goodsSkuCodeList);
-        log.info("根据商品编码列表查询商品信息出参={}", JsonUtil.toJsonString(result));
-        if (!result.isSuccess()) {
-            throw new CommonException(ResultCode.API_INVLID_DATA, "商品");
-        }
+
+        Result<List<GoodsSkuVO>> result = goodsSkuClient.getGoodsInfo(goodsSkuCodeList);
 
         // 2、封装商品信息
         List<GoodsSkuVO> goodsSkuVOList = result.getData();
