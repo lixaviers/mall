@@ -24,6 +24,10 @@
             <groupId>com.suyan</groupId>
             <artifactId>mall-operation-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.suyan</groupId>
+            <artifactId>mall-goods-api</artifactId>
+        </dependency>
 
 
         <dependency>

@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suyan.mall.user.dao.GoodsCollectMapper">
+    <resultMap id="BaseResultMap" type="com.suyan.mall.user.model.GoodsCollect">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="unique_user_id" jdbcType="VARCHAR" property="uniqueUserId" />
+    <result column="shop_id" jdbcType="BIGINT" property="shopId" />
+    <result column="goods_sku_code" jdbcType="VARCHAR" property="goodsSkuCode" />
+    <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, unique_user_id, shop_id, goods_sku_code, goods_price, create_time, update_time, 
+    is_deleted
+  </sql>
+  <select id="selectByExample" parameterType="com.suyan.mall.user.model.GoodsCollectExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_goods_collect
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_goods_collect
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_goods_collect
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.suyan.mall.user.model.GoodsCollectExample">
+    delete from tb_goods_collect
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.suyan.mall.user.model.GoodsCollect">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      select LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_goods_collect (unique_user_id, shop_id, goods_sku_code, 
+      goods_price, create_time, update_time, 
+      is_deleted)
+    values (#{uniqueUserId,jdbcType=VARCHAR}, #{shopId,jdbcType=BIGINT}, #{goodsSkuCode,jdbcType=VARCHAR}, 
+      #{goodsPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suyan.mall.user.model.GoodsCollect">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      select LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_goods_collect
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uniqueUserId != null">
+        unique_user_id,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="goodsSkuCode != null">
+        goods_sku_code,
+      </if>
+      <if test="goodsPrice != null">
+        goods_price,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uniqueUserId != null">
+        #{uniqueUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsSkuCode != null">
+        #{goodsSkuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.suyan.mall.user.model.GoodsCollectExample" resultType="java.lang.Long">
+    select count(*) from tb_goods_collect
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_goods_collect
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.uniqueUserId != null">
+        unique_user_id = #{record.uniqueUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId,jdbcType=BIGINT},
+      </if>
+      <if test="record.goodsSkuCode != null">
+        goods_sku_code = #{record.goodsSkuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsPrice != null">
+        goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_goods_collect
+    set id = #{record.id,jdbcType=BIGINT},
+      unique_user_id = #{record.uniqueUserId,jdbcType=VARCHAR},
+      shop_id = #{record.shopId,jdbcType=BIGINT},
+      goods_sku_code = #{record.goodsSkuCode,jdbcType=VARCHAR},
+      goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suyan.mall.user.model.GoodsCollect">
+    update tb_goods_collect
+    <set>
+      <if test="uniqueUserId != null">
+        unique_user_id = #{uniqueUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsSkuCode != null">
+        goods_sku_code = #{goodsSkuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suyan.mall.user.model.GoodsCollect">
+    update tb_goods_collect
+    set unique_user_id = #{uniqueUserId,jdbcType=VARCHAR},
+      shop_id = #{shopId,jdbcType=BIGINT},
+      goods_sku_code = #{goodsSkuCode,jdbcType=VARCHAR},
+      goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+    <update id="logicalDeleteByPrimaryKey">
+        UPDATE tb_goods_collect
+        SET
+            is_deleted=1
+        WHERE id = #{id,jdbcType=BIGINT} 
+    </update>
+
+    <select id="selectByPrimaryKeyForUpdate" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_goods_collect
+        WHERE id = #{id,jdbcType=BIGINT} 
+        AND is_deleted=0
+        FOR UPDATE
+    </select>
+    
+    <select id="queryGoodsCollect" resultMap="BaseResultMap" parameterType="com.suyan.mall.user.req.GoodsCollectQueryDTO">
+        SELECT
+         <choose>
+          <when test="returnFields!=null">${returnFields}</when>
+          <otherwise>
+            <include refid="Base_Column_List" />
+          </otherwise>
+        </choose>
+        FROM tb_goods_collect
+        <where>
+            <if test="id!=null">AND id = #{id,jdbcType=BIGINT}</if>
+            <if test="idList != null and idList.size > 0">
+                <foreach item="item" separator="," open="AND id in (" close=")" collection="idList">#{item,jdbcType=BIGINT}</foreach>
+            </if>
+            <if test="uniqueUserId!=null and uniqueUserId!=''">AND unique_user_id = #{uniqueUserId,jdbcType=VARCHAR}</if>
+            <if test="uniqueUserIdLike != null and uniqueUserIdLike != '' ">AND unique_user_id LIKE concat(#{uniqueUserIdLike,jdbcType=VARCHAR},'%')</if>
+            <if test="uniqueUserIdList != null and uniqueUserIdList.size > 0">
+                <foreach item="item" separator="," open="AND unique_user_id in (" close=")" collection="uniqueUserIdList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
+            <if test="shopId!=null">AND shop_id = #{shopId,jdbcType=BIGINT}</if>
+            <if test="shopIdList != null and shopIdList.size > 0">
+                <foreach item="item" separator="," open="AND shop_id in (" close=")" collection="shopIdList">#{item,jdbcType=BIGINT}</foreach>
+            </if>
+            <if test="goodsSkuCode!=null and goodsSkuCode!=''">AND goods_sku_code = #{goodsSkuCode,jdbcType=VARCHAR}</if>
+            <if test="goodsSkuCodeLike != null and goodsSkuCodeLike != '' ">AND goods_sku_code LIKE concat(#{goodsSkuCodeLike,jdbcType=VARCHAR},'%')</if>
+            <if test="goodsSkuCodeList != null and goodsSkuCodeList.size > 0">
+                <foreach item="item" separator="," open="AND goods_sku_code in (" close=")" collection="goodsSkuCodeList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
+            <if test="goodsPriceFrom != null"><![CDATA[AND goods_price >= #{goodsPriceFrom,jdbcType=DECIMAL}]]></if>
+            <if test="goodsPriceTo != null"><![CDATA[AND goods_price <= #{goodsPriceTo,jdbcType=DECIMAL}]]></if>
+            <if test="createTimeFrom != null"><![CDATA[AND create_time >= #{createTimeFrom,jdbcType=TIMESTAMP}]]></if>
+            <if test="createTimeTo != null"><![CDATA[AND create_time <= #{createTimeTo,jdbcType=TIMESTAMP}]]></if>
+            <if test="updateTimeFrom != null"><![CDATA[AND update_time >= #{updateTimeFrom,jdbcType=TIMESTAMP}]]></if>
+            <if test="updateTimeTo != null"><![CDATA[AND update_time <= #{updateTimeTo,jdbcType=TIMESTAMP}]]></if>
+            <if test="isDeleted!=null">AND is_deleted = #{isDeleted,jdbcType=BOOLEAN}</if>
+            <if test="isDeletedList != null and isDeletedList.size > 0">
+                <foreach item="item" separator="," open="AND is_deleted in (" close=")" collection="isDeletedList">#{item,jdbcType=BOOLEAN}</foreach>
+            </if>
+        </where>
+        <choose>
+            <when test="orderBy!=null and orderBy!=''">order by ${orderBy}</when>
+            <otherwise>order by id</otherwise>
+        </choose>
+    </select>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        <trim prefix="insert into tb_goods_collect (" suffix=") values" suffixOverrides=",">
+            unique_user_id,
+            shop_id,
+            goods_sku_code,
+            goods_price,
+        </trim>
+        <foreach collection="modelList" item="bean" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{bean.uniqueUserId,jdbcType=VARCHAR} ,
+            #{bean.shopId,jdbcType=BIGINT} ,
+            #{bean.goodsSkuCode,jdbcType=VARCHAR} ,
+            #{bean.goodsPrice,jdbcType=DECIMAL} ,
+            </trim>
+        </foreach>
+    </insert>
+
+    <select id="selectByUniqueUserId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_goods_collect
+        WHERE  unique_user_id = #{uniqueUserId,jdbcType=VARCHAR}
+    AND is_deleted = 0
+    </select>
+
+</mapper>
