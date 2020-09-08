@@ -9,6 +9,7 @@ import com.suyan.mall.order.dao.ShoppingCartMapper;
 import com.suyan.mall.order.model.ShoppingCart;
 import com.suyan.mall.order.model.ShoppingCartExample;
 import com.suyan.mall.order.req.ShoppingCartQueryDTO;
+import com.suyan.mall.user.resp.b.UserInfoVO;
 import com.suyan.mall.user.utils.UserUtil;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.Result;
@@ -23,8 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @CopyRright (c): <素焉代码生成工具>
@@ -43,13 +42,22 @@ public class ShoppingCartBiz {
     /**
      * 删除购物车
      *
-     * @param id
+     * @param idList
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Integer deleteShoppingCart(Long id) {
-        getBaseShoppingCart(id);
-        return shoppingCartMapper.logicalDeleteByPrimaryKey(id);
+    public void deleteShoppingCart(List<Long> idList) {
+        if (CollectionsUtil.isNotEmpty(idList)) {
+            UserInfoVO user = UserUtil.getUser();
+            for (Long id : idList) {
+                ShoppingCart shoppingCart = getBaseShoppingCart(id);
+                if (!shoppingCart.getUniqueUserId().equals(user.getUniqueUserId())) {
+                    // 非自己购物车不能删除
+                    throw new CommonException(ResultCode.DATA_NOT_EXIST, "购物车");
+                }
+                shoppingCartMapper.logicalDeleteByPrimaryKey(id);
+            }
+        }
     }
 
     /**
@@ -123,6 +131,9 @@ public class ShoppingCartBiz {
      */
     @Transactional(readOnly = true)
     public QueryResultVO<ShoppingCart> queryShoppingCart(ShoppingCartQueryDTO shoppingCartQuery) {
+        UserInfoVO user = UserUtil.getUser();
+        shoppingCartQuery.setUniqueUserId(user.getUniqueUserId());
+        shoppingCartQuery.setIsDeleted(false);
         QueryResultVO<ShoppingCart> queryResult = new QueryResultVO<ShoppingCart>();
         // 使用分页插件PageHelper实现分页功能
         PageHelper.startPage(shoppingCartQuery.getPageNo(), shoppingCartQuery.getPageSize());
@@ -134,6 +145,18 @@ public class ShoppingCartBiz {
         queryResult.setTotalRecords(pageInfo.getTotal());
         queryResult.setRecords(shoppingCartList);
         return queryResult;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public void updateNumber(ShoppingCart shoppingCart) {
+        UserInfoVO user = UserUtil.getUser();
+        ShoppingCart shoppingCartLast = getBaseShoppingCart(shoppingCart.getId());
+        if (!shoppingCartLast.getUniqueUserId().equals(user.getUniqueUserId())) {
+            // 非自己购物车不能编辑
+            throw new CommonException(ResultCode.DATA_NOT_EXIST, "购物车");
+        }
+        shoppingCartLast.setGoodsNumber(shoppingCart.getGoodsNumber());
+        shoppingCartMapper.updateByPrimaryKeySelective(shoppingCartLast);
     }
 
 }

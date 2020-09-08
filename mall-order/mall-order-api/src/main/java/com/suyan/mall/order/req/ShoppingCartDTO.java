@@ -1,7 +1,6 @@
 package com.suyan.mall.order.req;
 
 import com.suyan.service.BaseInterface;
-import com.suyan.service.UpdateInterface;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -23,7 +22,7 @@ public class ShoppingCartDTO implements Serializable {
      * id
      */
     @ApiModelProperty(value = "id", hidden = true)
-    @NotNull(message = "id不能为空", groups = UpdateInterface.class)
+    @NotNull(message = "id不能为空", groups = UpdateNumber.class)
     private Long id;
 
     /**
@@ -56,7 +55,7 @@ public class ShoppingCartDTO implements Serializable {
      * 商品数量
      */
     @ApiModelProperty("商品数量")
-    @NotNull(message = "商品数量不能为空", groups = BaseInterface.class)
+    @NotNull(message = "商品数量不能为空", groups = {BaseInterface.class, UpdateNumber.class})
     private Integer goodsNumber;
 
 
@@ -65,6 +64,13 @@ public class ShoppingCartDTO implements Serializable {
      * 上面字段由工具自动生成，请在下面添加扩充字段
      * -------------------------------------------------
      */
+
+    /**
+     * 修改数量验证
+     */
+    public interface UpdateNumber {
+
+    }
 
 
 }

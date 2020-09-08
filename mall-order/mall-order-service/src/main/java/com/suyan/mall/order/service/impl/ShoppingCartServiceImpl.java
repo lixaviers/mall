@@ -35,13 +35,18 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     private GoodsSkuClient goodsSkuClient;
 
     @Override
-    public int deleteShoppingCart(Long id) {
-        return shoppingCartBiz.deleteShoppingCart(id);
+    public void deleteShoppingCart(List<Long> idList) {
+        shoppingCartBiz.deleteShoppingCart(idList);
     }
 
     @Override
     public void createShoppingCart(ShoppingCartDTO shoppingCartDTO) {
         shoppingCartBiz.createShoppingCart(ShoppingCartConvertor.toShoppingCart(shoppingCartDTO));
+    }
+
+    @Override
+    public void updateNumber(ShoppingCartDTO shoppingCartDTO) {
+        shoppingCartBiz.updateNumber(ShoppingCartConvertor.toShoppingCart(shoppingCartDTO));
     }
 
     @Override

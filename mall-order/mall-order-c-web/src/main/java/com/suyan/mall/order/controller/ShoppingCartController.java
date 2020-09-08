@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RequestMapping("/c/shoppingCart")
 @RestController
@@ -31,10 +33,18 @@ public class ShoppingCartController extends BaseController {
         return Result.newSuccess();
     }
 
+    @ApiOperation(value = "修改数量", notes = "修改数量")
+    @PostMapping("updateNumber")
+    public Result updateNumber(@Validated({ShoppingCartDTO.UpdateNumber.class}) @RequestBody ShoppingCartDTO shoppingCartDTO) {
+        shoppingCartService.updateNumber(shoppingCartDTO);
+        return Result.newSuccess();
+    }
+
     @ApiOperation(value = "删除购物车", notes = "删除购物车")
-    @PostMapping("delete/{id}")
-    public Result<Integer> delete(@PathVariable Long id) {
-        return Result.newSuccess(shoppingCartService.deleteShoppingCart(id));
+    @PostMapping("delete")
+    public Result delete(@RequestBody List<Long> idList) {
+        shoppingCartService.deleteShoppingCart(idList);
+        return Result.newSuccess();
     }
 
     @ApiOperation(value = "获取购物车信息", notes = "根据购物车ID获取购物车信息")
