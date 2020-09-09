@@ -3,10 +3,10 @@ package com.suyan.mall.goods.service;
 import com.suyan.mall.goods.req.GoodsDTO;
 import com.suyan.mall.goods.req.GoodsQueryDTO;
 import com.suyan.mall.goods.req.GoodsSearchDTO;
-import com.suyan.mall.goods.resp.GoodsSearchVO;
 import com.suyan.mall.goods.resp.GoodsVO;
 import com.suyan.query.QueryResultVO;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -49,6 +49,15 @@ public interface IGoodsService {
     GoodsVO getGoods(Long id);
 
     GoodsVO getGoodsForC(Long id);
+
+    /**
+     * 根据id获取商品信息-feign
+     *
+     * @param id
+     * @return
+     */
+    GoodsVO getGoodsInfo(Long id);
+    List<GoodsVO> getGoodsInfo(List<Long> idList);
 
     /**
      * 分页查询商品信息

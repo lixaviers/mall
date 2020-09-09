@@ -11,6 +11,7 @@ import com.suyan.mall.goods.es.model.GoodsES;
 import com.suyan.mall.goods.es.repository.GoodsRepository;
 import com.suyan.mall.goods.model.Goods;
 import com.suyan.mall.goods.model.GoodsDescription;
+import com.suyan.mall.goods.model.GoodsExample;
 import com.suyan.mall.goods.model.GoodsSku;
 import com.suyan.mall.goods.req.GoodsQueryDTO;
 import com.suyan.mall.goods.req.GoodsSearchDTO;
@@ -253,6 +254,7 @@ public class GoodsBiz {
         goods.setSkuList(skuList);
         return goods;
     }
+
     @Transactional(readOnly = true)
     public Goods getGoods(Long id) {
         UserInfoVO shopUser = UserUtil.getShopUser();
@@ -382,5 +384,11 @@ public class GoodsBiz {
         return queryBuilder;
     }
 
+    @Transactional(readOnly = true)
+    public List<Goods> getGoodsInfo(List<Long> idList) {
+        GoodsExample example = new GoodsExample();
+        example.createCriteria().andIsDeletedEqualTo(false).andIdIn(idList);
+        return goodsBizMapper.selectByExample(example);
+    }
 
 }
