@@ -3,9 +3,9 @@ package com.suyan.mall.user.biz;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
-import com.suyan.mall.goods.resp.GoodsSkuVO;
-import com.suyan.mall.user.client.GoodsSkuClient;
-import com.suyan.mall.user.dao.GoodsCollectMapper;
+import com.suyan.mall.goods.resp.GoodsVO;
+import com.suyan.mall.user.client.GoodsClient;
+import com.suyan.mall.user.dao.biz.GoodsCollectBizMapper;
 import com.suyan.mall.user.model.GoodsCollect;
 import com.suyan.mall.user.model.GoodsCollectExample;
 import com.suyan.mall.user.req.GoodsCollectQueryDTO;
@@ -22,8 +22,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @CopyRright (c): <素焉代码生成工具>
@@ -34,10 +35,10 @@ import java.util.List;
 public class GoodsCollectBiz {
 
     @Autowired
-    private GoodsCollectMapper goodsCollectMapper;
+    private GoodsCollectBizMapper goodsCollectBizMapper;
 
     @Autowired
-    private GoodsSkuClient goodsSkuClient;
+    private GoodsClient goodsClient;
 
     /**
      * 删除商品收藏
@@ -52,7 +53,7 @@ public class GoodsCollectBiz {
         if (!user.getUniqueUserId().equals(goodsCollect.getUniqueUserId())) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "收藏");
         }
-        return goodsCollectMapper.logicalDeleteByPrimaryKey(id);
+        return goodsCollectBizMapper.logicalDeleteByPrimaryKey(id);
     }
 
     /**
@@ -66,39 +67,83 @@ public class GoodsCollectBiz {
         UserInfoVO user = UserUtil.getUser();
 
         // 查询是否已经收藏
-        GoodsCollectExample example = new GoodsCollectExample();
-        example.createCriteria().andIsDeletedEqualTo(false).andUniqueUserIdEqualTo(user.getUniqueUserId()).andGoodsSkuCodeEqualTo(goodsCollect.getGoodsSkuCode());
-        List<GoodsCollect> goodsCollectList = goodsCollectMapper.selectByExample(example);
-        if (CollectionsUtil.isNotEmpty(goodsCollectList)) {
+        GoodsCollect goodsCollectLast = getGoodsCollect(goodsCollect.getGoodsId(), user.getUniqueUserId());
+        if (goodsCollectLast != null) {
+            if (goodsCollect.getDeleteFlag() != null && goodsCollect.getDeleteFlag()) {
+                goodsCollectBizMapper.logicalDeleteByPrimaryKey(goodsCollectLast.getId());
+            }
             return;
         }
 
         // 获取商品信息
-        Result<List<GoodsSkuVO>> result = goodsSkuClient.getGoodsInfo(Arrays.asList(goodsCollect.getGoodsSkuCode()));
-        if (CollectionsUtil.isEmpty(result.getData())) {
-            throw new CommonException(ResultCode.API_INVLID_DATA, "商品");
-        }
-        GoodsSkuVO goodsSkuVO = result.getData().get(0);
-        goodsCollect.setShopId(goodsSkuVO.getShopId());
-        goodsCollect.setGoodsPrice(goodsSkuVO.getPrice());
+        Result<GoodsVO> result = goodsClient.getGoodsInfo(goodsCollect.getGoodsId());
+        GoodsVO goodsVO = result.getData();
+        goodsCollect.setShopId(goodsVO.getShopId());
+        goodsCollect.setGoodsPrice(goodsVO.getListPrice());
         goodsCollect.setUniqueUserId(user.getUniqueUserId());
-        goodsCollectMapper.insertSelective(goodsCollect);
+        goodsCollectBizMapper.insertSelective(goodsCollect);
     }
 
     /**
-     * 根据ID获取商品收藏信息
+     * 批量创建商品收藏
      *
-     * @param id
+     * @param goodsIdList
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public void batchCreateGoodsCollect(List<Long> goodsIdList) {
+        if (CollectionsUtil.isNotEmpty(goodsIdList)) {
+            // 获取商品信息
+            List<GoodsVO> goodsInfo = goodsClient.getGoodsInfo(goodsIdList);
+            if (CollectionsUtil.isEmpty(goodsInfo)) {
+                throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品");
+            }
+            Map<Long, GoodsVO> map = goodsInfo.stream().collect(Collectors.toMap(GoodsVO::getId, item -> item));
+            UserInfoVO user = UserUtil.getUser();
+            for (Long goodsId : goodsIdList) {
+
+                GoodsVO goodsVO = map.get(goodsId);
+                if (goodsVO != null) {
+                    // 查询是否已经收藏
+                    GoodsCollect goodsCollectLast = getGoodsCollect(goodsId, user.getUniqueUserId());
+                    if (goodsCollectLast == null) {
+                        GoodsCollect goodsCollect = new GoodsCollect();
+                        goodsCollect.setGoodsId(goodsId);
+                        goodsCollect.setShopId(goodsVO.getShopId());
+                        goodsCollect.setGoodsPrice(goodsVO.getListPrice());
+                        goodsCollect.setUniqueUserId(user.getUniqueUserId());
+                        goodsCollectBizMapper.insertSelective(goodsCollect);
+                    } else {
+                        log.warn("创建商品收藏时，用户{}商品{}已收藏", user.getUniqueUserId(), goodsId);
+                    }
+                } else {
+                    log.warn("创建商品收藏时，商品{}未查询到", goodsId);
+                }
+            }
+        }
+
+    }
+
+    /**
+     * 根据商品id查询是否收藏
+     *
+     * @param goodsId
      * @return
      */
     @Transactional(readOnly = true)
-    public GoodsCollect getGoodsCollect(Long id) {
-        return getBaseGoodsCollect(id);
+    public GoodsCollect getGoodsCollect(Long goodsId, String uniqueUserId) {
+        GoodsCollectExample example = new GoodsCollectExample();
+        example.createCriteria().andIsDeletedEqualTo(false).andUniqueUserIdEqualTo(uniqueUserId).andGoodsIdEqualTo(goodsId);
+        List<GoodsCollect> goodsCollectList = goodsCollectBizMapper.selectByExample(example);
+        if (CollectionsUtil.isNotEmpty(goodsCollectList)) {
+            return goodsCollectList.get(0);
+        }
+        return null;
     }
 
     @Transactional(readOnly = true)
     public GoodsCollect getBaseGoodsCollect(Long id) {
-        GoodsCollect goodsCollect = goodsCollectMapper.selectByPrimaryKey(id);
+        GoodsCollect goodsCollect = goodsCollectBizMapper.selectByPrimaryKey(id);
         if (goodsCollect == null || goodsCollect.getIsDeleted()) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品收藏");
         }
@@ -114,12 +159,10 @@ public class GoodsCollectBiz {
     @Transactional(readOnly = true)
     public QueryResultVO<GoodsCollect> queryGoodsCollect(GoodsCollectQueryDTO goodsCollectQuery) {
         UserInfoVO user = UserUtil.getUser();
-        goodsCollectQuery.setUniqueUserId(user.getUniqueUserId());
-        goodsCollectQuery.setIsDeleted(false);
         QueryResultVO<GoodsCollect> queryResult = new QueryResultVO<GoodsCollect>();
         // 使用分页插件PageHelper实现分页功能
         PageHelper.startPage(goodsCollectQuery.getPageNo(), goodsCollectQuery.getPageSize());
-        List<GoodsCollect> goodsCollectList = goodsCollectMapper.queryGoodsCollect(goodsCollectQuery);
+        List<GoodsCollect> goodsCollectList = goodsCollectBizMapper.getUserGoodsCollects(user.getUniqueUserId());
         PageInfo<GoodsCollect> pageInfo = new PageInfo<GoodsCollect>(goodsCollectList);
         queryResult.setPageNo(pageInfo.getPageNum());
         queryResult.setPageSize(pageInfo.getPageSize());
@@ -127,6 +170,21 @@ public class GoodsCollectBiz {
         queryResult.setTotalRecords(pageInfo.getTotal());
         queryResult.setRecords(goodsCollectList);
         return queryResult;
+    }
+
+    /**
+     * 查询收藏商品数
+     *
+     * @return
+     */
+    public int getNumber() {
+        GoodsCollectExample example = new GoodsCollectExample();
+        example.createCriteria().andIsDeletedEqualTo(false).andUniqueUserIdEqualTo(UserUtil.getUser().getUniqueUserId());
+        List<GoodsCollect> goodsCollectList = goodsCollectBizMapper.selectByExample(example);
+        if (CollectionsUtil.isNotEmpty(goodsCollectList)) {
+            return goodsCollectList.size();
+        }
+        return 0;
     }
 
 }

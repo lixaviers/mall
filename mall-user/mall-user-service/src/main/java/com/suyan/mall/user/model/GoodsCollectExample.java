@@ -296,73 +296,63 @@ public class GoodsCollectExample {
             return (Criteria) this;
         }
 
-        public Criteria andGoodsSkuCodeIsNull() {
-            addCriterion("goods_sku_code is null");
+        public Criteria andGoodsIdIsNull() {
+            addCriterion("goods_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsSkuCodeIsNotNull() {
-            addCriterion("goods_sku_code is not null");
+        public Criteria andGoodsIdIsNotNull() {
+            addCriterion("goods_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsSkuCodeEqualTo(String value) {
-            addCriterion("goods_sku_code =", value, "goodsSkuCode");
+        public Criteria andGoodsIdEqualTo(Long value) {
+            addCriterion("goods_id =", value, "goodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsSkuCodeNotEqualTo(String value) {
-            addCriterion("goods_sku_code <>", value, "goodsSkuCode");
+        public Criteria andGoodsIdNotEqualTo(Long value) {
+            addCriterion("goods_id <>", value, "goodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsSkuCodeGreaterThan(String value) {
-            addCriterion("goods_sku_code >", value, "goodsSkuCode");
+        public Criteria andGoodsIdGreaterThan(Long value) {
+            addCriterion("goods_id >", value, "goodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsSkuCodeGreaterThanOrEqualTo(String value) {
-            addCriterion("goods_sku_code >=", value, "goodsSkuCode");
+        public Criteria andGoodsIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("goods_id >=", value, "goodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsSkuCodeLessThan(String value) {
-            addCriterion("goods_sku_code <", value, "goodsSkuCode");
+        public Criteria andGoodsIdLessThan(Long value) {
+            addCriterion("goods_id <", value, "goodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsSkuCodeLessThanOrEqualTo(String value) {
-            addCriterion("goods_sku_code <=", value, "goodsSkuCode");
+        public Criteria andGoodsIdLessThanOrEqualTo(Long value) {
+            addCriterion("goods_id <=", value, "goodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsSkuCodeLike(String value) {
-            addCriterion("goods_sku_code like", value, "goodsSkuCode");
+        public Criteria andGoodsIdIn(List<Long> values) {
+            addCriterion("goods_id in", values, "goodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsSkuCodeNotLike(String value) {
-            addCriterion("goods_sku_code not like", value, "goodsSkuCode");
+        public Criteria andGoodsIdNotIn(List<Long> values) {
+            addCriterion("goods_id not in", values, "goodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsSkuCodeIn(List<String> values) {
-            addCriterion("goods_sku_code in", values, "goodsSkuCode");
+        public Criteria andGoodsIdBetween(Long value1, Long value2) {
+            addCriterion("goods_id between", value1, value2, "goodsId");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsSkuCodeNotIn(List<String> values) {
-            addCriterion("goods_sku_code not in", values, "goodsSkuCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andGoodsSkuCodeBetween(String value1, String value2) {
-            addCriterion("goods_sku_code between", value1, value2, "goodsSkuCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andGoodsSkuCodeNotBetween(String value1, String value2) {
-            addCriterion("goods_sku_code not between", value1, value2, "goodsSkuCode");
+        public Criteria andGoodsIdNotBetween(Long value1, Long value2) {
+            addCriterion("goods_id not between", value1, value2, "goodsId");
             return (Criteria) this;
         }
 

@@ -6,10 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Data
 public class GoodsCollectDTO implements Serializable {
@@ -37,22 +35,19 @@ public class GoodsCollectDTO implements Serializable {
      * 店铺id
      */
     @ApiModelProperty("店铺id")
-    @NotNull(message = "店铺id不能为空", groups = BaseInterface.class)
     private Long shopId;
 
     /**
-     * 商品编码
+     * 商品id
      */
-    @ApiModelProperty("商品编码")
-    @NotNull(message = "商品编码不能为空", groups = BaseInterface.class)
-    @Size(max = 32, message = "商品编码不能超过32位", groups = BaseInterface.class)
-    private String goodsSkuCode;
+    @ApiModelProperty("商品id")
+    @NotNull(message = "商品id不能为空", groups = BaseInterface.class)
+    private Long goodsId;
 
     /**
      * 商品加入时的价格
      */
     @ApiModelProperty("商品加入时的价格")
-    @NotNull(message = "商品加入时的价格不能为空", groups = BaseInterface.class)
     private BigDecimal goodsPrice;
 
 
@@ -61,6 +56,12 @@ public class GoodsCollectDTO implements Serializable {
      * 上面字段由工具自动生成，请在下面添加扩充字段
      * -------------------------------------------------
      */
+
+    /**
+     * 删除标志
+     */
+    @NotNull(message = "删除标志不能为空", groups = BaseInterface.class)
+    private Boolean deleteFlag;
 
 
 }

@@ -37,14 +37,11 @@ public class GoodsCollectQueryDTO extends QueryDTO {
     @ApiModelProperty("店铺id列表")
     private List<Long> shopIdList;
 
-    @ApiModelProperty("商品编码")
-    private String goodsSkuCode;
+    @ApiModelProperty("商品id")
+    private Long goodsId;
 
-    @ApiModelProperty("商品编码列表")
-    private List<String> goodsSkuCodeList;
-
-    @ApiModelProperty("商品编码模糊字段")
-    private String goodsSkuCodeLike;
+    @ApiModelProperty("商品id列表")
+    private List<Long> goodsIdList;
 
     @ApiModelProperty("商品加入时的价格起")
     private BigDecimal goodsPriceFrom;

@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RequestMapping("/c/goodsCollect")
 @RestController
@@ -34,6 +36,18 @@ public class GoodsCollectController extends BaseController {
     public Result add(@Validated({BaseInterface.class}) @RequestBody GoodsCollectDTO goodsCollectDTO) {
         goodsCollectService.createGoodsCollect(goodsCollectDTO);
         return Result.newSuccess();
+    }
+
+    @ApiOperation(value = "根据商品id查询是否收藏", notes = "根据商品id查询是否收藏")
+    @GetMapping("get/{goodsId}")
+    public Result<Boolean> get(@PathVariable Long goodsId) {
+        return Result.newSuccess(goodsCollectService.get(goodsId));
+    }
+
+    @ApiOperation(value = "查询收藏商品数", notes = "查询收藏商品数")
+    @GetMapping("getNumber")
+    public Result<Integer> getNumber() {
+        return Result.newSuccess(goodsCollectService.getNumber());
     }
 
     @ApiOperation(value = "获取商品收藏列表信息", notes = "分页获取商品收藏列表信息")

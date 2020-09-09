@@ -1,8 +1,8 @@
 package com.suyan.mall.user.resp;
 
-import lombok.Data;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @ApiModel("商品收藏")
 public class GoodsCollectVO implements Serializable {
 
-    /**   
+    /**
      * serialVersionUID
-     */ 
+     */
     private static final long serialVersionUID = 1L;
 
 
@@ -37,10 +37,10 @@ public class GoodsCollectVO implements Serializable {
     private Long shopId;
 
     /**
-     * 商品编码
+     * 商品id
      */
-    @ApiModelProperty("商品编码")
-    private String goodsSkuCode;
+    @ApiModelProperty("商品id")
+    private Long goodsId;
 
     /**
      * 商品加入时的价格
@@ -72,6 +72,38 @@ public class GoodsCollectVO implements Serializable {
      * 上面字段由工具自动生成，请在下面添加扩充字段
      * -------------------------------------------------
      */
+
+
+    /**
+     * 商品是否失效
+     */
+    @ApiModelProperty("商品是否失效")
+    private Boolean isGoodsFailure = true;
+
+    /**
+     * 商品名称
+     */
+    @ApiModelProperty("商品名称")
+    private String goodsName;
+
+    /**
+     * 商品真实价格
+     */
+    @ApiModelProperty("商品真实价格")
+    private BigDecimal goodsRealPrice;
+
+    /**
+     * 商品图片
+     */
+    @ApiModelProperty("商品图片")
+    private String goodsPicture;
+
+    /**
+     * 收藏数
+     */
+    @ApiModelProperty("收藏数")
+    private Integer collectNumber;
+
 
 
 }

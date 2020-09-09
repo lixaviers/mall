@@ -5,7 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="unique_user_id" jdbcType="VARCHAR" property="uniqueUserId" />
     <result column="shop_id" jdbcType="BIGINT" property="shopId" />
-    <result column="goods_sku_code" jdbcType="VARCHAR" property="goodsSkuCode" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
     <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -70,8 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unique_user_id, shop_id, goods_sku_code, goods_price, create_time, update_time, 
-    is_deleted
+    id, unique_user_id, shop_id, goods_id, goods_price, create_time, update_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.user.model.GoodsCollectExample" resultMap="BaseResultMap">
     select
@@ -108,10 +107,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       select LAST_INSERT_ID()
     </selectKey>
-    insert into tb_goods_collect (unique_user_id, shop_id, goods_sku_code, 
+    insert into tb_goods_collect (unique_user_id, shop_id, goods_id, 
       goods_price, create_time, update_time, 
       is_deleted)
-    values (#{uniqueUserId,jdbcType=VARCHAR}, #{shopId,jdbcType=BIGINT}, #{goodsSkuCode,jdbcType=VARCHAR}, 
+    values (#{uniqueUserId,jdbcType=VARCHAR}, #{shopId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, 
       #{goodsPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{isDeleted,jdbcType=BIT})
   </insert>
@@ -127,8 +126,8 @@
       <if test="shopId != null">
         shop_id,
       </if>
-      <if test="goodsSkuCode != null">
-        goods_sku_code,
+      <if test="goodsId != null">
+        goods_id,
       </if>
       <if test="goodsPrice != null">
         goods_price,
@@ -150,8 +149,8 @@
       <if test="shopId != null">
         #{shopId,jdbcType=BIGINT},
       </if>
-      <if test="goodsSkuCode != null">
-        #{goodsSkuCode,jdbcType=VARCHAR},
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
       </if>
       <if test="goodsPrice != null">
         #{goodsPrice,jdbcType=DECIMAL},
@@ -185,8 +184,8 @@
       <if test="record.shopId != null">
         shop_id = #{record.shopId,jdbcType=BIGINT},
       </if>
-      <if test="record.goodsSkuCode != null">
-        goods_sku_code = #{record.goodsSkuCode,jdbcType=VARCHAR},
+      <if test="record.goodsId != null">
+        goods_id = #{record.goodsId,jdbcType=BIGINT},
       </if>
       <if test="record.goodsPrice != null">
         goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
@@ -210,7 +209,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       unique_user_id = #{record.uniqueUserId,jdbcType=VARCHAR},
       shop_id = #{record.shopId,jdbcType=BIGINT},
-      goods_sku_code = #{record.goodsSkuCode,jdbcType=VARCHAR},
+      goods_id = #{record.goodsId,jdbcType=BIGINT},
       goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -228,8 +227,8 @@
       <if test="shopId != null">
         shop_id = #{shopId,jdbcType=BIGINT},
       </if>
-      <if test="goodsSkuCode != null">
-        goods_sku_code = #{goodsSkuCode,jdbcType=VARCHAR},
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
       </if>
       <if test="goodsPrice != null">
         goods_price = #{goodsPrice,jdbcType=DECIMAL},
@@ -250,7 +249,7 @@
     update tb_goods_collect
     set unique_user_id = #{uniqueUserId,jdbcType=VARCHAR},
       shop_id = #{shopId,jdbcType=BIGINT},
-      goods_sku_code = #{goodsSkuCode,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=BIGINT},
       goods_price = #{goodsPrice,jdbcType=DECIMAL},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -298,10 +297,9 @@
             <if test="shopIdList != null and shopIdList.size > 0">
                 <foreach item="item" separator="," open="AND shop_id in (" close=")" collection="shopIdList">#{item,jdbcType=BIGINT}</foreach>
             </if>
-            <if test="goodsSkuCode!=null and goodsSkuCode!=''">AND goods_sku_code = #{goodsSkuCode,jdbcType=VARCHAR}</if>
-            <if test="goodsSkuCodeLike != null and goodsSkuCodeLike != '' ">AND goods_sku_code LIKE concat(#{goodsSkuCodeLike,jdbcType=VARCHAR},'%')</if>
-            <if test="goodsSkuCodeList != null and goodsSkuCodeList.size > 0">
-                <foreach item="item" separator="," open="AND goods_sku_code in (" close=")" collection="goodsSkuCodeList">#{item,jdbcType=VARCHAR}</foreach>
+            <if test="goodsId!=null">AND goods_id = #{goodsId,jdbcType=BIGINT}</if>
+            <if test="goodsIdList != null and goodsIdList.size > 0">
+                <foreach item="item" separator="," open="AND goods_id in (" close=")" collection="goodsIdList">#{item,jdbcType=BIGINT}</foreach>
             </if>
             <if test="goodsPriceFrom != null"><![CDATA[AND goods_price >= #{goodsPriceFrom,jdbcType=DECIMAL}]]></if>
             <if test="goodsPriceTo != null"><![CDATA[AND goods_price <= #{goodsPriceTo,jdbcType=DECIMAL}]]></if>
@@ -324,14 +322,14 @@
         <trim prefix="insert into tb_goods_collect (" suffix=") values" suffixOverrides=",">
             unique_user_id,
             shop_id,
-            goods_sku_code,
+            goods_id,
             goods_price,
         </trim>
         <foreach collection="modelList" item="bean" index="index" separator=",">
             <trim prefix="(" suffix=")" suffixOverrides=",">
             #{bean.uniqueUserId,jdbcType=VARCHAR} ,
             #{bean.shopId,jdbcType=BIGINT} ,
-            #{bean.goodsSkuCode,jdbcType=VARCHAR} ,
+            #{bean.goodsId,jdbcType=BIGINT} ,
             #{bean.goodsPrice,jdbcType=DECIMAL} ,
             </trim>
         </foreach>

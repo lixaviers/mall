@@ -5,6 +5,8 @@ import com.suyan.mall.user.req.GoodsCollectQueryDTO;
 import com.suyan.mall.user.resp.GoodsCollectVO;
 import com.suyan.query.QueryResultVO;
 
+import java.util.List;
+
 /**
  * @CopyRright (c): <素焉代码生成工具>
  */
@@ -27,6 +29,8 @@ public interface IGoodsCollectService {
      */
     void createGoodsCollect(GoodsCollectDTO goodsCollectDTO);
 
+    void batchCreateGoodsCollect(List<Long> goodsIdList);
+
 
     /**
      * 分页查询商品收藏信息
@@ -36,5 +40,20 @@ public interface IGoodsCollectService {
      */
     QueryResultVO<GoodsCollectVO> queryGoodsCollect(GoodsCollectQueryDTO goodsCollectQueryDTO);
 
+
+    /**
+     * 根据商品id查询是否收藏
+     *
+     * @param goodsId
+     * @return
+     */
+    Boolean get(Long goodsId);
+
+    /**
+     * 查询收藏商品数
+     *
+     * @return
+     */
+    Integer getNumber();
 
 }
