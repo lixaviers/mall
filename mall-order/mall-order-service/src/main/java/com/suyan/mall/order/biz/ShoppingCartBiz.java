@@ -10,6 +10,7 @@ import com.suyan.mall.order.model.ShoppingCart;
 import com.suyan.mall.order.model.ShoppingCartExample;
 import com.suyan.mall.order.req.ShoppingCartQueryDTO;
 import com.suyan.mall.user.feignClient.c.GoodsCollectCFeignClient;
+import com.suyan.mall.user.req.c.BatchGoodsCollectDTO;
 import com.suyan.mall.user.resp.b.UserInfoVO;
 import com.suyan.mall.user.utils.UserUtil;
 import com.suyan.query.QueryResultVO;
@@ -89,6 +90,7 @@ public class ShoppingCartBiz {
             }
             GoodsSkuVO goodsSkuVO = result.getData().get(0);
             shoppingCart.setShopId(goodsSkuVO.getShopId());
+            shoppingCart.setGoodsId(goodsSkuVO.getGoodsId());
             shoppingCart.setGoodsPrice(goodsSkuVO.getPrice());
             shoppingCart.setUniqueUserId(uniqueUserId);
             shoppingCartMapper.insertSelective(shoppingCart);
@@ -176,10 +178,16 @@ public class ShoppingCartBiz {
         example.createCriteria().andIsDeletedEqualTo(false).andUniqueUserIdEqualTo(user.getUniqueUserId()).andIdIn(idList);
         List<ShoppingCart> shoppingCartList = shoppingCartMapper.selectByExample(example);
         if (CollectionsUtil.isNotEmpty(shoppingCartList)) {
-            List<Long> goodsIdList = shoppingCartList.stream().map(ShoppingCart::getId).distinct().collect(Collectors.toList());
-            log.info("根据商品id列表批量收藏入参={}", JsonUtil.toJsonString(goodsIdList));
-            Result result = goodsCollectCFeignClient.add(goodsIdList);
+            List<Long> goodsIdList = shoppingCartList.stream().map(ShoppingCart::getGoodsId).distinct().collect(Collectors.toList());
+            BatchGoodsCollectDTO dto = new BatchGoodsCollectDTO();
+            dto.setGoodsIdList(goodsIdList);
+            dto.setUniqueUserId(user.getUniqueUserId());
+            log.info("根据商品id列表批量收藏入参={}", JsonUtil.toJsonString(dto));
+            Result result = goodsCollectCFeignClient.batchAdd(dto);
             log.info("根据商品id列表批量收藏出参={}", JsonUtil.toJsonString(result));
+            ShoppingCart record = new ShoppingCart();
+            record.setIsDeleted(true);
+            shoppingCartMapper.updateByExampleSelective(record, example);
         }
 
 

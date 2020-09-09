@@ -25,6 +25,11 @@ public class ShoppingCart {
     private Long shopId;
 
     /**
+     * 商品id
+     */
+    private Long goodsId;
+
+    /**
      * 商品编码
      */
     private String goodsSkuCode;

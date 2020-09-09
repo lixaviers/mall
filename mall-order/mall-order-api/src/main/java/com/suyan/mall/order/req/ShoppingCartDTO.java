@@ -38,6 +38,12 @@ public class ShoppingCartDTO implements Serializable {
     private Long shopId;
 
     /**
+     * 商品id
+     */
+    @ApiModelProperty("商品id")
+    private Long goodsId;
+
+    /**
      * 商品编码
      */
     @ApiModelProperty("商品编码")

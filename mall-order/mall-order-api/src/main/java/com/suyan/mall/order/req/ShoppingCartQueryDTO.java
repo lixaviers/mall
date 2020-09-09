@@ -37,6 +37,12 @@ public class ShoppingCartQueryDTO extends QueryDTO {
     @ApiModelProperty("店铺id列表")
     private List<Long> shopIdList;
 
+    @ApiModelProperty("商品id")
+    private Long goodsId;
+
+    @ApiModelProperty("商品id列表")
+    private List<Long> goodsIdList;
+
     @ApiModelProperty("商品编码")
     private String goodsSkuCode;
 
@@ -75,7 +81,6 @@ public class ShoppingCartQueryDTO extends QueryDTO {
 
     @ApiModelProperty("是否删除列表")
     private List<Boolean> isDeletedList;
-
 
 
     /**
