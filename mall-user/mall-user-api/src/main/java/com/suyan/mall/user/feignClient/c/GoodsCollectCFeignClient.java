@@ -1,5 +1,6 @@
 package com.suyan.mall.user.feignClient.c;
 
+import com.suyan.mall.user.req.c.BatchGoodsCollectDTO;
 import com.suyan.result.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,7 @@ public interface GoodsCollectCFeignClient {
      *
      * @return
      */
-    @PostMapping("add")
-    Result add(@RequestBody List<Long> goodsIdList);
+    @PostMapping("batchAdd")
+    Result batchAdd(@RequestBody BatchGoodsCollectDTO batchGoodsCollectDTO);
 
 }

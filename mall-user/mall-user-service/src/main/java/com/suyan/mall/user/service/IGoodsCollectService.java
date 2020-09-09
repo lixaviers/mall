@@ -2,6 +2,7 @@ package com.suyan.mall.user.service;
 
 import com.suyan.mall.user.req.GoodsCollectDTO;
 import com.suyan.mall.user.req.GoodsCollectQueryDTO;
+import com.suyan.mall.user.req.c.BatchGoodsCollectDTO;
 import com.suyan.mall.user.resp.GoodsCollectVO;
 import com.suyan.query.QueryResultVO;
 
@@ -29,7 +30,7 @@ public interface IGoodsCollectService {
      */
     void createGoodsCollect(GoodsCollectDTO goodsCollectDTO);
 
-    void batchCreateGoodsCollect(List<Long> goodsIdList);
+    void batchCreateGoodsCollect(BatchGoodsCollectDTO batchGoodsCollectDTO);
 
 
     /**

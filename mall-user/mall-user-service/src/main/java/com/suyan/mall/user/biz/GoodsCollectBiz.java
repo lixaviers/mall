@@ -9,6 +9,7 @@ import com.suyan.mall.user.dao.biz.GoodsCollectBizMapper;
 import com.suyan.mall.user.model.GoodsCollect;
 import com.suyan.mall.user.model.GoodsCollectExample;
 import com.suyan.mall.user.req.GoodsCollectQueryDTO;
+import com.suyan.mall.user.req.c.BatchGoodsCollectDTO;
 import com.suyan.mall.user.resp.b.UserInfoVO;
 import com.suyan.mall.user.utils.UserUtil;
 import com.suyan.query.QueryResultVO;
@@ -87,34 +88,33 @@ public class GoodsCollectBiz {
     /**
      * 批量创建商品收藏
      *
-     * @param goodsIdList
+     * @param batchGoodsCollectDTO
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public void batchCreateGoodsCollect(List<Long> goodsIdList) {
-        if (CollectionsUtil.isNotEmpty(goodsIdList)) {
+    public void batchCreateGoodsCollect(BatchGoodsCollectDTO batchGoodsCollectDTO) {
+        if (CollectionsUtil.isNotEmpty(batchGoodsCollectDTO.getGoodsIdList())) {
             // 获取商品信息
-            List<GoodsVO> goodsInfo = goodsClient.getGoodsInfo(goodsIdList);
+            List<GoodsVO> goodsInfo = goodsClient.getGoodsInfo(batchGoodsCollectDTO.getGoodsIdList());
             if (CollectionsUtil.isEmpty(goodsInfo)) {
                 throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品");
             }
             Map<Long, GoodsVO> map = goodsInfo.stream().collect(Collectors.toMap(GoodsVO::getId, item -> item));
-            UserInfoVO user = UserUtil.getUser();
-            for (Long goodsId : goodsIdList) {
+            for (Long goodsId : batchGoodsCollectDTO.getGoodsIdList()) {
 
                 GoodsVO goodsVO = map.get(goodsId);
                 if (goodsVO != null) {
                     // 查询是否已经收藏
-                    GoodsCollect goodsCollectLast = getGoodsCollect(goodsId, user.getUniqueUserId());
+                    GoodsCollect goodsCollectLast = getGoodsCollect(goodsId, batchGoodsCollectDTO.getUniqueUserId());
                     if (goodsCollectLast == null) {
                         GoodsCollect goodsCollect = new GoodsCollect();
                         goodsCollect.setGoodsId(goodsId);
                         goodsCollect.setShopId(goodsVO.getShopId());
                         goodsCollect.setGoodsPrice(goodsVO.getListPrice());
-                        goodsCollect.setUniqueUserId(user.getUniqueUserId());
+                        goodsCollect.setUniqueUserId(batchGoodsCollectDTO.getUniqueUserId());
                         goodsCollectBizMapper.insertSelective(goodsCollect);
                     } else {
-                        log.warn("创建商品收藏时，用户{}商品{}已收藏", user.getUniqueUserId(), goodsId);
+                        log.warn("创建商品收藏时，用户{}商品{}已收藏", batchGoodsCollectDTO.getUniqueUserId(), goodsId);
                     }
                 } else {
                     log.warn("创建商品收藏时，商品{}未查询到", goodsId);

@@ -7,6 +7,7 @@ import com.suyan.mall.user.convertor.GoodsCollectConvertor;
 import com.suyan.mall.user.model.GoodsCollect;
 import com.suyan.mall.user.req.GoodsCollectDTO;
 import com.suyan.mall.user.req.GoodsCollectQueryDTO;
+import com.suyan.mall.user.req.c.BatchGoodsCollectDTO;
 import com.suyan.mall.user.resp.GoodsCollectVO;
 import com.suyan.mall.user.service.IGoodsCollectService;
 import com.suyan.mall.user.utils.UserUtil;
@@ -46,8 +47,8 @@ public class GoodsCollectServiceImpl implements IGoodsCollectService {
     }
 
     @Override
-    public void batchCreateGoodsCollect(List<Long> goodsIdList) {
-        goodsCollectBiz.batchCreateGoodsCollect(goodsIdList);
+    public void batchCreateGoodsCollect(BatchGoodsCollectDTO batchGoodsCollectDTO) {
+        goodsCollectBiz.batchCreateGoodsCollect(batchGoodsCollectDTO);
     }
 
     @Override
