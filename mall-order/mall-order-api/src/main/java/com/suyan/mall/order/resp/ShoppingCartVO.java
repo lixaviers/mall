@@ -87,6 +87,12 @@ public class ShoppingCartVO implements Serializable {
     private Boolean isGoodsFailure = true;
 
     /**
+     * 商品id
+     */
+    @ApiModelProperty("商品id")
+    private Long goodsId;
+
+    /**
      * 商品名称
      */
     @ApiModelProperty("商品名称")

@@ -47,6 +47,13 @@ public class ShoppingCartController extends BaseController {
         return Result.newSuccess();
     }
 
+    @ApiOperation(value = "移入收藏夹", notes = "移入收藏夹")
+    @PostMapping("collect")
+    public Result collect(@RequestBody List<Long> idList) {
+        shoppingCartService.collect(idList);
+        return Result.newSuccess();
+    }
+
     @ApiOperation(value = "获取购物车信息", notes = "根据购物车ID获取购物车信息")
     @GetMapping("get/{id}")
     public Result<ShoppingCartVO> get(@PathVariable Long id) {

@@ -67,6 +67,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
                     GoodsSkuVO goodsSkuVO = map.get(shoppingCartVO.getGoodsSkuCode());
                     if (goodsSkuVO != null) {
                         shoppingCartVO.setIsGoodsFailure(false);
+                        shoppingCartVO.setGoodsId(goodsSkuVO.getGoodsId());
                         shoppingCartVO.setGoodsName(goodsSkuVO.getGoodsName());
                         shoppingCartVO.setGoodsRealPrice(goodsSkuVO.getPrice());
                         shoppingCartVO.setGoodsInventory(goodsSkuVO.getInventory());
@@ -79,4 +80,8 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         return queryResultVO;
     }
 
+    @Override
+    public void collect(List<Long> idList) {
+        shoppingCartBiz.collect(idList);
+    }
 }

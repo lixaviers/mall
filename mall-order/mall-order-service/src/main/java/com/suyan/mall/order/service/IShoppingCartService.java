@@ -47,5 +47,6 @@ public interface IShoppingCartService {
      */
     QueryResultVO<ShoppingCartVO> queryShoppingCart(ShoppingCartQueryDTO shoppingCartQueryDTO);
 
+    void collect(List<Long> idList);
 
 }

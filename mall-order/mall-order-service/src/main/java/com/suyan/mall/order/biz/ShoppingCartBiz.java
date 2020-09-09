@@ -9,12 +9,14 @@ import com.suyan.mall.order.dao.ShoppingCartMapper;
 import com.suyan.mall.order.model.ShoppingCart;
 import com.suyan.mall.order.model.ShoppingCartExample;
 import com.suyan.mall.order.req.ShoppingCartQueryDTO;
+import com.suyan.mall.user.feignClient.c.GoodsCollectCFeignClient;
 import com.suyan.mall.user.resp.b.UserInfoVO;
 import com.suyan.mall.user.utils.UserUtil;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.Result;
 import com.suyan.result.ResultCode;
 import com.suyan.utils.CollectionsUtil;
+import com.suyan.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @CopyRright (c): <素焉代码生成工具>
@@ -38,6 +41,8 @@ public class ShoppingCartBiz {
 
     @Autowired
     private GoodsSkuClient goodsSkuClient;
+    @Autowired
+    private GoodsCollectCFeignClient goodsCollectCFeignClient;
 
     /**
      * 删除购物车
@@ -158,5 +163,27 @@ public class ShoppingCartBiz {
         shoppingCartLast.setGoodsNumber(shoppingCart.getGoodsNumber());
         shoppingCartMapper.updateByPrimaryKeySelective(shoppingCartLast);
     }
+
+    /**
+     * 移入收藏夹
+     *
+     * @param idList
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public void collect(List<Long> idList) {
+        UserInfoVO user = UserUtil.getUser();
+        ShoppingCartExample example = new ShoppingCartExample();
+        example.createCriteria().andIsDeletedEqualTo(false).andUniqueUserIdEqualTo(user.getUniqueUserId()).andIdIn(idList);
+        List<ShoppingCart> shoppingCartList = shoppingCartMapper.selectByExample(example);
+        if (CollectionsUtil.isNotEmpty(shoppingCartList)) {
+            List<Long> goodsIdList = shoppingCartList.stream().map(ShoppingCart::getId).distinct().collect(Collectors.toList());
+            log.info("根据商品id列表批量收藏入参={}", JsonUtil.toJsonString(goodsIdList));
+            Result result = goodsCollectCFeignClient.add(goodsIdList);
+            log.info("根据商品id列表批量收藏出参={}", JsonUtil.toJsonString(result));
+        }
+
+
+    }
+
 
 }
