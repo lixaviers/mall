@@ -109,4 +109,22 @@ public class BargainVO implements Serializable {
      */
     private List<BargainItemVO> bargainItemList;
 
+    /**
+     * 商品名称
+     */
+    @ApiModelProperty("商品名称")
+    private String goodsName;
+
+    /**
+     * 商品图片
+     */
+    @ApiModelProperty("商品图片")
+    private String goodsPicture;
+
+    /**
+     * 商品规格值
+     */
+    @ApiModelProperty("商品规格值")
+    private String goodsSpecValue;
+
 }

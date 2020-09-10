@@ -15,6 +15,7 @@
         <module>mall-mmc-api</module>
         <module>mall-mmc-service</module>
         <module>mall-mmc-b-web</module>
+        <module>mall-mmc-c-web</module>
     </modules>
 
 </project>
