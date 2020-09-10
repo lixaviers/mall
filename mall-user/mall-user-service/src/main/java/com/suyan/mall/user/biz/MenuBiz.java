@@ -14,8 +14,6 @@ import com.suyan.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -41,7 +39,6 @@ public class MenuBiz {
      * @return
      */
     public Integer deleteMenu(Long id) {
-        // TODO: Describe business logic and implement it
         getBaseMenu(id);
         return menuBizMapper.logicalDeleteByPrimaryKey(id);
     }
@@ -53,21 +50,8 @@ public class MenuBiz {
      * @return
      */
     public Long createMenu(Menu menu) {
-        // TODO: Describe business logic and implement it
         menuBizMapper.insertSelective(menu);
         return menu.getId();
-    }
-
-    /**
-     * 批量创建
-     *
-     * @param menuList
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public int batchCreateMenu(List<Menu> menuList) {
-        // TODO: Describe business logic and implement it
-        return menuBizMapper.insertBatch(menuList);
     }
 
     /**

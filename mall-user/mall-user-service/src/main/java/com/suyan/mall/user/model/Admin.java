@@ -48,6 +48,11 @@ public class Admin {
     private Byte userStatus;
     
     /**
+     * 是否超级管理员
+     */
+    private Boolean isSuperAdmin;
+    
+    /**
      * 备注
      */
     private String remark;

@@ -10,6 +10,7 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="user_pwd" jdbcType="VARCHAR" property="userPwd" />
     <result column="user_status" jdbcType="TINYINT" property="userStatus" />
+    <result column="is_super_admin" jdbcType="BIT" property="isSuperAdmin" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unique_user_id, user_name, nick_name, mobile, email, user_pwd, user_status, remark, 
-    create_time, update_time, is_deleted
+    id, unique_user_id, user_name, nick_name, mobile, email, user_pwd, user_status, is_super_admin, 
+    remark, create_time, update_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.user.model.AdminExample" resultMap="BaseResultMap">
     select
@@ -114,12 +115,14 @@
     </selectKey>
     insert into e_admin (unique_user_id, user_name, nick_name, 
       mobile, email, user_pwd, 
-      user_status, remark, create_time, 
-      update_time, is_deleted)
+      user_status, is_super_admin, remark, 
+      create_time, update_time, is_deleted
+      )
     values (#{uniqueUserId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR}, 
-      #{userStatus,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT})
+      #{userStatus,jdbcType=TINYINT}, #{isSuperAdmin,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.user.model.Admin">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -147,6 +150,9 @@
       </if>
       <if test="userStatus != null">
         user_status,
+      </if>
+      <if test="isSuperAdmin != null">
+        is_super_admin,
       </if>
       <if test="remark != null">
         remark,
@@ -182,6 +188,9 @@
       </if>
       <if test="userStatus != null">
         #{userStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isSuperAdmin != null">
+        #{isSuperAdmin,jdbcType=BIT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -230,6 +239,9 @@
       <if test="record.userStatus != null">
         user_status = #{record.userStatus,jdbcType=TINYINT},
       </if>
+      <if test="record.isSuperAdmin != null">
+        is_super_admin = #{record.isSuperAdmin,jdbcType=BIT},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -257,6 +269,7 @@
       email = #{record.email,jdbcType=VARCHAR},
       user_pwd = #{record.userPwd,jdbcType=VARCHAR},
       user_status = #{record.userStatus,jdbcType=TINYINT},
+      is_super_admin = #{record.isSuperAdmin,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -289,6 +302,9 @@
       <if test="userStatus != null">
         user_status = #{userStatus,jdbcType=TINYINT},
       </if>
+      <if test="isSuperAdmin != null">
+        is_super_admin = #{isSuperAdmin,jdbcType=BIT},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -313,6 +329,7 @@
       email = #{email,jdbcType=VARCHAR},
       user_pwd = #{userPwd,jdbcType=VARCHAR},
       user_status = #{userStatus,jdbcType=TINYINT},
+      is_super_admin = #{isSuperAdmin,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -385,6 +402,10 @@
             <if test="userStatusList != null and userStatusList.size > 0">
                 <foreach item="item" separator="," open="AND user_status in (" close=")" collection="userStatusList">#{item,jdbcType=TINYINT}</foreach>
             </if>
+            <if test="isSuperAdmin!=null">AND is_super_admin = #{isSuperAdmin,jdbcType=BOOLEAN}</if>
+            <if test="isSuperAdminList != null and isSuperAdminList.size > 0">
+                <foreach item="item" separator="," open="AND is_super_admin in (" close=")" collection="isSuperAdminList">#{item,jdbcType=BOOLEAN}</foreach>
+            </if>
             <if test="createTimeFrom != null"><![CDATA[AND create_time >= #{createTimeFrom,jdbcType=TIMESTAMP}]]></if>
             <if test="createTimeTo != null"><![CDATA[AND create_time <= #{createTimeTo,jdbcType=TIMESTAMP}]]></if>
             <if test="updateTimeFrom != null"><![CDATA[AND update_time >= #{updateTimeFrom,jdbcType=TIMESTAMP}]]></if>
@@ -409,6 +430,7 @@
             email,
             user_pwd,
             user_status,
+            is_super_admin,
             remark,
         </trim>
         <foreach collection="modelList" item="bean" index="index" separator=",">
@@ -420,6 +442,7 @@
             #{bean.email,jdbcType=VARCHAR} ,
             #{bean.userPwd,jdbcType=VARCHAR} ,
             #{bean.userStatus,jdbcType=TINYINT} ,
+            #{bean.isSuperAdmin,jdbcType=BOOLEAN} ,
             #{bean.remark,jdbcType=VARCHAR} ,
             </trim>
         </foreach>

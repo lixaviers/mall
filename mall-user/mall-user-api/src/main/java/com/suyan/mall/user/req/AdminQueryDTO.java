@@ -81,6 +81,12 @@ public class AdminQueryDTO extends QueryDTO {
     @ApiModelProperty("状态列表")
     private List<Byte> userStatusList;
 
+    @ApiModelProperty("是否超级管理员")
+    private Boolean isSuperAdmin;
+
+    @ApiModelProperty("是否超级管理员列表")
+    private List<Boolean> isSuperAdminList;
+
     @ApiModelProperty("创建时间起")
     private LocalDateTime createTimeFrom;
 
@@ -98,7 +104,6 @@ public class AdminQueryDTO extends QueryDTO {
 
     @ApiModelProperty("是否删除：0.未删除，1.已删除列表")
     private List<Boolean> isDeletedList;
-
 
 
     /**

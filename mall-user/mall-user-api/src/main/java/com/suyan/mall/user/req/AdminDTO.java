@@ -80,6 +80,13 @@ public class AdminDTO implements Serializable {
     private Byte userStatus;
 
     /**
+     * 是否超级管理员
+     */
+    @ApiModelProperty("是否超级管理员")
+    @NotNull(message = "是否超级管理员不能为空", groups = BaseInterface.class)
+    private Boolean isSuperAdmin;
+
+    /**
      * 备注
      */
     @ApiModelProperty("备注")

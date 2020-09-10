@@ -645,6 +645,66 @@ public class AdminExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsSuperAdminIsNull() {
+            addCriterion("is_super_admin is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSuperAdminIsNotNull() {
+            addCriterion("is_super_admin is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSuperAdminEqualTo(Boolean value) {
+            addCriterion("is_super_admin =", value, "isSuperAdmin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSuperAdminNotEqualTo(Boolean value) {
+            addCriterion("is_super_admin <>", value, "isSuperAdmin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSuperAdminGreaterThan(Boolean value) {
+            addCriterion("is_super_admin >", value, "isSuperAdmin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSuperAdminGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_super_admin >=", value, "isSuperAdmin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSuperAdminLessThan(Boolean value) {
+            addCriterion("is_super_admin <", value, "isSuperAdmin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSuperAdminLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_super_admin <=", value, "isSuperAdmin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSuperAdminIn(List<Boolean> values) {
+            addCriterion("is_super_admin in", values, "isSuperAdmin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSuperAdminNotIn(List<Boolean> values) {
+            addCriterion("is_super_admin not in", values, "isSuperAdmin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSuperAdminBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_super_admin between", value1, value2, "isSuperAdmin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSuperAdminNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_super_admin not between", value1, value2, "isSuperAdmin");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

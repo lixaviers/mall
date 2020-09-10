@@ -66,6 +66,12 @@ public class AdminVO implements Serializable {
     private Byte userStatus;
 
     /**
+     * 是否超级管理员
+     */
+    @ApiModelProperty("是否超级管理员")
+    private Boolean isSuperAdmin;
+
+    /**
      * 备注
      */
     @ApiModelProperty("备注")
