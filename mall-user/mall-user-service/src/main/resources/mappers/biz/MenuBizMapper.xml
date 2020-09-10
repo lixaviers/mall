@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suyan.mall.user.dao.biz.MenuBizMapper">
+
+    <select id="getAdminMenu" resultType="com.suyan.mall.user.model.Menu">
+        SELECT
+            tb_menu.id,
+            tb_menu.`parent_id`,
+            tb_menu.`menu_type`,
+            tb_menu.`menu_name`,
+            tb_menu.`url`,
+            tb_menu.`icon`,
+            tb_menu.`sort_number`
+        FROM
+            tb_admin_role
+            INNER JOIN tb_role ON tb_admin_role.role_id = tb_role.id
+            INNER JOIN tb_role_menu ON tb_admin_role.role_id = tb_role_menu.role_id
+            INNER JOIN tb_menu ON tb_menu.id = tb_role_menu.menu_id
+        WHERE
+            tb_role.is_deleted = 0
+            AND tb_menu.is_deleted = 0
+            AND tb_menu.is_enable = 1
+            AND tb_admin_role.admin_id = #{adminId, jdbcType=BIGINT}
+        ORDER BY
+            tb_menu.sort_number
+    </select>
+
+    <select id="getRoleMenuIds" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        SELECT
+            tb_menu.id
+        FROM
+            tb_menu
+            INNER JOIN tb_role_menu ON tb_menu.id = tb_role_menu.menu_id
+        WHERE
+            tb_menu.is_deleted = 0
+            AND tb_menu.is_enable = 1
+            AND tb_role_menu.role_id = #{roleId, jdbcType=BIGINT}
+        ORDER BY
+            tb_menu.sort_number
+    </select>
+
+</mapper>

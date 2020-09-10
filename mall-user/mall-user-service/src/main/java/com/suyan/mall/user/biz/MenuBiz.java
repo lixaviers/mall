@@ -1,21 +1,23 @@
 package com.suyan.mall.user.biz;
 
-import lombok.extern.slf4j.Slf4j;
-import com.suyan.mall.user.dao.MenuMapper;
-import com.suyan.mall.user.model.Menu;
-import com.suyan.mall.user.req.MenuQueryDTO;
-import com.suyan.exception.CommonException;
-import com.suyan.query.QueryResultVO;
-import com.suyan.result.ResultCode;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.suyan.exception.CommonException;
+import com.suyan.mall.user.dao.biz.MenuBizMapper;
+import com.suyan.mall.user.model.Admin;
+import com.suyan.mall.user.model.Menu;
+import com.suyan.mall.user.model.MenuExample;
+import com.suyan.mall.user.req.MenuQueryDTO;
+import com.suyan.mall.user.utils.UserUtil;
+import com.suyan.query.QueryResultVO;
+import com.suyan.result.ResultCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,7 +29,10 @@ import java.util.List;
 public class MenuBiz {
 
     @Autowired
-    private MenuMapper menuMapper;
+    private MenuBizMapper menuBizMapper;
+
+    @Autowired
+    private AdminBiz adminBiz;
 
     /**
      * 删除菜单
@@ -38,47 +43,47 @@ public class MenuBiz {
     public Integer deleteMenu(Long id) {
         // TODO: Describe business logic and implement it
         getBaseMenu(id);
-        return menuMapper.logicalDeleteByPrimaryKey(id);
+        return menuBizMapper.logicalDeleteByPrimaryKey(id);
     }
 
     /**
      * 创建菜单
-     * 
+     *
      * @param menu
      * @return
      */
     public Long createMenu(Menu menu) {
         // TODO: Describe business logic and implement it
-        menuMapper.insertSelective( menu );
+        menuBizMapper.insertSelective(menu);
         return menu.getId();
     }
 
     /**
-    * 批量创建
-    *
-    * @param menuList
-    * @return
-    */
+     * 批量创建
+     *
+     * @param menuList
+     * @return
+     */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public int batchCreateMenu(List<Menu> menuList) {
         // TODO: Describe business logic and implement it
-        return menuMapper.insertBatch( menuList );
+        return menuBizMapper.insertBatch(menuList);
     }
 
     /**
      * 更新菜单
-     * 
+     *
      * @param menu
      * @return
      */
     public Integer updateMenu(Menu menu) {
         getBaseMenu(menu.getId());
-        return menuMapper.updateByPrimaryKeySelective(menu);
+        return menuBizMapper.updateByPrimaryKeySelective(menu);
     }
-    
+
     /**
      * 根据ID获取菜单信息
-     * 
+     *
      * @param id
      * @return
      */
@@ -88,8 +93,8 @@ public class MenuBiz {
 
     @Transactional(readOnly = true)
     public Menu getBaseMenu(Long id) {
-        Menu menu = menuMapper.selectByPrimaryKey(id);
-        if(menu == null || menu.getIsDeleted()) {
+        Menu menu = menuBizMapper.selectByPrimaryKey(id);
+        if (menu == null || menu.getIsDeleted()) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "菜单");
         }
         return menu;
@@ -97,7 +102,7 @@ public class MenuBiz {
 
     /**
      * 分页查询菜单信息
-     * 
+     *
      * @param menuQuery
      * @return
      */
@@ -105,7 +110,7 @@ public class MenuBiz {
         QueryResultVO<Menu> queryResult = new QueryResultVO<Menu>();
         // 使用分页插件PageHelper实现分页功能
         PageHelper.startPage(menuQuery.getPageNo(), menuQuery.getPageSize());
-        List<Menu> menuList = menuMapper.queryMenu(menuQuery);
+        List<Menu> menuList = menuBizMapper.queryMenu(menuQuery);
         PageInfo<Menu> pageInfo = new PageInfo<Menu>(menuList);
         queryResult.setPageNo(pageInfo.getPageNum());
         queryResult.setPageSize(pageInfo.getPageSize());
@@ -115,4 +120,30 @@ public class MenuBiz {
         return queryResult;
     }
 
+    public List<Menu> getAdminMenu() {
+        Long adminId = UserUtil.getAdmin().getId();
+        Admin admin = adminBiz.getBaseAdmin(adminId);
+        if (admin.getIsSuperAdmin()) {
+            // 超级管理员获取所有菜单
+            return getAllMenu(true);
+        } else {
+            return menuBizMapper.getAdminMenu(adminId);
+        }
+    }
+
+    /**
+     * 获取所有菜单
+     *
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<Menu> getAllMenu(Boolean isEnable) {
+        MenuExample example = new MenuExample();
+        MenuExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
+        if (isEnable != null) {
+            criteria.andIsEnableEqualTo(isEnable);
+        }
+        example.setOrderByClause("sort_number");
+        return menuBizMapper.selectByExample(example);
+    }
 }

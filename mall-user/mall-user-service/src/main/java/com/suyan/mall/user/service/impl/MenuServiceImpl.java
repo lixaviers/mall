@@ -59,4 +59,16 @@ public class MenuServiceImpl implements IMenuService {
         return MenuConvertor.toQueryResult(menuBiz.queryMenu(menuQueryDTO));
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<MenuVO> getAdminMenu() {
+        return MenuConvertor.toTree(menuBiz.getAdminMenu());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MenuVO> getAllMenu() {
+        return MenuConvertor.toTree(menuBiz.getAllMenu(null));
+    }
+
 }

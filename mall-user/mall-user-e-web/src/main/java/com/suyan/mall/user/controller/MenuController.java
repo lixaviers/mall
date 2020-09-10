@@ -19,6 +19,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RequestMapping("menu")
@@ -28,6 +29,18 @@ public class MenuController extends BaseController {
 
     @Autowired
     private IMenuService menuService;
+
+    @ApiOperation(value = "获取菜单信息", notes = "获取当前登录管理员菜单")
+    @GetMapping("getAdminMenu")
+    public Result<List<MenuVO>> getAdminMenu() {
+        return Result.newSuccess(menuService.getAdminMenu());
+    }
+
+    @ApiOperation(value = "获取所有菜单信息", notes = "获取所有菜单信息")
+    @GetMapping("getAllMenu")
+    public Result<List<MenuVO>> getAllMenu() {
+        return Result.newSuccess(menuService.getAllMenu());
+    }
 
     @ApiOperation(value = "删除菜单", notes = "删除菜单")
     @PostMapping("delete/{id}")
@@ -40,23 +53,24 @@ public class MenuController extends BaseController {
     public Result<Long> add(@Validated({BaseInterface.class}) @RequestBody MenuDTO menuDTO) {
         return Result.newSuccess(menuService.createMenu(menuDTO));
     }
-    
+
     @ApiOperation(value = "更新菜单", notes = "更新菜单")
     @PostMapping("update")
-    public Result<Integer> update(@Validated({BaseInterface.class, UpdateInterface.class}) @RequestBody MenuDTO menuDTO) {
+    public Result<Integer> update(@Validated({UpdateInterface.class, BaseInterface.class}) @RequestBody MenuDTO menuDTO) {
         return Result.newSuccess(menuService.updateMenu(menuDTO));
     }
-    
+
     @ApiOperation(value = "获取菜单信息", notes = "根据菜单ID获取菜单信息")
     @GetMapping("get/{id}")
-    public Result<MenuVO> get(@PathVariable Long id ){
+    public Result<MenuVO> get(@PathVariable Long id) {
         return Result.newSuccess(menuService.getMenu(id));
     }
-    
+
     @ApiOperation(value = "获取菜单列表信息", notes = "分页获取菜单列表信息")
     @PostMapping("query")
-    public Result<QueryResultVO<MenuVO>> queryMenu(@Validated @RequestBody MenuQueryDTO menuQueryDTO){
+    public Result<QueryResultVO<MenuVO>> queryMenu(@Validated @RequestBody MenuQueryDTO menuQueryDTO) {
         menuQueryDTO.setIsDeleted(false);
         return Result.newSuccess(menuService.queryMenu(menuQueryDTO));
     }
+
 }

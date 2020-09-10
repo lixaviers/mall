@@ -1,13 +1,18 @@
 package com.suyan.mall.user.convertor;
 
+import com.google.common.collect.Lists;
 import com.suyan.mall.user.model.Menu;
 import com.suyan.mall.user.req.MenuDTO;
 import com.suyan.mall.user.resp.MenuVO;
 import com.suyan.query.QueryResultVO;
 import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @CopyRright (c): <素焉代码生成工具>
@@ -63,5 +68,36 @@ public abstract class MenuConvertor {
         queryResultInfo.setTotalRecords(queryResult.getTotalRecords());
         queryResultInfo.setRecords(toMenuVOList(queryResult.getRecords()));
         return queryResultInfo;
+    }
+
+    public static List<MenuVO> toTree(List<Menu> adminMenuList) {
+        if (!CollectionUtils.isEmpty(adminMenuList)) {
+            // 顶级类目
+            List<MenuVO> topCategoryList = toMenuVOList(adminMenuList.stream().filter(bean -> bean.getParentId().equals(0)).sorted(Comparator.comparing(Menu::getSortNumber)).collect(Collectors.toList()));
+            List<MenuVO> childCategoryList = toMenuVOList(adminMenuList.stream().filter(bean -> !bean.getParentId().equals(0)).collect(Collectors.toList()));
+            sort(topCategoryList, childCategoryList);
+
+            return topCategoryList;
+        }
+        return null;
+    }
+
+    private static void sort(List<MenuVO> topCategoryList, List<MenuVO> childCategoryList) {
+        List<MenuVO> copyVos = Lists.newCopyOnWriteArrayList(childCategoryList);
+        for (MenuVO top : topCategoryList) {
+            for (MenuVO child : childCategoryList) {
+                if (Objects.equals(top.getId(), child.getParentId())) {
+                    top.addChildCategoryList(child);
+                    copyVos.remove(child);
+                }
+            }
+        }
+        for (MenuVO top : topCategoryList) {
+            if (!CollectionUtils.isEmpty(top.getChildCategoryList())) {
+                // 子菜单排序
+                top.setChildCategoryList(top.getChildCategoryList().stream().sorted(Comparator.comparing(MenuVO::getSortNumber)).collect(Collectors.toList()));
+                sort(top.getChildCategoryList(), copyVos);
+            }
+        }
     }
 }

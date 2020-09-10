@@ -3,9 +3,12 @@ package com.suyan.mall.user.resp;
 import lombok.Data;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @ApiModel("菜单")
@@ -89,6 +92,21 @@ public class MenuVO implements Serializable {
      * 上面字段由工具自动生成，请在下面添加扩充字段
      * -------------------------------------------------
      */
+
+    /**
+     * 子菜单集合
+     */
+    private List<MenuVO> childCategoryList;
+
+    /**
+     * 增加子菜单
+     */
+    public void addChildCategoryList(MenuVO menuVO) {
+        if (CollectionUtils.isEmpty(childCategoryList)) {
+            childCategoryList = new ArrayList<>();
+        }
+        childCategoryList.add(menuVO);
+    }
 
 
 }

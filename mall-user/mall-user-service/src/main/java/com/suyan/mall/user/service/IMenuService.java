@@ -14,16 +14,16 @@ public interface IMenuService {
 
     /**
      * 删除菜单
-     * 
-     * @author 
-    * @param id
+     *
+     * @param id
      * @return
+     * @author
      */
     int deleteMenu(Long id);
-    
+
     /**
      * 创建菜单
-     * 
+     *
      * @param menuDTO
      * @return
      */
@@ -32,15 +32,15 @@ public interface IMenuService {
 
     /**
      * 更新菜单
-     * 
+     *
      * @param menuDTO
      * @return
      */
     int updateMenu(MenuDTO menuDTO);
-    
+
     /**
      * 根据ID获取菜单信息
-     * 
+     *
      * @param id
      * @return
      */
@@ -48,12 +48,25 @@ public interface IMenuService {
 
     /**
      * 分页查询菜单信息
-     * 
+     *
      * @param menuQueryDTO
      * @return
      */
     QueryResultVO<MenuVO> queryMenu(MenuQueryDTO menuQueryDTO);
 
+    /**
+     * 获取当前登录管理员菜单
+     *
+     * @return
+     */
+    List<MenuVO> getAdminMenu();
+
+    /**
+     * 获取所有菜单信息
+     *
+     * @return
+     */
+    List<MenuVO> getAllMenu();
 
 
 }
