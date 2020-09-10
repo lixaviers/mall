@@ -1,5 +1,6 @@
 package com.suyan.mall.order.service.impl;
 
+import com.suyan.mall.goods.enums.GoodsStatusEnum;
 import com.suyan.mall.goods.resp.GoodsSkuVO;
 import com.suyan.mall.order.biz.ShoppingCartBiz;
 import com.suyan.mall.order.client.GoodsSkuClient;
@@ -66,7 +67,10 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
                 for (ShoppingCartVO shoppingCartVO : queryResultVO.getRecords()) {
                     GoodsSkuVO goodsSkuVO = map.get(shoppingCartVO.getGoodsSkuCode());
                     if (goodsSkuVO != null) {
-                        shoppingCartVO.setIsGoodsFailure(false);
+                        if (GoodsStatusEnum.NORMAL.equal(goodsSkuVO.getCommonStatus())) {
+                            // 正常
+                            shoppingCartVO.setIsGoodsFailure(false);
+                        }
                         shoppingCartVO.setGoodsId(goodsSkuVO.getGoodsId());
                         shoppingCartVO.setGoodsName(goodsSkuVO.getGoodsName());
                         shoppingCartVO.setGoodsRealPrice(goodsSkuVO.getPrice());
@@ -84,4 +88,5 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     public void collect(List<Long> idList) {
         shoppingCartBiz.collect(idList);
     }
+
 }
