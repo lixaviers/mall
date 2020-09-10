@@ -18,6 +18,7 @@
         <module>mall-goods-c-web</module>
         <module>mall-goods-canal-es</module>
         <module>mall-goods-dal</module>
+        <module>mall-goods-e-web</module>
     </modules>
 
 </project>
