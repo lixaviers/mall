@@ -58,6 +58,7 @@ public class BargainController extends BaseController {
                 for (BargainVO bargainVO : queryResultVO.getRecords()) {
                     GoodsSkuVO goodsSkuVO = map.get(bargainVO.getGoodsSkuCode());
                     if (goodsSkuVO != null) {
+                        bargainVO.setGoodsId(goodsSkuVO.getGoodsId());
                         bargainVO.setGoodsName(goodsSkuVO.getGoodsName());
                         bargainVO.setGoodsPicture(goodsSkuVO.getGoodsPicture());
                         bargainVO.setGoodsSpecValue(goodsSkuVO.getSpecValue());

@@ -110,6 +110,12 @@ public class BargainVO implements Serializable {
     private List<BargainItemVO> bargainItemList;
 
     /**
+     * 商品id
+     */
+    @ApiModelProperty("商品id")
+    private Long goodsId;
+
+    /**
      * 商品名称
      */
     @ApiModelProperty("商品名称")
