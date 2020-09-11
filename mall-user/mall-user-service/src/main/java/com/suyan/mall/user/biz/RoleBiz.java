@@ -1,21 +1,20 @@
 package com.suyan.mall.user.biz;
 
-import lombok.extern.slf4j.Slf4j;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.suyan.exception.CommonException;
 import com.suyan.mall.user.dao.RoleMapper;
 import com.suyan.mall.user.model.Role;
 import com.suyan.mall.user.req.RoleQueryDTO;
-import com.suyan.exception.CommonException;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.ResultCode;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -36,38 +35,35 @@ public class RoleBiz {
      * @return
      */
     public Integer deleteRole(Long id) {
-        // TODO: Describe business logic and implement it
         getBaseRole(id);
         return roleMapper.logicalDeleteByPrimaryKey(id);
     }
 
     /**
      * 创建
-     * 
+     *
      * @param role
      * @return
      */
     public Long createRole(Role role) {
-        // TODO: Describe business logic and implement it
-        roleMapper.insertSelective( role );
+        roleMapper.insertSelective(role);
         return role.getId();
     }
 
     /**
-    * 批量创建
-    *
-    * @param roleList
-    * @return
-    */
+     * 批量创建
+     *
+     * @param roleList
+     * @return
+     */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public int batchCreateRole(List<Role> roleList) {
-        // TODO: Describe business logic and implement it
-        return roleMapper.insertBatch( roleList );
+        return roleMapper.insertBatch(roleList);
     }
 
     /**
      * 更新
-     * 
+     *
      * @param role
      * @return
      */
@@ -75,10 +71,10 @@ public class RoleBiz {
         getBaseRole(role.getId());
         return roleMapper.updateByPrimaryKeySelective(role);
     }
-    
+
     /**
      * 根据ID获取信息
-     * 
+     *
      * @param id
      * @return
      */
@@ -86,10 +82,9 @@ public class RoleBiz {
         return getBaseRole(id);
     }
 
-    @Transactional(readOnly = true)
     public Role getBaseRole(Long id) {
         Role role = roleMapper.selectByPrimaryKey(id);
-        if(role == null || role.getIsDeleted()) {
+        if (role == null || role.getIsDeleted()) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "");
         }
         return role;
@@ -97,7 +92,7 @@ public class RoleBiz {
 
     /**
      * 分页查询信息
-     * 
+     *
      * @param roleQuery
      * @return
      */

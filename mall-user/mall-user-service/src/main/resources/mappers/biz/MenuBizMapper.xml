@@ -21,6 +21,7 @@
             AND tb_menu.is_deleted = 0
             AND tb_menu.is_enable = 1
             AND tb_admin_role.admin_id = #{adminId, jdbcType=BIGINT}
+            AND tb_menu.menu_type = #{menuType, jdbcType=TINYINT}
         ORDER BY
             tb_menu.sort_number
     </select>

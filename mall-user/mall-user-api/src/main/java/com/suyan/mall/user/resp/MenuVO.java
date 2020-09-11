@@ -74,18 +74,6 @@ public class MenuVO implements Serializable {
     @ApiModelProperty("创建时间")
     private LocalDateTime createTime;
 
-    /**
-     * 更新时间
-     */
-    @ApiModelProperty("更新时间")
-    private LocalDateTime updateTime;
-
-    /**
-     * 是否删除
-     */
-    @ApiModelProperty("是否删除")
-    private Boolean isDeleted;
-
 
     /**
      * -------------------------------------------------
@@ -96,16 +84,16 @@ public class MenuVO implements Serializable {
     /**
      * 子菜单集合
      */
-    private List<MenuVO> childCategoryList;
+    private List<MenuVO> children;
 
     /**
      * 增加子菜单
      */
-    public void addChildCategoryList(MenuVO menuVO) {
-        if (CollectionUtils.isEmpty(childCategoryList)) {
-            childCategoryList = new ArrayList<>();
+    public void addChild(MenuVO menuVO) {
+        if (CollectionUtils.isEmpty(children)) {
+            children = new ArrayList<>();
         }
-        childCategoryList.add(menuVO);
+        children.add(menuVO);
     }
 
 

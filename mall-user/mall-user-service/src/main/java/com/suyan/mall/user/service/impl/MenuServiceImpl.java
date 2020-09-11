@@ -1,5 +1,6 @@
 package com.suyan.mall.user.service.impl;
 
+import com.suyan.mall.user.enums.MenuTypeEnum;
 import com.suyan.mall.user.service.IMenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,7 @@ public class MenuServiceImpl implements IMenuService {
     @Override
     @Transactional(readOnly = true)
     public List<MenuVO> getAllMenu() {
-        return MenuConvertor.toTree(menuBiz.getAllMenu(null));
+        return MenuConvertor.toMenuVOList(menuBiz.getAllMenu(null, null));
     }
 
 }

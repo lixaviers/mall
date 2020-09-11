@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MenuBizMapper extends MenuMapper {
 
-    List<Menu> getAdminMenu(@Param("adminId") Long adminId);
+    List<Menu> getAdminMenu(@Param("adminId") Long adminId, @Param("menuType") Byte menuType);
 
     List<Integer> getRoleMenuIds(@Param("roleId") Long roleId);
 

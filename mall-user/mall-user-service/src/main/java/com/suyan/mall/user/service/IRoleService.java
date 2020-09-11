@@ -27,7 +27,7 @@ public interface IRoleService {
      * @param roleDTO
      * @return
      */
-    Long createRole(RoleDTO roleDTO);
+    void createRole(RoleDTO roleDTO);
 
 
     /**
@@ -36,7 +36,7 @@ public interface IRoleService {
      * @param roleDTO
      * @return
      */
-    int updateRole(RoleDTO roleDTO);
+    void updateRole(RoleDTO roleDTO);
     
     /**
      * 根据ID获取信息

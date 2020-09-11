@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
 import com.suyan.mall.user.dao.biz.MenuBizMapper;
+import com.suyan.mall.user.enums.MenuTypeEnum;
 import com.suyan.mall.user.model.Admin;
 import com.suyan.mall.user.model.Menu;
 import com.suyan.mall.user.model.MenuExample;
@@ -109,9 +110,9 @@ public class MenuBiz {
         Admin admin = adminBiz.getBaseAdmin(adminId);
         if (admin.getIsSuperAdmin()) {
             // 超级管理员获取所有菜单
-            return getAllMenu(true);
+            return getAllMenu(true, MenuTypeEnum.PAGE.getValue());
         } else {
-            return menuBizMapper.getAdminMenu(adminId);
+            return menuBizMapper.getAdminMenu(adminId, MenuTypeEnum.PAGE.getValue());
         }
     }
 
@@ -121,11 +122,14 @@ public class MenuBiz {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<Menu> getAllMenu(Boolean isEnable) {
+    public List<Menu> getAllMenu(Boolean isEnable, Byte menuType) {
         MenuExample example = new MenuExample();
         MenuExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
         if (isEnable != null) {
             criteria.andIsEnableEqualTo(isEnable);
+        }
+        if (menuType != null) {
+            criteria.andMenuTypeEqualTo(menuType);
         }
         example.setOrderByClause("sort_number");
         return menuBizMapper.selectByExample(example);

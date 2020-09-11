@@ -5,6 +5,7 @@ import com.suyan.mall.user.model.Menu;
 import com.suyan.mall.user.req.MenuDTO;
 import com.suyan.mall.user.resp.MenuVO;
 import com.suyan.query.QueryResultVO;
+import com.suyan.utils.CollectionsUtil;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.util.CollectionUtils;
 
@@ -73,30 +74,34 @@ public abstract class MenuConvertor {
     public static List<MenuVO> toTree(List<Menu> adminMenuList) {
         if (!CollectionUtils.isEmpty(adminMenuList)) {
             // 顶级类目
-            List<MenuVO> topCategoryList = toMenuVOList(adminMenuList.stream().filter(bean -> bean.getParentId().equals(0)).sorted(Comparator.comparing(Menu::getSortNumber)).collect(Collectors.toList()));
-            List<MenuVO> childCategoryList = toMenuVOList(adminMenuList.stream().filter(bean -> !bean.getParentId().equals(0)).collect(Collectors.toList()));
-            sort(topCategoryList, childCategoryList);
-
-            return topCategoryList;
+            List<MenuVO> topList = toMenuVOList(adminMenuList.stream().filter(bean -> bean.getParentId().equals(0L)).sorted(Comparator.comparing(Menu::getSortNumber)).collect(Collectors.toList()));
+            List<MenuVO> childList = toMenuVOList(adminMenuList.stream().filter(bean -> !bean.getParentId().equals(0L)).collect(Collectors.toList()));
+            if (CollectionsUtil.isEmpty(topList)) {
+                return childList;
+            }
+            if (CollectionsUtil.isNotEmpty(childList)) {
+                sort(topList, childList);
+            }
+            return topList;
         }
         return null;
     }
 
-    private static void sort(List<MenuVO> topCategoryList, List<MenuVO> childCategoryList) {
-        List<MenuVO> copyVos = Lists.newCopyOnWriteArrayList(childCategoryList);
-        for (MenuVO top : topCategoryList) {
-            for (MenuVO child : childCategoryList) {
+    private static void sort(List<MenuVO> topList, List<MenuVO> childList) {
+        List<MenuVO> copyVos = Lists.newCopyOnWriteArrayList(childList);
+        for (MenuVO top : topList) {
+            for (MenuVO child : childList) {
                 if (Objects.equals(top.getId(), child.getParentId())) {
-                    top.addChildCategoryList(child);
+                    top.addChild(child);
                     copyVos.remove(child);
                 }
             }
         }
-        for (MenuVO top : topCategoryList) {
-            if (!CollectionUtils.isEmpty(top.getChildCategoryList())) {
+        for (MenuVO top : topList) {
+            if (!CollectionUtils.isEmpty(top.getChildren())) {
                 // 子菜单排序
-                top.setChildCategoryList(top.getChildCategoryList().stream().sorted(Comparator.comparing(MenuVO::getSortNumber)).collect(Collectors.toList()));
-                sort(top.getChildCategoryList(), copyVos);
+                top.setChildren(top.getChildren().stream().sorted(Comparator.comparing(MenuVO::getSortNumber)).collect(Collectors.toList()));
+                sort(top.getChildren(), copyVos);
             }
         }
     }

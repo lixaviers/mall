@@ -1,24 +1,20 @@
 package com.suyan.mall.user.controller;
 
+import com.suyan.mall.user.req.MenuDTO;
+import com.suyan.mall.user.req.MenuQueryDTO;
+import com.suyan.mall.user.resp.MenuVO;
+import com.suyan.mall.user.service.IMenuService;
+import com.suyan.query.QueryResultVO;
+import com.suyan.result.Result;
+import com.suyan.service.BaseInterface;
+import com.suyan.service.UpdateInterface;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import com.suyan.mall.user.convertor.MenuConvertor;
-import org.springframework.validation.BindingResult;
-import com.suyan.mall.user.req.MenuDTO;
-import com.suyan.mall.user.req.MenuQueryDTO;
-import com.suyan.mall.user.resp.MenuVO;
-import com.suyan.query.QueryResultVO;
-import com.suyan.result.Result;
-import com.suyan.result.ResultCode;
-import com.suyan.service.BaseInterface;
-import com.suyan.service.UpdateInterface;
-import com.suyan.mall.user.service.IMenuService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
