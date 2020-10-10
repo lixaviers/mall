@@ -7,7 +7,6 @@ import com.suyan.mall.user.service.IMenuService;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.Result;
 import com.suyan.service.BaseInterface;
-import com.suyan.service.UpdateInterface;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -44,16 +43,15 @@ public class MenuController extends BaseController {
         return Result.newSuccess(menuService.deleteMenu(id));
     }
 
-    @ApiOperation(value = "创建菜单", notes = "创建菜单")
-    @PostMapping("add")
-    public Result<Long> add(@Validated({BaseInterface.class}) @RequestBody MenuDTO menuDTO) {
-        return Result.newSuccess(menuService.createMenu(menuDTO));
-    }
-
-    @ApiOperation(value = "更新菜单", notes = "更新菜单")
-    @PostMapping("update")
-    public Result<Integer> update(@Validated({UpdateInterface.class, BaseInterface.class}) @RequestBody MenuDTO menuDTO) {
-        return Result.newSuccess(menuService.updateMenu(menuDTO));
+    @ApiOperation(value = "创建/更新菜单", notes = "创建/更新菜单")
+    @PostMapping("addOrUpdate")
+    public Result<Long> addOrUpdate(@Validated({BaseInterface.class}) @RequestBody MenuDTO menuDTO) {
+        if (menuDTO.getId() == null) {
+            menuService.createMenu(menuDTO);
+        } else {
+            menuService.updateMenu(menuDTO);
+        }
+        return Result.newSuccess();
     }
 
     @ApiOperation(value = "获取菜单信息", notes = "根据菜单ID获取菜单信息")

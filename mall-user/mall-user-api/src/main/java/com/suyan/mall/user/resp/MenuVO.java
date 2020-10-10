@@ -1,9 +1,9 @@
 package com.suyan.mall.user.resp;
 
-import lombok.Data;
+import com.suyan.utils.CollectionsUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.util.CollectionUtils;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,9 +14,9 @@ import java.util.List;
 @ApiModel("菜单")
 public class MenuVO implements Serializable {
 
-    /**   
+    /**
      * serialVersionUID
-     */ 
+     */
     private static final long serialVersionUID = 1L;
 
 
@@ -31,6 +31,12 @@ public class MenuVO implements Serializable {
      */
     @ApiModelProperty("父id")
     private Long parentId;
+
+    /**
+     * 菜单编码
+     */
+    @ApiModelProperty("菜单编码")
+    private String menuCode;
 
     /**
      * 菜单类型 1.菜单 2.接口 3.按钮
@@ -90,7 +96,7 @@ public class MenuVO implements Serializable {
      * 增加子菜单
      */
     public void addChild(MenuVO menuVO) {
-        if (CollectionUtils.isEmpty(children)) {
+        if (CollectionsUtil.isEmpty(children)) {
             children = new ArrayList<>();
         }
         children.add(menuVO);

@@ -6,6 +6,7 @@
         SELECT
             tb_menu.id,
             tb_menu.`parent_id`,
+            tb_menu.`menu_code`,
             tb_menu.`menu_type`,
             tb_menu.`menu_name`,
             tb_menu.`url`,

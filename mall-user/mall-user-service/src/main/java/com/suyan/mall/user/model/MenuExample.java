@@ -225,6 +225,76 @@ public class MenuExample {
             return (Criteria) this;
         }
 
+        public Criteria andMenuCodeIsNull() {
+            addCriterion("menu_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuCodeIsNotNull() {
+            addCriterion("menu_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuCodeEqualTo(String value) {
+            addCriterion("menu_code =", value, "menuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuCodeNotEqualTo(String value) {
+            addCriterion("menu_code <>", value, "menuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuCodeGreaterThan(String value) {
+            addCriterion("menu_code >", value, "menuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("menu_code >=", value, "menuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuCodeLessThan(String value) {
+            addCriterion("menu_code <", value, "menuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuCodeLessThanOrEqualTo(String value) {
+            addCriterion("menu_code <=", value, "menuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuCodeLike(String value) {
+            addCriterion("menu_code like", value, "menuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuCodeNotLike(String value) {
+            addCriterion("menu_code not like", value, "menuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuCodeIn(List<String> values) {
+            addCriterion("menu_code in", values, "menuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuCodeNotIn(List<String> values) {
+            addCriterion("menu_code not in", values, "menuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuCodeBetween(String value1, String value2) {
+            addCriterion("menu_code between", value1, value2, "menuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuCodeNotBetween(String value1, String value2) {
+            addCriterion("menu_code not between", value1, value2, "menuCode");
+            return (Criteria) this;
+        }
+
         public Criteria andMenuTypeIsNull() {
             addCriterion("menu_type is null");
             return (Criteria) this;

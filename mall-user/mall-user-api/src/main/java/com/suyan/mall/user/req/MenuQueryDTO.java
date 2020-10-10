@@ -27,6 +27,15 @@ public class MenuQueryDTO extends QueryDTO {
     @ApiModelProperty("父id列表")
     private List<Long> parentIdList;
 
+    @ApiModelProperty("菜单编码")
+    private String menuCode;
+
+    @ApiModelProperty("菜单编码列表")
+    private List<String> menuCodeList;
+
+    @ApiModelProperty("菜单编码模糊字段")
+    private String menuCodeLike;
+
     @ApiModelProperty("菜单类型 1.菜单 2.接口 3.按钮")
     private Byte menuType;
 
