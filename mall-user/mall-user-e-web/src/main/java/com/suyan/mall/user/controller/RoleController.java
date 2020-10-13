@@ -31,16 +31,13 @@ public class RoleController extends BaseController {
     }
 
     @ApiOperation(value = "创建", notes = "创建")
-    @PostMapping("add")
-    public Result add(@Validated({BaseInterface.class}) @RequestBody RoleDTO roleDTO) {
-        roleService.createRole(roleDTO);
-        return Result.newSuccess();
-    }
-
-    @ApiOperation(value = "更新", notes = "更新")
-    @PostMapping("update")
-    public Result update(@Validated({BaseInterface.class, UpdateInterface.class}) @RequestBody RoleDTO roleDTO) {
-        roleService.updateRole(roleDTO);
+    @PostMapping("addOrUpdate")
+    public Result addOrUpdate(@Validated({BaseInterface.class}) @RequestBody RoleDTO roleDTO) {
+        if(roleDTO.getId() == null) {
+            roleService.createRole(roleDTO);
+        } else {
+            roleService.updateRole(roleDTO);
+        }
         return Result.newSuccess();
     }
 

@@ -54,7 +54,9 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     @Transactional(readOnly = true)
     public RoleVO getRole(Long id) {
-        return RoleConvertor.toRoleVO(roleBiz.getRole(id));
+        RoleVO roleVO = RoleConvertor.toRoleVO(roleBiz.getRole(id));
+        roleVO.setMenuIds(roleMenuBiz.getRoleMenu(id));
+        return roleVO;
     }
 
     @Override

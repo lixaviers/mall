@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @ApiModel("")
@@ -53,6 +54,13 @@ public class RoleVO implements Serializable {
      * 上面字段由工具自动生成，请在下面添加扩充字段
      * -------------------------------------------------
      */
+
+
+    /**
+     * 菜单id列表
+     */
+    @ApiModelProperty("菜单id列表")
+    private List<Long> menuIds;
 
 
 }
