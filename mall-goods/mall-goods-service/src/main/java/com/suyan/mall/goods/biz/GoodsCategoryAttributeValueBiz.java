@@ -35,7 +35,6 @@ public class GoodsCategoryAttributeValueBiz {
      * @param id
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer deleteGoodsCategoryAttributeValue(Long id) {
         // TODO: Describe business logic and implement it
         getBaseGoodsCategoryAttributeValue(id);
@@ -48,7 +47,6 @@ public class GoodsCategoryAttributeValueBiz {
      * @param goodsCategoryAttributeValue
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Long createGoodsCategoryAttributeValue(GoodsCategoryAttributeValue goodsCategoryAttributeValue) {
         // TODO: Describe business logic and implement it
         goodsCategoryAttributeValueMapper.insertSelective( goodsCategoryAttributeValue );
@@ -73,7 +71,6 @@ public class GoodsCategoryAttributeValueBiz {
      * @param goodsCategoryAttributeValue
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer updateGoodsCategoryAttributeValue(GoodsCategoryAttributeValue goodsCategoryAttributeValue) {
         getBaseGoodsCategoryAttributeValue(goodsCategoryAttributeValue.getId());
         return goodsCategoryAttributeValueMapper.updateByPrimaryKeySelective(goodsCategoryAttributeValue);
@@ -85,7 +82,6 @@ public class GoodsCategoryAttributeValueBiz {
      * @param id
      * @return
      */
-    @Transactional(readOnly = true)
     public GoodsCategoryAttributeValue getGoodsCategoryAttributeValue(Long id) {
         return getBaseGoodsCategoryAttributeValue(id);
     }
@@ -105,7 +101,6 @@ public class GoodsCategoryAttributeValueBiz {
      * @param goodsCategoryAttributeValueQuery
      * @return
      */
-    @Transactional(readOnly = true)
     public QueryResultVO<GoodsCategoryAttributeValue> queryGoodsCategoryAttributeValue(GoodsCategoryAttributeValueQueryDTO goodsCategoryAttributeValueQuery) {
         QueryResultVO<GoodsCategoryAttributeValue> queryResult = new QueryResultVO<GoodsCategoryAttributeValue>();
         // 使用分页插件PageHelper实现分页功能

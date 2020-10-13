@@ -35,7 +35,6 @@ public class GoodsCategoryAttributeBiz {
      * @param id
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer deleteGoodsCategoryAttribute(Long id) {
         // TODO: Describe business logic and implement it
         getBaseGoodsCategoryAttribute(id);
@@ -48,7 +47,6 @@ public class GoodsCategoryAttributeBiz {
      * @param goodsCategoryAttribute
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Long createGoodsCategoryAttribute(GoodsCategoryAttribute goodsCategoryAttribute) {
         // TODO: Describe business logic and implement it
         goodsCategoryAttributeMapper.insertSelective( goodsCategoryAttribute );
@@ -73,7 +71,6 @@ public class GoodsCategoryAttributeBiz {
      * @param goodsCategoryAttribute
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer updateGoodsCategoryAttribute(GoodsCategoryAttribute goodsCategoryAttribute) {
         getBaseGoodsCategoryAttribute(goodsCategoryAttribute.getId());
         return goodsCategoryAttributeMapper.updateByPrimaryKeySelective(goodsCategoryAttribute);
@@ -85,7 +82,6 @@ public class GoodsCategoryAttributeBiz {
      * @param id
      * @return
      */
-    @Transactional(readOnly = true)
     public GoodsCategoryAttribute getGoodsCategoryAttribute(Long id) {
         return getBaseGoodsCategoryAttribute(id);
     }
@@ -105,7 +101,6 @@ public class GoodsCategoryAttributeBiz {
      * @param goodsCategoryAttributeQuery
      * @return
      */
-    @Transactional(readOnly = true)
     public QueryResultVO<GoodsCategoryAttribute> queryGoodsCategoryAttribute(GoodsCategoryAttributeQueryDTO goodsCategoryAttributeQuery) {
         QueryResultVO<GoodsCategoryAttribute> queryResult = new QueryResultVO<GoodsCategoryAttribute>();
         // 使用分页插件PageHelper实现分页功能

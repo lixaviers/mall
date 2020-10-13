@@ -47,7 +47,7 @@ public interface IGoodsCategoryService {
     GoodsCategoryVO getGoodsCategory(Integer id);
 
     /**
-     * 分页查询商品类目信息
+     * 分页查询商品类目信息-E端
      *
      * @param goodsCategoryQueryDTO
      * @return
