@@ -2,6 +2,7 @@ package com.suyan.mall.goods.convertor;
 
 import com.suyan.mall.goods.model.GoodsCategoryAttribute;
 import com.suyan.mall.goods.req.GoodsCategoryAttributeDTO;
+import com.suyan.mall.goods.resp.GoodsCategoryAttributeQueryVO;
 import com.suyan.mall.goods.resp.GoodsCategoryAttributeVO;
 import com.suyan.query.QueryResultVO;
 import org.springframework.cglib.beans.BeanCopier;
@@ -16,6 +17,7 @@ import java.util.List;
 public abstract class GoodsCategoryAttributeConvertor {
 
     private static final BeanCopier beanCopierForGoodsCategoryAttributeVO = BeanCopier.create(GoodsCategoryAttribute.class, GoodsCategoryAttributeVO.class, false);
+    private static final BeanCopier beanCopierForGoodsCategoryAttributeQueryVO = BeanCopier.create(GoodsCategoryAttribute.class, GoodsCategoryAttributeQueryVO.class, false);
     private static final BeanCopier beanCopierForGoodsCategoryAttribute = BeanCopier.create(GoodsCategoryAttributeDTO.class, GoodsCategoryAttribute.class, false);
 
     public static GoodsCategoryAttributeVO toGoodsCategoryAttributeVO(GoodsCategoryAttribute goodsCategoryAttribute) {
@@ -24,6 +26,15 @@ public abstract class GoodsCategoryAttributeConvertor {
         }
         GoodsCategoryAttributeVO goodsCategoryAttributeVO = new GoodsCategoryAttributeVO();
         beanCopierForGoodsCategoryAttributeVO.copy(goodsCategoryAttribute, goodsCategoryAttributeVO, null);
+        return goodsCategoryAttributeVO;
+    }
+
+    public static GoodsCategoryAttributeQueryVO toGoodsCategoryAttributeQueryVO(GoodsCategoryAttribute goodsCategoryAttribute) {
+        if (goodsCategoryAttribute == null) {
+            return null;
+        }
+        GoodsCategoryAttributeQueryVO goodsCategoryAttributeVO = new GoodsCategoryAttributeQueryVO();
+        beanCopierForGoodsCategoryAttributeQueryVO.copy(goodsCategoryAttribute, goodsCategoryAttributeVO, null);
         return goodsCategoryAttributeVO;
     }
 

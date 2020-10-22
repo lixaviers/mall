@@ -2,6 +2,7 @@ package com.suyan.mall.goods.service;
 
 import com.suyan.mall.goods.req.GoodsCategoryAttributeDTO;
 import com.suyan.mall.goods.req.GoodsCategoryAttributeQueryDTO;
+import com.suyan.mall.goods.resp.GoodsCategoryAttributeQueryVO;
 import com.suyan.mall.goods.resp.GoodsCategoryAttributeVO;
 import com.suyan.query.QueryResultVO;
 
@@ -52,7 +53,7 @@ public interface IGoodsCategoryAttributeService {
      * @param goodsCategoryAttributeQueryDTO
      * @return
      */
-    QueryResultVO<GoodsCategoryAttributeVO> queryGoodsCategoryAttribute(GoodsCategoryAttributeQueryDTO goodsCategoryAttributeQueryDTO);
+    QueryResultVO<GoodsCategoryAttributeQueryVO> queryGoodsCategoryAttribute(GoodsCategoryAttributeQueryDTO goodsCategoryAttributeQueryDTO);
 
 
 

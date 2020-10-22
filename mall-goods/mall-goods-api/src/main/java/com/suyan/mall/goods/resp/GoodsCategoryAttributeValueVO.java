@@ -1,8 +1,8 @@
 package com.suyan.mall.goods.resp;
 
-import lombok.Data;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @ApiModel("商品类目属性值")
 public class GoodsCategoryAttributeValueVO implements Serializable {
 
-    /**   
+    /**
      * serialVersionUID
-     */ 
+     */
     private static final long serialVersionUID = 1L;
 
 

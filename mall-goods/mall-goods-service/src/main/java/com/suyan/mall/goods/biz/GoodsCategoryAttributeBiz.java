@@ -1,21 +1,20 @@
 package com.suyan.mall.goods.biz;
 
-import lombok.extern.slf4j.Slf4j;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.suyan.exception.CommonException;
 import com.suyan.mall.goods.dao.GoodsCategoryAttributeMapper;
 import com.suyan.mall.goods.model.GoodsCategoryAttribute;
 import com.suyan.mall.goods.req.GoodsCategoryAttributeQueryDTO;
-import com.suyan.exception.CommonException;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.ResultCode;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -43,42 +42,41 @@ public class GoodsCategoryAttributeBiz {
 
     /**
      * 创建商品类目属性
-     * 
+     *
      * @param goodsCategoryAttribute
      * @return
      */
     public Long createGoodsCategoryAttribute(GoodsCategoryAttribute goodsCategoryAttribute) {
         // TODO: Describe business logic and implement it
-        goodsCategoryAttributeMapper.insertSelective( goodsCategoryAttribute );
+        goodsCategoryAttributeMapper.insertSelective(goodsCategoryAttribute);
         return goodsCategoryAttribute.getId();
     }
 
     /**
-    * 批量创建
-    *
-    * @param goodsCategoryAttributeList
-    * @return
-    */
+     * 批量创建
+     *
+     * @param goodsCategoryAttributeList
+     * @return
+     */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public int batchCreateGoodsCategoryAttribute(List<GoodsCategoryAttribute> goodsCategoryAttributeList) {
         // TODO: Describe business logic and implement it
-        return goodsCategoryAttributeMapper.insertBatch( goodsCategoryAttributeList );
+        return goodsCategoryAttributeMapper.insertBatch(goodsCategoryAttributeList);
     }
 
     /**
      * 更新商品类目属性
-     * 
+     *
      * @param goodsCategoryAttribute
      * @return
      */
     public Integer updateGoodsCategoryAttribute(GoodsCategoryAttribute goodsCategoryAttribute) {
-        getBaseGoodsCategoryAttribute(goodsCategoryAttribute.getId());
         return goodsCategoryAttributeMapper.updateByPrimaryKeySelective(goodsCategoryAttribute);
     }
-    
+
     /**
      * 根据ID获取商品类目属性信息
-     * 
+     *
      * @param id
      * @return
      */
@@ -86,10 +84,9 @@ public class GoodsCategoryAttributeBiz {
         return getBaseGoodsCategoryAttribute(id);
     }
 
-    @Transactional(readOnly = true)
     public GoodsCategoryAttribute getBaseGoodsCategoryAttribute(Long id) {
         GoodsCategoryAttribute goodsCategoryAttribute = goodsCategoryAttributeMapper.selectByPrimaryKey(id);
-        if(goodsCategoryAttribute == null || goodsCategoryAttribute.getIsDeleted()) {
+        if (goodsCategoryAttribute == null || goodsCategoryAttribute.getIsDeleted()) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品类目属性");
         }
         return goodsCategoryAttribute;
@@ -97,7 +94,7 @@ public class GoodsCategoryAttributeBiz {
 
     /**
      * 分页查询商品类目属性信息
-     * 
+     *
      * @param goodsCategoryAttributeQuery
      * @return
      */

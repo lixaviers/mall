@@ -1,17 +1,15 @@
 package com.suyan.mall.goods.resp;
 
-import com.suyan.mall.goods.req.GoodsCategoryAttributeValueDTO;
-import lombok.Data;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @ApiModel("商品类目属性")
-public class GoodsCategoryAttributeVO implements Serializable {
+public class GoodsCategoryAttributeQueryVO implements Serializable {
 
     /**   
      * serialVersionUID
@@ -80,30 +78,27 @@ public class GoodsCategoryAttributeVO implements Serializable {
     private Boolean isEnable;
 
     /**
-     * 创建时间
+     * 值id
      */
-    @ApiModelProperty("创建时间")
-    private LocalDateTime createTime;
+    @ApiModelProperty("值id")
+    private Long valueId;
 
     /**
-     * 更新时间
+     * 值名称
      */
-    @ApiModelProperty("更新时间")
-    private LocalDateTime updateTime;
+    @ApiModelProperty("值名称")
+    private String valueName;
 
     /**
-     * 是否删除
+     * 排序
      */
-    @ApiModelProperty("是否删除")
-    private Boolean isDeleted;
-
+    @ApiModelProperty("排序")
+    private Integer valueSortNumber;
 
     /**
-     * -------------------------------------------------
-     * 上面字段由工具自动生成，请在下面添加扩充字段
-     * -------------------------------------------------
+     * 是否启用
      */
-
-    private List<GoodsCategoryAttributeValueVO> attributeValues;
+    @ApiModelProperty("是否启用")
+    private Boolean valueIsEnable;
 
 }

@@ -1,22 +1,22 @@
 package com.suyan.mall.goods.biz;
 
-import lombok.extern.slf4j.Slf4j;
-import com.suyan.mall.goods.dao.GoodsCategoryAttributeValueMapper;
-import com.suyan.mall.goods.model.GoodsCategoryAttributeValue;
-import com.suyan.mall.goods.req.GoodsCategoryAttributeValueQueryDTO;
-import com.suyan.exception.CommonException;
-import com.suyan.query.QueryResultVO;
-import com.suyan.result.ResultCode;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.suyan.exception.CommonException;
+import com.suyan.mall.goods.dao.GoodsCategoryAttributeValueMapper;
+import com.suyan.mall.goods.model.GoodsCategoryAttributeValue;
+import com.suyan.mall.goods.model.GoodsCategoryAttributeValueExample;
+import com.suyan.mall.goods.req.GoodsCategoryAttributeValueQueryDTO;
+import com.suyan.query.QueryResultVO;
+import com.suyan.result.ResultCode;
+import com.suyan.utils.CollectionsUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @CopyRright (c): <素焉代码生成工具>
@@ -32,42 +32,52 @@ public class GoodsCategoryAttributeValueBiz {
     /**
      * 删除商品类目属性值
      *
-     * @param id
      * @return
      */
-    public Integer deleteGoodsCategoryAttributeValue(Long id) {
-        // TODO: Describe business logic and implement it
-        getBaseGoodsCategoryAttributeValue(id);
-        return goodsCategoryAttributeValueMapper.logicalDeleteByPrimaryKey(id);
+    public Integer deleteGoodsCategoryAttributeValue(Long goodsCategoryAttributeId) {
+        GoodsCategoryAttributeValueExample example = new GoodsCategoryAttributeValueExample();
+        example.createCriteria().andIsDeletedEqualTo(false).andGoodsCategoryAttributeIdEqualTo(goodsCategoryAttributeId);
+        GoodsCategoryAttributeValue goodsCategoryAttributeValue = new GoodsCategoryAttributeValue();
+        goodsCategoryAttributeValue.setIsDeleted(true);
+        return goodsCategoryAttributeValueMapper.updateByExampleSelective(goodsCategoryAttributeValue, example);
     }
 
     /**
      * 创建商品类目属性值
-     * 
+     *
      * @param goodsCategoryAttributeValue
      * @return
      */
     public Long createGoodsCategoryAttributeValue(GoodsCategoryAttributeValue goodsCategoryAttributeValue) {
-        // TODO: Describe business logic and implement it
-        goodsCategoryAttributeValueMapper.insertSelective( goodsCategoryAttributeValue );
+        goodsCategoryAttributeValueMapper.insertSelective(goodsCategoryAttributeValue);
         return goodsCategoryAttributeValue.getId();
     }
 
     /**
-    * 批量创建
-    *
-    * @param goodsCategoryAttributeValueList
-    * @return
-    */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public int batchCreateGoodsCategoryAttributeValue(List<GoodsCategoryAttributeValue> goodsCategoryAttributeValueList) {
-        // TODO: Describe business logic and implement it
-        return goodsCategoryAttributeValueMapper.insertBatch( goodsCategoryAttributeValueList );
+     * 批量创建
+     *
+     * @return
+     */
+    public void batchCreateGoodsCategoryAttributeValue(Long goodsCategoryAttributeId, List<String> valueNames) {
+        if (CollectionsUtil.isNotEmpty(valueNames)) {
+            List<GoodsCategoryAttributeValue> goodsCategoryAttributeValueList = new ArrayList<>(valueNames.size());
+            int index = 1;
+            for (String valueName : valueNames) {
+                GoodsCategoryAttributeValue value = new GoodsCategoryAttributeValue();
+                value.setValueName(valueName);
+                value.setGoodsCategoryAttributeId(goodsCategoryAttributeId);
+                value.setIsEnable(true);
+                value.setSortNumber(index);
+                goodsCategoryAttributeValueList.add(value);
+                index++;
+            }
+            goodsCategoryAttributeValueMapper.insertBatch(goodsCategoryAttributeValueList);
+        }
     }
 
     /**
      * 更新商品类目属性值
-     * 
+     *
      * @param goodsCategoryAttributeValue
      * @return
      */
@@ -75,10 +85,53 @@ public class GoodsCategoryAttributeValueBiz {
         getBaseGoodsCategoryAttributeValue(goodsCategoryAttributeValue.getId());
         return goodsCategoryAttributeValueMapper.updateByPrimaryKeySelective(goodsCategoryAttributeValue);
     }
-    
+
+    /**
+     * 更新商品类目属性值
+     *
+     * @return
+     */
+    public void batchUpdateGoodsCategoryAttributeValue(Long goodsCategoryAttributeId, List<GoodsCategoryAttributeValue> goodsCategoryAttributeValueList) {
+        if (CollectionsUtil.isNotEmpty(goodsCategoryAttributeValueList)) {
+            for (int i = 0; i < goodsCategoryAttributeValueList.size(); i++) {
+                goodsCategoryAttributeValueList.get(i).setSortNumber(i + 1);
+            }
+
+            // 更新
+            List<GoodsCategoryAttributeValue> updateList = goodsCategoryAttributeValueList.stream().filter(bean -> bean.getId() != null).collect(Collectors.toList());
+            if (CollectionsUtil.isNotEmpty(updateList)) {
+                updateList.forEach(bean -> {
+                    goodsCategoryAttributeValueMapper.updateByPrimaryKeySelective(bean);
+                });
+            }
+
+            // 删除
+            List<GoodsCategoryAttributeValue> oldList = getGoodsCategoryAttributeValueByAttributeId(goodsCategoryAttributeId);
+            List<Long> newIds = updateList.stream().map(GoodsCategoryAttributeValue::getId).collect(Collectors.toList());
+            List<Long> deleteIdList = oldList.stream().filter(item -> !newIds.contains(item.getId())).map(GoodsCategoryAttributeValue::getId).collect(Collectors.toList());
+            if (CollectionsUtil.isNotEmpty(deleteIdList)) {
+                GoodsCategoryAttributeValueExample example = new GoodsCategoryAttributeValueExample();
+                example.createCriteria().andIsDeletedEqualTo(false).andIdIn(deleteIdList);
+                GoodsCategoryAttributeValue goodsCategoryAttributeValue = new GoodsCategoryAttributeValue();
+                goodsCategoryAttributeValue.setIsDeleted(true);
+                goodsCategoryAttributeValueMapper.updateByExampleSelective(goodsCategoryAttributeValue, example);
+            }
+
+            // 新增
+            List<GoodsCategoryAttributeValue> addList = goodsCategoryAttributeValueList.stream().filter(bean -> bean.getId() == null).collect(Collectors.toList());
+            if (CollectionsUtil.isNotEmpty(addList)) {
+                addList.forEach(bean -> {
+                    bean.setGoodsCategoryAttributeId(goodsCategoryAttributeId);
+                    bean.setIsEnable(true);
+                });
+                goodsCategoryAttributeValueMapper.insertBatch(addList);
+            }
+        }
+    }
+
     /**
      * 根据ID获取商品类目属性值信息
-     * 
+     *
      * @param id
      * @return
      */
@@ -86,10 +139,9 @@ public class GoodsCategoryAttributeValueBiz {
         return getBaseGoodsCategoryAttributeValue(id);
     }
 
-    @Transactional(readOnly = true)
     public GoodsCategoryAttributeValue getBaseGoodsCategoryAttributeValue(Long id) {
         GoodsCategoryAttributeValue goodsCategoryAttributeValue = goodsCategoryAttributeValueMapper.selectByPrimaryKey(id);
-        if(goodsCategoryAttributeValue == null || goodsCategoryAttributeValue.getIsDeleted()) {
+        if (goodsCategoryAttributeValue == null || goodsCategoryAttributeValue.getIsDeleted()) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品类目属性值");
         }
         return goodsCategoryAttributeValue;
@@ -97,7 +149,7 @@ public class GoodsCategoryAttributeValueBiz {
 
     /**
      * 分页查询商品类目属性值信息
-     * 
+     *
      * @param goodsCategoryAttributeValueQuery
      * @return
      */
@@ -113,6 +165,23 @@ public class GoodsCategoryAttributeValueBiz {
         queryResult.setTotalRecords(pageInfo.getTotal());
         queryResult.setRecords(goodsCategoryAttributeValueList);
         return queryResult;
+    }
+
+    public List<GoodsCategoryAttributeValue> getGoodsCategoryAttributeValueByAttributeId(Long attributeId) {
+        GoodsCategoryAttributeValueExample example = new GoodsCategoryAttributeValueExample();
+        example.createCriteria().andGoodsCategoryAttributeIdEqualTo(attributeId).andIsDeletedEqualTo(false);
+        example.setOrderByClause("goods_category_attribute_id, sort_number");
+        return goodsCategoryAttributeValueMapper.selectByExample(example);
+    }
+
+    public List<GoodsCategoryAttributeValue> getGoodsCategoryAttributeValues(List<Long> attributeIdList) {
+        if (CollectionsUtil.isEmpty(attributeIdList)) {
+            return null;
+        }
+        GoodsCategoryAttributeValueExample example = new GoodsCategoryAttributeValueExample();
+        example.createCriteria().andGoodsCategoryAttributeIdIn(attributeIdList).andIsDeletedEqualTo(false);
+        example.setOrderByClause("goods_category_attribute_id, sort_number");
+        return goodsCategoryAttributeValueMapper.selectByExample(example);
     }
 
 }

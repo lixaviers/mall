@@ -1,24 +1,21 @@
 package com.suyan.mall.goods.controller;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import com.suyan.mall.goods.convertor.GoodsCategoryAttributeConvertor;
-import org.springframework.validation.BindingResult;
 import com.suyan.mall.goods.req.GoodsCategoryAttributeDTO;
 import com.suyan.mall.goods.req.GoodsCategoryAttributeQueryDTO;
+import com.suyan.mall.goods.resp.GoodsCategoryAttributeQueryVO;
 import com.suyan.mall.goods.resp.GoodsCategoryAttributeVO;
+import com.suyan.mall.goods.service.IGoodsCategoryAttributeService;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.Result;
 import com.suyan.result.ResultCode;
 import com.suyan.service.BaseInterface;
-import com.suyan.service.UpdateInterface;
-import com.suyan.mall.goods.service.IGoodsCategoryAttributeService;
+import com.suyan.utils.CollectionsUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import javax.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequestMapping("goodsCategoryAttribute")
@@ -38,6 +35,9 @@ public class GoodsCategoryAttributeController extends BaseController {
     @ApiOperation(value = "创建商品类目属性", notes = "创建商品类目属性")
     @PostMapping("addOrUpdate")
     public Result addOrUpdate(@Validated({BaseInterface.class}) @RequestBody GoodsCategoryAttributeDTO goodsCategoryAttributeDTO) {
+        if (goodsCategoryAttributeDTO.getIsEnum() && CollectionsUtil.isEmpty(goodsCategoryAttributeDTO.getAttributeValues())) {
+            return Result.newError(ResultCode.FIELD_NOT_ALLOWED_EMPTY, "选项值");
+        }
         if (goodsCategoryAttributeDTO.getId() == null) {
             goodsCategoryAttributeService.createGoodsCategoryAttribute(goodsCategoryAttributeDTO);
         } else {
@@ -45,17 +45,18 @@ public class GoodsCategoryAttributeController extends BaseController {
         }
         return Result.newSuccess();
     }
-    
+
     @ApiOperation(value = "获取商品类目属性信息", notes = "根据商品类目属性ID获取商品类目属性信息")
     @GetMapping("get/{id}")
-    public Result<GoodsCategoryAttributeVO> get(@PathVariable Long id ){
+    public Result<GoodsCategoryAttributeVO> get(@PathVariable Long id) {
         return Result.newSuccess(goodsCategoryAttributeService.getGoodsCategoryAttribute(id));
     }
-    
+
     @ApiOperation(value = "获取商品类目属性列表信息", notes = "分页获取商品类目属性列表信息")
     @PostMapping("query")
-    public Result<QueryResultVO<GoodsCategoryAttributeVO>> queryGoodsCategoryAttribute(@Validated @RequestBody GoodsCategoryAttributeQueryDTO goodsCategoryAttributeQueryDTO){
+    public Result<QueryResultVO<GoodsCategoryAttributeQueryVO>> queryGoodsCategoryAttribute(@Validated @RequestBody GoodsCategoryAttributeQueryDTO goodsCategoryAttributeQueryDTO) {
         goodsCategoryAttributeQueryDTO.setIsDeleted(false);
         return Result.newSuccess(goodsCategoryAttributeService.queryGoodsCategoryAttribute(goodsCategoryAttributeQueryDTO));
     }
+
 }
