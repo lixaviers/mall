@@ -34,7 +34,12 @@ public class GoodsCategoryAttributeValueBiz {
      *
      * @return
      */
-    public Integer deleteGoodsCategoryAttributeValue(Long goodsCategoryAttributeId) {
+    public Integer deleteGoodsCategoryAttributeValue(Long id) {
+        getBaseGoodsCategoryAttributeValue(id);
+        return goodsCategoryAttributeValueMapper.logicalDeleteByPrimaryKey(id);
+    }
+
+    public Integer deleteGoodsCategoryAttributeValueByGoodsCategoryAttributeId(Long goodsCategoryAttributeId) {
         GoodsCategoryAttributeValueExample example = new GoodsCategoryAttributeValueExample();
         example.createCriteria().andIsDeletedEqualTo(false).andGoodsCategoryAttributeIdEqualTo(goodsCategoryAttributeId);
         GoodsCategoryAttributeValue goodsCategoryAttributeValue = new GoodsCategoryAttributeValue();

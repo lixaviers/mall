@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
 import com.suyan.mall.goods.dao.GoodsCategoryAttributeMapper;
 import com.suyan.mall.goods.model.GoodsCategoryAttribute;
+import com.suyan.mall.goods.model.GoodsCategoryAttributeExample;
 import com.suyan.mall.goods.req.GoodsCategoryAttributeQueryDTO;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.ResultCode;
@@ -35,7 +36,6 @@ public class GoodsCategoryAttributeBiz {
      * @return
      */
     public Integer deleteGoodsCategoryAttribute(Long id) {
-        // TODO: Describe business logic and implement it
         getBaseGoodsCategoryAttribute(id);
         return goodsCategoryAttributeMapper.logicalDeleteByPrimaryKey(id);
     }
@@ -110,6 +110,13 @@ public class GoodsCategoryAttributeBiz {
         queryResult.setTotalRecords(pageInfo.getTotal());
         queryResult.setRecords(goodsCategoryAttributeList);
         return queryResult;
+    }
+
+    public List<GoodsCategoryAttribute> getByCategoryId(Integer categoryId) {
+        GoodsCategoryAttributeExample example = new GoodsCategoryAttributeExample();
+        example.createCriteria().andIsDeletedEqualTo(false).andCategoryIdEqualTo(categoryId);
+        example.setOrderByClause("sort_number, id");
+        return goodsCategoryAttributeMapper.selectByExample(example);
     }
 
 }

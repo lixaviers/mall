@@ -1,10 +1,8 @@
 package com.suyan.mall.goods.service;
 
 import com.suyan.mall.goods.req.GoodsCategoryAttributeDTO;
-import com.suyan.mall.goods.req.GoodsCategoryAttributeQueryDTO;
 import com.suyan.mall.goods.resp.GoodsCategoryAttributeQueryVO;
 import com.suyan.mall.goods.resp.GoodsCategoryAttributeVO;
-import com.suyan.query.QueryResultVO;
 
 import java.util.List;
 
@@ -15,16 +13,16 @@ public interface IGoodsCategoryAttributeService {
 
     /**
      * 删除商品类目属性
-     * 
-     * @author 
-    * @param id
+     *
+     * @param id
      * @return
+     * @author
      */
-    int deleteGoodsCategoryAttribute(Long id);
-    
+    void deleteGoodsCategoryAttribute(Long id);
+
     /**
      * 创建商品类目属性
-     * 
+     *
      * @param goodsCategoryAttributeDTO
      * @return
      */
@@ -33,28 +31,26 @@ public interface IGoodsCategoryAttributeService {
 
     /**
      * 更新商品类目属性
-     * 
+     *
      * @param goodsCategoryAttributeDTO
      * @return
      */
     int updateGoodsCategoryAttribute(GoodsCategoryAttributeDTO goodsCategoryAttributeDTO);
-    
+
     /**
      * 根据ID获取商品类目属性信息
-     * 
+     *
      * @param id
      * @return
      */
     GoodsCategoryAttributeVO getGoodsCategoryAttribute(Long id);
 
     /**
-     * 分页查询商品类目属性信息
-     * 
-     * @param goodsCategoryAttributeQueryDTO
+     * 查询商品类目属性信息
+     *
      * @return
      */
-    QueryResultVO<GoodsCategoryAttributeQueryVO> queryGoodsCategoryAttribute(GoodsCategoryAttributeQueryDTO goodsCategoryAttributeQueryDTO);
-
+    List<GoodsCategoryAttributeQueryVO> getByCategoryId(Integer categoryId);
 
 
 }

@@ -1,11 +1,9 @@
 package com.suyan.mall.goods.controller;
 
 import com.suyan.mall.goods.req.GoodsCategoryAttributeDTO;
-import com.suyan.mall.goods.req.GoodsCategoryAttributeQueryDTO;
 import com.suyan.mall.goods.resp.GoodsCategoryAttributeQueryVO;
 import com.suyan.mall.goods.resp.GoodsCategoryAttributeVO;
 import com.suyan.mall.goods.service.IGoodsCategoryAttributeService;
-import com.suyan.query.QueryResultVO;
 import com.suyan.result.Result;
 import com.suyan.result.ResultCode;
 import com.suyan.service.BaseInterface;
@@ -16,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RequestMapping("goodsCategoryAttribute")
@@ -29,7 +29,8 @@ public class GoodsCategoryAttributeController extends BaseController {
     @ApiOperation(value = "删除商品类目属性", notes = "删除商品类目属性")
     @PostMapping("delete/{id}")
     public Result<Integer> delete(@PathVariable Long id) {
-        return Result.newSuccess(goodsCategoryAttributeService.deleteGoodsCategoryAttribute(id));
+        goodsCategoryAttributeService.deleteGoodsCategoryAttribute(id);
+        return Result.newSuccess();
     }
 
     @ApiOperation(value = "创建商品类目属性", notes = "创建商品类目属性")
@@ -52,11 +53,10 @@ public class GoodsCategoryAttributeController extends BaseController {
         return Result.newSuccess(goodsCategoryAttributeService.getGoodsCategoryAttribute(id));
     }
 
-    @ApiOperation(value = "获取商品类目属性列表信息", notes = "分页获取商品类目属性列表信息")
-    @PostMapping("query")
-    public Result<QueryResultVO<GoodsCategoryAttributeQueryVO>> queryGoodsCategoryAttribute(@Validated @RequestBody GoodsCategoryAttributeQueryDTO goodsCategoryAttributeQueryDTO) {
-        goodsCategoryAttributeQueryDTO.setIsDeleted(false);
-        return Result.newSuccess(goodsCategoryAttributeService.queryGoodsCategoryAttribute(goodsCategoryAttributeQueryDTO));
+    @ApiOperation(value = "获取商品类目属性列表信息", notes = "获取商品类目属性列表信息")
+    @GetMapping("getByCategoryId/{categoryId}")
+    public Result<List<GoodsCategoryAttributeQueryVO>> getByCategoryId(@PathVariable Integer categoryId) {
+        return Result.newSuccess(goodsCategoryAttributeService.getByCategoryId(categoryId));
     }
 
 }
