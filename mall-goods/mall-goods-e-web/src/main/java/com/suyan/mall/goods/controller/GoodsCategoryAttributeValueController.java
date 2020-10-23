@@ -31,6 +31,7 @@ public class GoodsCategoryAttributeValueController extends BaseController {
     @ApiOperation(value = "更新商品类目属性值", notes = "更新商品类目属性值")
     @PostMapping("update")
     public Result<Integer> update(@Validated({BaseInterface.class, UpdateInterface.class}) @RequestBody GoodsCategoryAttributeValueDTO goodsCategoryAttributeValueDTO) {
+        goodsCategoryAttributeValueDTO.setValueName(goodsCategoryAttributeValueDTO.getValueName().trim());
         return Result.newSuccess(goodsCategoryAttributeValueService.updateGoodsCategoryAttributeValue(goodsCategoryAttributeValueDTO));
     }
 

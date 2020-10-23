@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suyan.mall.goods.dao.biz.GoodsCategoryAttributeBizMapper">
+
+    <select id="getMaxSortNumberByCategoryId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        SELECT
+            IFNULL( max( sort_number ), 0 ) + 1
+        FROM
+            tb_goods_category_attribute
+        WHERE
+            category_id = #{categoryId, jdbcType=INTEGER}
+        AND is_deleted = 0
+    </select>
+
+    <resultMap id="BaseMap" type="com.suyan.mall.goods.model.GoodsCategoryAttribute">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="attribute_name" jdbcType="VARCHAR" property="attributeName"/>
+        <result column="is_enum" jdbcType="BIT" property="isEnum"/>
+        <result column="is_input" jdbcType="BIT" property="isInput"/>
+        <result column="is_must" jdbcType="BIT" property="isMust"/>
+        <result column="is_multi_select" jdbcType="BIT" property="isMultiSelect"/>
+        <result column="is_search_field" jdbcType="BIT" property="isSearchField"/>
+        <result column="sort_number" jdbcType="INTEGER" property="sortNumber"/>
+        <result column="is_enable" jdbcType="BIT" property="isEnable"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="is_deleted" jdbcType="BIT" property="isDeleted"/>
+        <collection property="attributeValues" ofType="com.suyan.mall.goods.model.GoodsCategoryAttributeValue">
+            <id column="value_id" jdbcType="BIGINT" property="id"/>
+            <result column="value_name" jdbcType="VARCHAR" property="valueName"/>
+        </collection>
+    </resultMap>
+
+    <select id="getTreeByCategoryId" resultMap="BaseMap" parameterType="java.lang.Integer">
+        SELECT
+            gca.id,
+            gca.category_id,
+            gca.attribute_name,
+            gca.is_enum,
+            gca.is_input,
+            gca.is_must,
+            gca.is_multi_select,
+            gca.is_search_field,
+            gcav.id as value_id,
+            gcav.value_name
+        FROM
+            tb_goods_category_attribute gca
+        LEFT JOIN
+            tb_goods_category_attribute_value gcav ON gca.id = gcav.goods_category_attribute_id
+        AND gcav.is_deleted = 0
+        AND gcav.is_enable = 1
+        WHERE
+            gca.category_id = #{categoryId, jdbcType=INTEGER}
+        AND gca.is_deleted = 0
+        AND gca.is_enable = 1
+        ORDER BY
+            gca.sort_number,
+            gcav.sort_number
+    </select>
+
+</mapper>

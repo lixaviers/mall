@@ -69,7 +69,7 @@ public class GoodsCategoryAttributeValueBiz {
             int index = 1;
             for (String valueName : valueNames) {
                 GoodsCategoryAttributeValue value = new GoodsCategoryAttributeValue();
-                value.setValueName(valueName);
+                value.setValueName(valueName.trim());
                 value.setGoodsCategoryAttributeId(goodsCategoryAttributeId);
                 value.setIsEnable(true);
                 value.setSortNumber(index);
@@ -106,6 +106,7 @@ public class GoodsCategoryAttributeValueBiz {
             List<GoodsCategoryAttributeValue> updateList = goodsCategoryAttributeValueList.stream().filter(bean -> bean.getId() != null).collect(Collectors.toList());
             if (CollectionsUtil.isNotEmpty(updateList)) {
                 updateList.forEach(bean -> {
+                    bean.setValueName(bean.getValueName().trim());
                     goodsCategoryAttributeValueMapper.updateByPrimaryKeySelective(bean);
                 });
             }

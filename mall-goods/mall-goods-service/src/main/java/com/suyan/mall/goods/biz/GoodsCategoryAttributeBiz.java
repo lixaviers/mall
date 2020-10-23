@@ -3,7 +3,7 @@ package com.suyan.mall.goods.biz;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
-import com.suyan.mall.goods.dao.GoodsCategoryAttributeMapper;
+import com.suyan.mall.goods.dao.biz.GoodsCategoryAttributeBizMapper;
 import com.suyan.mall.goods.model.GoodsCategoryAttribute;
 import com.suyan.mall.goods.model.GoodsCategoryAttributeExample;
 import com.suyan.mall.goods.req.GoodsCategoryAttributeQueryDTO;
@@ -27,7 +27,7 @@ import java.util.List;
 public class GoodsCategoryAttributeBiz {
 
     @Autowired
-    private GoodsCategoryAttributeMapper goodsCategoryAttributeMapper;
+    private GoodsCategoryAttributeBizMapper goodsCategoryAttributeBizMapper;
 
     /**
      * 删除商品类目属性
@@ -37,7 +37,7 @@ public class GoodsCategoryAttributeBiz {
      */
     public Integer deleteGoodsCategoryAttribute(Long id) {
         getBaseGoodsCategoryAttribute(id);
-        return goodsCategoryAttributeMapper.logicalDeleteByPrimaryKey(id);
+        return goodsCategoryAttributeBizMapper.logicalDeleteByPrimaryKey(id);
     }
 
     /**
@@ -48,7 +48,7 @@ public class GoodsCategoryAttributeBiz {
      */
     public Long createGoodsCategoryAttribute(GoodsCategoryAttribute goodsCategoryAttribute) {
         // TODO: Describe business logic and implement it
-        goodsCategoryAttributeMapper.insertSelective(goodsCategoryAttribute);
+        goodsCategoryAttributeBizMapper.insertSelective(goodsCategoryAttribute);
         return goodsCategoryAttribute.getId();
     }
 
@@ -61,7 +61,7 @@ public class GoodsCategoryAttributeBiz {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public int batchCreateGoodsCategoryAttribute(List<GoodsCategoryAttribute> goodsCategoryAttributeList) {
         // TODO: Describe business logic and implement it
-        return goodsCategoryAttributeMapper.insertBatch(goodsCategoryAttributeList);
+        return goodsCategoryAttributeBizMapper.insertBatch(goodsCategoryAttributeList);
     }
 
     /**
@@ -71,7 +71,7 @@ public class GoodsCategoryAttributeBiz {
      * @return
      */
     public Integer updateGoodsCategoryAttribute(GoodsCategoryAttribute goodsCategoryAttribute) {
-        return goodsCategoryAttributeMapper.updateByPrimaryKeySelective(goodsCategoryAttribute);
+        return goodsCategoryAttributeBizMapper.updateByPrimaryKeySelective(goodsCategoryAttribute);
     }
 
     /**
@@ -85,7 +85,7 @@ public class GoodsCategoryAttributeBiz {
     }
 
     public GoodsCategoryAttribute getBaseGoodsCategoryAttribute(Long id) {
-        GoodsCategoryAttribute goodsCategoryAttribute = goodsCategoryAttributeMapper.selectByPrimaryKey(id);
+        GoodsCategoryAttribute goodsCategoryAttribute = goodsCategoryAttributeBizMapper.selectByPrimaryKey(id);
         if (goodsCategoryAttribute == null || goodsCategoryAttribute.getIsDeleted()) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品类目属性");
         }
@@ -102,7 +102,7 @@ public class GoodsCategoryAttributeBiz {
         QueryResultVO<GoodsCategoryAttribute> queryResult = new QueryResultVO<GoodsCategoryAttribute>();
         // 使用分页插件PageHelper实现分页功能
         PageHelper.startPage(goodsCategoryAttributeQuery.getPageNo(), goodsCategoryAttributeQuery.getPageSize());
-        List<GoodsCategoryAttribute> goodsCategoryAttributeList = goodsCategoryAttributeMapper.queryGoodsCategoryAttribute(goodsCategoryAttributeQuery);
+        List<GoodsCategoryAttribute> goodsCategoryAttributeList = goodsCategoryAttributeBizMapper.queryGoodsCategoryAttribute(goodsCategoryAttributeQuery);
         PageInfo<GoodsCategoryAttribute> pageInfo = new PageInfo<GoodsCategoryAttribute>(goodsCategoryAttributeList);
         queryResult.setPageNo(pageInfo.getPageNum());
         queryResult.setPageSize(pageInfo.getPageSize());
@@ -116,7 +116,20 @@ public class GoodsCategoryAttributeBiz {
         GoodsCategoryAttributeExample example = new GoodsCategoryAttributeExample();
         example.createCriteria().andIsDeletedEqualTo(false).andCategoryIdEqualTo(categoryId);
         example.setOrderByClause("sort_number, id");
-        return goodsCategoryAttributeMapper.selectByExample(example);
+        return goodsCategoryAttributeBizMapper.selectByExample(example);
     }
 
+    /**
+     * 根据商品类目获取最大排序值
+     *
+     * @param categoryId
+     * @return
+     */
+    public int getMaxSortNumberByCategoryId(Integer categoryId) {
+        return goodsCategoryAttributeBizMapper.getMaxSortNumberByCategoryId(categoryId);
+    }
+
+    public List<GoodsCategoryAttribute> getTreeByCategoryId(Integer categoryId) {
+        return goodsCategoryAttributeBizMapper.getTreeByCategoryId(categoryId);
+    }
 }

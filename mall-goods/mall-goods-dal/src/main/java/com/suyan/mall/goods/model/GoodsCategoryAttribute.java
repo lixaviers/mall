@@ -81,6 +81,6 @@ public class GoodsCategoryAttribute {
      * -------------------------------------------------
      */
 
-    private List<GoodsCategoryAttributeValue> valueList;
+    private List<GoodsCategoryAttributeValue> attributeValues;
 
 }

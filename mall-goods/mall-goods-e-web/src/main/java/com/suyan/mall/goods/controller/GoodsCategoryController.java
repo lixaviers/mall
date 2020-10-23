@@ -30,6 +30,12 @@ public class GoodsCategoryController extends BaseController {
         return Result.newSuccess(goodsCategoryService.getTree(type));
     }
 
+    @ApiOperation(value = "根据ID获取商品类目信息", notes = "根据ID获取商品类目信息")
+    @GetMapping("get/{id}")
+    public Result<GoodsCategoryVO> get(@PathVariable Integer id) {
+        return Result.newSuccess(goodsCategoryService.getGoodsCategory(id));
+    }
+
     @ApiOperation(value = "分页获取商品类目列表信息", notes = "分页获取商品类目列表信息")
     @PostMapping("query")
     public Result<QueryResultVO<GoodsCategoryVO>> query(@Validated @RequestBody GoodsCategoryQueryDTO goodsCategoryQueryDTO) {

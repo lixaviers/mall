@@ -90,13 +90,13 @@ public class GoodsCategoryAttributeServiceImpl implements IGoodsCategoryAttribut
             if (CollectionsUtil.isNotEmpty(values)) {
                 Map<Long, List<GoodsCategoryAttributeValue>> map = values.stream().collect(Collectors.groupingBy(GoodsCategoryAttributeValue::getGoodsCategoryAttributeId));
                 for (GoodsCategoryAttribute record : beanList) {
-                    record.setValueList(map.get(record.getId()));
+                    record.setAttributeValues(map.get(record.getId()));
                 }
             }
 
             for (GoodsCategoryAttribute record : beanList) {
-                if (CollectionsUtil.isNotEmpty(record.getValueList())) {
-                    for (GoodsCategoryAttributeValue value : record.getValueList()) {
+                if (CollectionsUtil.isNotEmpty(record.getAttributeValues())) {
+                    for (GoodsCategoryAttributeValue value : record.getAttributeValues()) {
                         GoodsCategoryAttributeQueryVO vo = GoodsCategoryAttributeConvertor.toGoodsCategoryAttributeQueryVO(record);
                         vo.setValueId(value.getId());
                         vo.setValueName(value.getValueName());
@@ -112,4 +112,13 @@ public class GoodsCategoryAttributeServiceImpl implements IGoodsCategoryAttribut
         return voList;
     }
 
+    @Override
+    public Integer getMaxSortNumberByCategoryId(Integer categoryId) {
+        return goodsCategoryAttributeBiz.getMaxSortNumberByCategoryId(categoryId);
+    }
+
+    @Override
+    public List<GoodsCategoryAttributeVO> getTreeByCategoryId(Integer categoryId) {
+        return GoodsCategoryAttributeConvertor.toGoodsCategoryAttributeVOList(goodsCategoryAttributeBiz.getTreeByCategoryId(categoryId));
+    }
 }

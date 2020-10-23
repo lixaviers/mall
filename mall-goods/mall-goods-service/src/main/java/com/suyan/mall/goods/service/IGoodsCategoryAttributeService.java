@@ -52,5 +52,19 @@ public interface IGoodsCategoryAttributeService {
      */
     List<GoodsCategoryAttributeQueryVO> getByCategoryId(Integer categoryId);
 
+    /**
+     * 根据商品类目获取最大排序值
+     *
+     * @param categoryId
+     * @return
+     */
+    Integer getMaxSortNumberByCategoryId(Integer categoryId);
+
+    /**
+     * 查询商品类目属性信息
+     *
+     * @return
+     */
+    List<GoodsCategoryAttributeVO> getTreeByCategoryId(Integer categoryId);
 
 }

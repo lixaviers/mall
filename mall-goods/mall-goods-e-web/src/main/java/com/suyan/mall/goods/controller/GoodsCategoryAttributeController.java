@@ -39,6 +39,7 @@ public class GoodsCategoryAttributeController extends BaseController {
         if (goodsCategoryAttributeDTO.getIsEnum() && CollectionsUtil.isEmpty(goodsCategoryAttributeDTO.getAttributeValues())) {
             return Result.newError(ResultCode.FIELD_NOT_ALLOWED_EMPTY, "选项值");
         }
+        goodsCategoryAttributeDTO.setAttributeName(goodsCategoryAttributeDTO.getAttributeName().trim());
         if (goodsCategoryAttributeDTO.getId() == null) {
             goodsCategoryAttributeService.createGoodsCategoryAttribute(goodsCategoryAttributeDTO);
         } else {
@@ -57,6 +58,18 @@ public class GoodsCategoryAttributeController extends BaseController {
     @GetMapping("getByCategoryId/{categoryId}")
     public Result<List<GoodsCategoryAttributeQueryVO>> getByCategoryId(@PathVariable Integer categoryId) {
         return Result.newSuccess(goodsCategoryAttributeService.getByCategoryId(categoryId));
+    }
+
+    @ApiOperation(value = "根据商品类目获取最大排序值", notes = "根据商品类目获取最大排序值")
+    @GetMapping("getMaxSortNumberByCategoryId/{categoryId}")
+    public Result<Integer> getMaxSortNumberByCategoryId(@PathVariable Integer categoryId) {
+        return Result.newSuccess(goodsCategoryAttributeService.getMaxSortNumberByCategoryId(categoryId));
+    }
+
+    @ApiOperation(value = "获取商品类目属性列表信息", notes = "获取商品类目属性列表信息")
+    @GetMapping("getTreeByCategoryId/{categoryId}")
+    public Result<List<GoodsCategoryAttributeVO>> getTreeByCategoryId(@PathVariable Integer categoryId) {
+        return Result.newSuccess(goodsCategoryAttributeService.getTreeByCategoryId(categoryId));
     }
 
 }
