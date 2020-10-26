@@ -39,6 +39,7 @@ public class GoodsCategoryController extends BaseController {
     @ApiOperation(value = "分页获取商品类目列表信息", notes = "分页获取商品类目列表信息")
     @PostMapping("query")
     public Result<QueryResultVO<GoodsCategoryVO>> query(@Validated @RequestBody GoodsCategoryQueryDTO goodsCategoryQueryDTO) {
+        goodsCategoryQueryDTO.setIsDeleted(false);
         return Result.newSuccess(goodsCategoryService.queryGoodsCategory(goodsCategoryQueryDTO));
     }
 

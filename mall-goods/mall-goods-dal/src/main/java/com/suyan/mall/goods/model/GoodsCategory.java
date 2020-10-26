@@ -1,6 +1,5 @@
 package com.suyan.mall.goods.model;
 
-import com.suyan.mall.goods.resp.GoodsCategoryVO;
 import com.suyan.utils.CollectionsUtil;
 import lombok.Data;
 
@@ -61,6 +60,11 @@ public class GoodsCategory {
      * 更新时间
      */
     private LocalDateTime updateTime;
+
+    /**
+     * 是否删除
+     */
+    private Boolean isDeleted;
 
 
     /**

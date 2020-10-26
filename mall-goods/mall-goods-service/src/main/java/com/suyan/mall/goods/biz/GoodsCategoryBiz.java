@@ -40,7 +40,6 @@ public class GoodsCategoryBiz {
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer deleteGoodsCategory(Integer id) {
-        // TODO: Describe business logic and implement it
         getBaseGoodsCategory(id);
         return goodsCategoryMapper.deleteByPrimaryKey(id);
     }
@@ -53,22 +52,10 @@ public class GoodsCategoryBiz {
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer createGoodsCategory(GoodsCategory goodsCategory) {
-        // TODO: Describe business logic and implement it
         goodsCategoryMapper.insertSelective(goodsCategory);
         return goodsCategory.getId();
     }
 
-    /**
-     * 批量创建
-     *
-     * @param goodsCategoryList
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public int batchCreateGoodsCategory(List<GoodsCategory> goodsCategoryList) {
-        // TODO: Describe business logic and implement it
-        return goodsCategoryMapper.insertBatch(goodsCategoryList);
-    }
 
     /**
      * 更新商品类目
@@ -96,7 +83,7 @@ public class GoodsCategoryBiz {
     @Transactional(readOnly = true)
     public GoodsCategory getBaseGoodsCategory(Integer id) {
         GoodsCategory goodsCategory = goodsCategoryMapper.selectByPrimaryKey(id);
-        if (goodsCategory == null) {
+        if (goodsCategory == null || goodsCategory.getIsDeleted()) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品类目");
         }
         return goodsCategory;
@@ -125,7 +112,13 @@ public class GoodsCategoryBiz {
 
     public List<GoodsCategory> getTree(byte type) {
         GoodsCategoryExample example = new GoodsCategoryExample();
-        example.createCriteria().andCategoryTypeEqualTo(type).andIsEnableEqualTo(true);
+        example.createCriteria().andCategoryTypeEqualTo(type).andIsEnableEqualTo(true).andIsDeletedEqualTo(false);
+        return goodsCategoryMapper.selectByExample(example);
+    }
+
+    public List<GoodsCategory> getByParentId(Integer parentId, byte type) {
+        GoodsCategoryExample example = new GoodsCategoryExample();
+        example.createCriteria().andParentIdEqualTo(parentId).andCategoryTypeEqualTo(type).andIsEnableEqualTo(true).andIsDeletedEqualTo(false);
         return goodsCategoryMapper.selectByExample(example);
     }
 }

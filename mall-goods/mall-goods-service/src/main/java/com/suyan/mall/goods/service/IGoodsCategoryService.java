@@ -60,4 +60,13 @@ public interface IGoodsCategoryService {
      * @return
      */
     List<GoodsCategoryVO> getTree(byte type);
+
+    /**
+     * 根据父类id查询
+     *
+     * @param parentId
+     * @param type
+     * @return
+     */
+    List<GoodsCategoryVO> getByParentId(Integer parentId, byte type);
 }

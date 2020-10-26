@@ -4,7 +4,6 @@ import com.suyan.mall.goods.resp.GoodsCategoryVO;
 import com.suyan.mall.goods.service.IGoodsCategoryService;
 import com.suyan.result.Result;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +28,12 @@ public class GoodsCategoryController extends BaseController {
     @GetMapping("getTree/{type}")
     public Result<List<GoodsCategoryVO>> getTree(@PathVariable @ApiParam("1.前台 2.后台") byte type) {
         return Result.newSuccess(goodsCategoryService.getTree(type));
+    }
+
+    @ApiOperation(value = "根据父类id查询类目", notes = "根据父类id查询类目")
+    @GetMapping("getByParentId/{parentId}/{type}")
+    public Result<List<GoodsCategoryVO>> getByParentId(@PathVariable @ApiParam("父类id") Integer parentId, @PathVariable @ApiParam("1.前台 2.后台") byte type) {
+        return Result.newSuccess(goodsCategoryService.getByParentId(parentId, type));
     }
 
 

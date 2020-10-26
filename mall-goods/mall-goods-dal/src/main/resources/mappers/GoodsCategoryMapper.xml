@@ -12,6 +12,7 @@
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, parent_id, category_name, category_type, category_level, full_id_path, full_name_path, 
-    is_enable, create_time, update_time
+    is_enable, create_time, update_time, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.goods.model.GoodsCategoryExample" resultMap="BaseResultMap">
     select
@@ -112,12 +113,12 @@
     </selectKey>
     insert into tb_goods_category (parent_id, category_name, category_type, 
       category_level, full_id_path, full_name_path, 
-      is_enable, create_time, update_time
-      )
+      is_enable, create_time, update_time, 
+      is_deleted)
     values (#{parentId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{categoryType,jdbcType=TINYINT}, 
       #{categoryLevel,jdbcType=INTEGER}, #{fullIdPath,jdbcType=VARCHAR}, #{fullNamePath,jdbcType=VARCHAR}, 
-      #{isEnable,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+      #{isEnable,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.goods.model.GoodsCategory">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -152,6 +153,9 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="parentId != null">
@@ -180,6 +184,9 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -222,6 +229,9 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -238,7 +248,8 @@
       full_name_path = #{record.fullNamePath,jdbcType=VARCHAR},
       is_enable = #{record.isEnable,jdbcType=BIT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -273,6 +284,9 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -286,17 +300,25 @@
       full_name_path = #{fullNamePath,jdbcType=VARCHAR},
       is_enable = #{isEnable,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
 
+    <update id="logicalDeleteByPrimaryKey">
+        UPDATE tb_goods_category
+        SET
+            is_deleted=1
+        WHERE id = #{id,jdbcType=INTEGER} 
+    </update>
 
     <select id="selectByPrimaryKeyForUpdate" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT
         <include refid="Base_Column_List" />
         FROM tb_goods_category
         WHERE id = #{id,jdbcType=INTEGER} 
+        AND is_deleted=0
         FOR UPDATE
     </select>
     
@@ -349,6 +371,10 @@
             <if test="createTimeTo != null"><![CDATA[AND create_time <= #{createTimeTo,jdbcType=TIMESTAMP}]]></if>
             <if test="updateTimeFrom != null"><![CDATA[AND update_time >= #{updateTimeFrom,jdbcType=TIMESTAMP}]]></if>
             <if test="updateTimeTo != null"><![CDATA[AND update_time <= #{updateTimeTo,jdbcType=TIMESTAMP}]]></if>
+            <if test="isDeleted!=null">AND is_deleted = #{isDeleted,jdbcType=BOOLEAN}</if>
+            <if test="isDeletedList != null and isDeletedList.size > 0">
+                <foreach item="item" separator="," open="AND is_deleted in (" close=")" collection="isDeletedList">#{item,jdbcType=BOOLEAN}</foreach>
+            </if>
         </where>
         <choose>
             <when test="orderBy!=null and orderBy!=''">order by ${orderBy}</when>
@@ -384,6 +410,7 @@
         <include refid="Base_Column_List" />
         FROM tb_goods_category
         WHERE  parent_id = #{parentId,jdbcType=INTEGER}
+    AND is_deleted = 0
     </select>
 
 </mapper>

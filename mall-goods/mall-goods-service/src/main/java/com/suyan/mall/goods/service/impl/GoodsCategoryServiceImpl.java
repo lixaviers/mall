@@ -58,4 +58,9 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService {
     public List<GoodsCategoryVO> getTree(byte type) {
         return GoodsCategoryConvertor.toTree(goodsCategoryBiz.getTree(type));
     }
+
+    @Override
+    public List<GoodsCategoryVO> getByParentId(Integer parentId, byte type) {
+        return GoodsCategoryConvertor.toGoodsCategoryVOList(goodsCategoryBiz.getByParentId(parentId, type));
+    }
 }

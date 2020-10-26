@@ -84,6 +84,12 @@ public class GoodsCategoryQueryDTO extends QueryDTO {
     @ApiModelProperty("更新时间止")
     private LocalDateTime updateTimeTo;
 
+    @ApiModelProperty("是否删除")
+    private Boolean isDeleted;
+
+    @ApiModelProperty("是否删除列表")
+    private List<Boolean> isDeletedList;
+
 
 
     /**

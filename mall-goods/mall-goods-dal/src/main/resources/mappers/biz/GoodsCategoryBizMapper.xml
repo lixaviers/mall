@@ -19,6 +19,7 @@
             INNER JOIN tb_goods_category_relation ON tb_goods_category.id = tb_goods_category_relation.left_id
         WHERE
             tb_goods_category_relation.right_id = #{backgroundCategoryId, jdbcType=INTEGER}
+        AND tb_goods_category.is_deleted = 0
     </select>
 
 </mapper>
