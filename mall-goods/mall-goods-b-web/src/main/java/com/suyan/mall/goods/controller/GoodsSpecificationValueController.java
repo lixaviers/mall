@@ -17,9 +17,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@RequestMapping("/b/goodsSpecificationValue")
+@RequestMapping("goodsSpecificationValue")
 @RestController
-@Api(value = "/b/goodsSpecificationValue", tags = "商品规格值管理接口")
+@Api(tags = "商品规格值管理接口")
 public class GoodsSpecificationValueController extends BaseController {
 
     @Autowired

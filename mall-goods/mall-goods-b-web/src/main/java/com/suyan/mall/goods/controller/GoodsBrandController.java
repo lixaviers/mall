@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @Slf4j
-@RequestMapping("/b/goodsBrand")
+@RequestMapping("goodsBrand")
 @RestController
 @Api(tags = "商品品牌管理接口")
 public class GoodsBrandController extends BaseController {

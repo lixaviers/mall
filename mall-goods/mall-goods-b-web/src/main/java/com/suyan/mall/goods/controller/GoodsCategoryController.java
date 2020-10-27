@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @Slf4j
-@RequestMapping("/b/goodsCategory")
+@RequestMapping("goodsCategory")
 @RestController
-@Api(value = "/b/goodsCategory", tags = "商品类目管理接口")
+@Api(tags = "商品类目管理接口")
 public class GoodsCategoryController extends BaseController {
 
     @Autowired
@@ -34,6 +34,12 @@ public class GoodsCategoryController extends BaseController {
     @GetMapping("getByParentId/{parentId}/{type}")
     public Result<List<GoodsCategoryVO>> getByParentId(@PathVariable @ApiParam("父类id") Integer parentId, @PathVariable @ApiParam("1.前台 2.后台") byte type) {
         return Result.newSuccess(goodsCategoryService.getByParentId(parentId, type));
+    }
+
+    @ApiOperation(value = "根据ID获取商品类目信息", notes = "根据ID获取商品类目信息")
+    @GetMapping("get/{id}")
+    public Result<GoodsCategoryVO> get(@PathVariable Integer id) {
+        return Result.newSuccess(goodsCategoryService.getGoodsCategory(id));
     }
 
 

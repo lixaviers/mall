@@ -22,3 +22,6 @@ spring:
         refreshable-dataids: common-dev.yaml,nacos-dev.yaml,redis-dev.yaml
   main:
     allow-bean-definition-overriding: true
+server:
+  servlet:
+    context-path: /b
