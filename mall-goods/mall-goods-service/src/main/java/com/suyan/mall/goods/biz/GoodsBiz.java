@@ -75,26 +75,12 @@ public class GoodsBiz {
      * @param goods
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Long createGoods(Goods goods) {
         // 处理信息
         dealInfo(goods);
 
         goods.setGoodsStatus(GoodsStatusEnum.NORMAL.getValue());
         goodsBizMapper.insertSelective(goods);
-
-        /*goods.getSkuList().forEach(sku -> {
-            sku.setGoodsId(goods.getId());
-            sku.setGoodsName(goods.getGoodsName());
-        });*/
-        goodsSkuBiz.batchCreateGoodsSku(goods.getSkuList());
-
-        // 添加商品描述
-        GoodsDescription goodsDescription = new GoodsDescription();
-        goodsDescription.setGoodsId(goods.getId());
-        goodsDescription.setDescription(goods.getDescription());
-        // 商品描述
-        goodsDescriptionBiz.createGoodsDescription(goodsDescription);
         return goods.getId();
     }
 
@@ -124,6 +110,7 @@ public class GoodsBiz {
             // 单规格
             goods.setSpecValue("");
         }
+        goods.setInventory(totalInventory);
         goods.setSales(0);
         goods.setListPrice(minPirce);
     }
@@ -209,7 +196,7 @@ public class GoodsBiz {
         List<GoodsSku> skuList = new ArrayList<>();
         if (CollectionsUtil.isNotEmpty(addSkuList)) {
             skuList.addAll(addSkuList);
-            goodsSkuBiz.batchCreateGoodsSku(addSkuList);
+            goodsSkuBiz.batchCreateGoodsSku(goods.getId(), addSkuList);
         }
         if (CollectionsUtil.isNotEmpty(updateSkuList)) {
             skuList.addAll(updateSkuList);

@@ -69,4 +69,12 @@ public interface IGoodsCategoryService {
      * @return
      */
     List<GoodsCategoryVO> getByParentId(Integer parentId, byte type);
+
+    /**
+     * 获取最近发布的商品类目-B端
+     *
+     * @return
+     */
+    GoodsCategoryVO getRecentlyReleasedGoodsCategory();
+
 }

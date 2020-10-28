@@ -42,5 +42,11 @@ public class GoodsCategoryController extends BaseController {
         return Result.newSuccess(goodsCategoryService.getGoodsCategory(id));
     }
 
+    @ApiOperation(value = "获取最近发布的商品类目", notes = "获取最近发布的商品类目")
+    @GetMapping("getRecentlyReleasedGoodsCategory")
+    public Result<GoodsCategoryVO> getRecentlyReleasedGoodsCategory() {
+        return Result.newSuccess(goodsCategoryService.getRecentlyReleasedGoodsCategory());
+    }
+
 
 }

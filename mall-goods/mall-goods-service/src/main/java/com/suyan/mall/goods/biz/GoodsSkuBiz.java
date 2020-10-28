@@ -70,7 +70,7 @@ public class GoodsSkuBiz {
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public int batchCreateGoodsSku(List<GoodsSku> goodsSkuList) {
+    public void batchCreateGoodsSku(Long goodsId, List<GoodsSku> goodsSkuList) {
         if (CollectionsUtil.isNotEmpty(goodsSkuList)) {
             // 当前的sku编码
             Long skuCode = null;
@@ -81,14 +81,14 @@ public class GoodsSkuBiz {
                 skuCode = new Long(maxSkuCode) + 1;
             }
             for (GoodsSku goodsSku : goodsSkuList) {
+                goodsSku.setGoodsId(goodsId);
                 if (goodsSku.getId() == null) {
                     goodsSku.setSkuCode(String.valueOf(skuCode));
                     skuCode++;
                 }
             }
-            return goodsSkuBizMapper.insertBatch(goodsSkuList);
+            goodsSkuBizMapper.insertBatch(goodsSkuList);
         }
-        return 0;
     }
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
@@ -217,7 +217,6 @@ public class GoodsSkuBiz {
             }
         }
     }
-
 
 
 }

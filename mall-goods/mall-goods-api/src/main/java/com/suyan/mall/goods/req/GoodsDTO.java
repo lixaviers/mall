@@ -155,6 +155,12 @@ public class GoodsDTO implements Serializable {
     private List<GoodsSpecificationDTO> goodsSpecificationList;
 
     /**
+     * 商品属性
+     */
+    @ApiModelProperty("商品属性")
+    private List<GoodsAttributeDTO> attributeList;
+
+    /**
      * 商品描述
      */
     @ApiModelProperty("商品描述")

@@ -30,7 +30,7 @@ public interface IGoodsService {
      * @param goodsDTO
      * @return
      */
-    Long createGoods(GoodsDTO goodsDTO);
+    void createGoods(GoodsDTO goodsDTO);
 
     /**
      * 更新商品

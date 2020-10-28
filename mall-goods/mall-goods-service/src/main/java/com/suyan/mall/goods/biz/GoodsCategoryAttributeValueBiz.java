@@ -190,4 +190,16 @@ public class GoodsCategoryAttributeValueBiz {
         return goodsCategoryAttributeValueMapper.selectByExample(example);
     }
 
+    /**
+     * 根据id列表查询
+     *
+     * @param idList
+     * @return
+     */
+    public List<GoodsCategoryAttributeValue> getByIdList(List<Long> idList) {
+        GoodsCategoryAttributeValueExample example = new GoodsCategoryAttributeValueExample();
+        example.createCriteria().andIsDeletedEqualTo(false).andIsEnableEqualTo(true).andIdIn(idList);
+        return goodsCategoryAttributeValueMapper.selectByExample(example);
+    }
+
 }

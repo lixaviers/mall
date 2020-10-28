@@ -63,4 +63,10 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService {
     public List<GoodsCategoryVO> getByParentId(Integer parentId, byte type) {
         return GoodsCategoryConvertor.toGoodsCategoryVOList(goodsCategoryBiz.getByParentId(parentId, type));
     }
+
+    @Override
+    public GoodsCategoryVO getRecentlyReleasedGoodsCategory() {
+        return GoodsCategoryConvertor.toGoodsCategoryVO(goodsCategoryBiz.getRecentlyReleasedGoodsCategory());
+    }
+
 }

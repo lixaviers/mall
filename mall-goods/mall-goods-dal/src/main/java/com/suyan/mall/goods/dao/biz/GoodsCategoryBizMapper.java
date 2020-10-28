@@ -10,4 +10,12 @@ public interface GoodsCategoryBizMapper extends GoodsCategoryMapper {
 
     List<GoodsCategory> getForegroundCategorysByBackgroundCategoryId(@Param("backgroundCategoryId") Integer backgroundCategoryId);
 
+    /**
+     * 获取最近发布的商品类目
+     *
+     * @param shopId
+     * @return
+     */
+    GoodsCategory getRecentlyReleasedGoodsCategory(@Param("shopId") Long shopId);
+
 }

@@ -22,4 +22,29 @@
         AND tb_goods_category.is_deleted = 0
     </select>
 
+    <select id="getRecentlyReleasedGoodsCategory" resultMap="com.suyan.mall.goods.dao.GoodsCategoryMapper.BaseResultMap">
+        SELECT
+            tb_goods_category.id,
+            tb_goods_category.parent_id,
+            tb_goods_category.category_name,
+            tb_goods_category.category_type,
+            tb_goods_category.category_level,
+            tb_goods_category.full_id_path,
+            tb_goods_category.full_name_path,
+            tb_goods_category.is_enable,
+            tb_goods_category.create_time,
+            tb_goods_category.update_time
+        FROM
+            tb_goods
+        INNER JOIN
+            tb_goods_category ON tb_goods.goods_category_id = tb_goods_category.id
+        WHERE
+            tb_goods_category.is_enable = 1
+        AND tb_goods_category.is_deleted = 0
+        AND tb_goods.shop_id = #{shopId, jdbcType=BIGINT}
+        ORDER BY
+            tb_goods.create_time DESC
+        LIMIT 1
+    </select>
+
 </mapper>

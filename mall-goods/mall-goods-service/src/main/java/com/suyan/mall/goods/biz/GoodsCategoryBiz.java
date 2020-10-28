@@ -3,10 +3,12 @@ package com.suyan.mall.goods.biz;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.suyan.exception.CommonException;
-import com.suyan.mall.goods.dao.GoodsCategoryMapper;
+import com.suyan.mall.goods.dao.biz.GoodsCategoryBizMapper;
 import com.suyan.mall.goods.model.GoodsCategory;
 import com.suyan.mall.goods.model.GoodsCategoryExample;
 import com.suyan.mall.goods.req.GoodsCategoryQueryDTO;
+import com.suyan.mall.user.resp.b.UserInfoVO;
+import com.suyan.mall.user.utils.UserUtil;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +31,7 @@ import java.util.List;
 public class GoodsCategoryBiz {
 
     @Autowired
-    private GoodsCategoryMapper goodsCategoryMapper;
+    private GoodsCategoryBizMapper goodsCategoryBizMapper;
 
 
     /**
@@ -41,7 +43,7 @@ public class GoodsCategoryBiz {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer deleteGoodsCategory(Integer id) {
         getBaseGoodsCategory(id);
-        return goodsCategoryMapper.deleteByPrimaryKey(id);
+        return goodsCategoryBizMapper.deleteByPrimaryKey(id);
     }
 
     /**
@@ -52,7 +54,7 @@ public class GoodsCategoryBiz {
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer createGoodsCategory(GoodsCategory goodsCategory) {
-        goodsCategoryMapper.insertSelective(goodsCategory);
+        goodsCategoryBizMapper.insertSelective(goodsCategory);
         return goodsCategory.getId();
     }
 
@@ -66,7 +68,7 @@ public class GoodsCategoryBiz {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer updateGoodsCategory(GoodsCategory goodsCategory) {
         getBaseGoodsCategory(goodsCategory.getId());
-        return goodsCategoryMapper.updateByPrimaryKeySelective(goodsCategory);
+        return goodsCategoryBizMapper.updateByPrimaryKeySelective(goodsCategory);
     }
 
     /**
@@ -82,7 +84,7 @@ public class GoodsCategoryBiz {
 
     @Transactional(readOnly = true)
     public GoodsCategory getBaseGoodsCategory(Integer id) {
-        GoodsCategory goodsCategory = goodsCategoryMapper.selectByPrimaryKey(id);
+        GoodsCategory goodsCategory = goodsCategoryBizMapper.selectByPrimaryKey(id);
         if (goodsCategory == null || goodsCategory.getIsDeleted()) {
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品类目");
         }
@@ -100,7 +102,7 @@ public class GoodsCategoryBiz {
         QueryResultVO<GoodsCategory> queryResult = new QueryResultVO<GoodsCategory>();
         // 使用分页插件PageHelper实现分页功能
         PageHelper.startPage(goodsCategoryQuery.getPageNo(), goodsCategoryQuery.getPageSize());
-        List<GoodsCategory> goodsCategoryList = goodsCategoryMapper.queryGoodsCategory(goodsCategoryQuery);
+        List<GoodsCategory> goodsCategoryList = goodsCategoryBizMapper.queryGoodsCategory(goodsCategoryQuery);
         PageInfo<GoodsCategory> pageInfo = new PageInfo<GoodsCategory>(goodsCategoryList);
         queryResult.setPageNo(pageInfo.getPageNum());
         queryResult.setPageSize(pageInfo.getPageSize());
@@ -113,12 +115,24 @@ public class GoodsCategoryBiz {
     public List<GoodsCategory> getTree(byte type) {
         GoodsCategoryExample example = new GoodsCategoryExample();
         example.createCriteria().andCategoryTypeEqualTo(type).andIsEnableEqualTo(true).andIsDeletedEqualTo(false);
-        return goodsCategoryMapper.selectByExample(example);
+        return goodsCategoryBizMapper.selectByExample(example);
     }
 
     public List<GoodsCategory> getByParentId(Integer parentId, byte type) {
         GoodsCategoryExample example = new GoodsCategoryExample();
         example.createCriteria().andParentIdEqualTo(parentId).andCategoryTypeEqualTo(type).andIsEnableEqualTo(true).andIsDeletedEqualTo(false);
-        return goodsCategoryMapper.selectByExample(example);
+        return goodsCategoryBizMapper.selectByExample(example);
     }
+
+    /**
+     * 获取最近发布的商品类目-B端
+     *
+     * @return
+     */
+    public GoodsCategory getRecentlyReleasedGoodsCategory() {
+        UserInfoVO shopUser = UserUtil.getShopUser();
+        return goodsCategoryBizMapper.getRecentlyReleasedGoodsCategory(shopUser.getShopId());
+    }
+
+
 }
