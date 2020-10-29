@@ -8,6 +8,7 @@ import com.suyan.mall.goods.constants.Constant;
 import com.suyan.mall.goods.constants.ExceptionDefGoods;
 import com.suyan.mall.goods.dao.biz.GoodsSkuBizMapper;
 import com.suyan.mall.goods.enums.GoodsInventoryWayEnum;
+import com.suyan.mall.goods.model.Goods;
 import com.suyan.mall.goods.model.GoodsSku;
 import com.suyan.mall.goods.model.GoodsSkuExample;
 import com.suyan.mall.goods.model.GoodsSkuInventoryLog;
@@ -25,7 +26,10 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @CopyRright (c): <素焉代码生成工具>
@@ -69,7 +73,6 @@ public class GoodsSkuBiz {
      * @param goodsSkuList
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public void batchCreateGoodsSku(Long goodsId, List<GoodsSku> goodsSkuList) {
         if (CollectionsUtil.isNotEmpty(goodsSkuList)) {
             // 当前的sku编码
@@ -91,7 +94,86 @@ public class GoodsSkuBiz {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    /**
+     * 编辑商品
+     *
+     * @param goods
+     * @param isMoreSpec 之前商品是否多规格
+     */
+    public void updateGoodsSku(Goods goods, Boolean isMoreSpec) {
+
+
+        // 添加的sku列表
+        List<GoodsSku> addSkuList = null;
+        // 编辑的sku列表
+        List<GoodsSku> updateSkuList = null;
+        // 删除的sku id列表
+        List<Long> deletedSkuIdList = null;
+
+        // 查询sku
+        List<GoodsSku> oldSkuList = getGoodsSku(goods.getId());
+        List<Long> oldSkuIdList = oldSkuList.stream().map(GoodsSku::getId).collect(Collectors.toList());
+        // 编辑后的sku
+        List<GoodsSku> newSkuList = goods.getSkuList();
+        if (isMoreSpec) {
+
+            if (goods.getIsMoreSpec()) {
+                // 之前多规格，编辑还是多规格
+
+                // 获取传入sku列表 id不为空 的列表
+                List<GoodsSku> updateList = newSkuList.stream().filter(item -> item.getId() != null).collect(Collectors.toList());
+                // 获取传入sku列表 id为空 的列表
+                addSkuList = newSkuList.stream().filter(item -> item.getId() == null).collect(Collectors.toList());
+                // 前端的参数不可信，需要重新过滤下
+                List<GoodsSku> filterAddList = updateList.stream().filter(item -> !oldSkuIdList.contains(item.getId())).collect(Collectors.toList());
+                updateSkuList = updateList.stream().filter(item -> oldSkuIdList.contains(item.getId())).collect(Collectors.toList());
+                if (CollectionsUtil.isNotEmpty(filterAddList)) {
+                    if (CollectionsUtil.isNotEmpty(addSkuList)) {
+                        addSkuList.addAll(filterAddList);
+                    } else {
+                        addSkuList = filterAddList;
+                    }
+                }
+
+                if (CollectionsUtil.isEmpty(updateSkuList)) {
+                    // 编辑商品的为空，删除之前所有的sku
+                    deletedSkuIdList = oldSkuIdList;
+                } else {
+                    List<Long> updateSkuIdList = updateSkuList.stream().map(GoodsSku::getId).collect(Collectors.toList());
+                    deletedSkuIdList = oldSkuIdList.stream().filter(id -> !updateSkuIdList.contains(id)).collect(Collectors.toList());
+                }
+            } else {
+                // 之前多规格，编辑为单规格
+                deletedSkuIdList = oldSkuIdList;
+                addSkuList = newSkuList;
+            }
+        } else {
+            if (goods.getIsMoreSpec()) {
+                // 之前单规格，编辑为多规格
+                deletedSkuIdList = oldSkuIdList;
+                addSkuList = newSkuList;
+            } else {
+                // 之前单规格，编辑为单规格
+                GoodsSku goodsSku = newSkuList.get(0);
+                goodsSku.setId(oldSkuIdList.get(0));
+                updateSkuList = Arrays.asList(goodsSku);
+            }
+
+        }
+        // 删除sku
+        deleteGoodsSku(deletedSkuIdList);
+
+        List<GoodsSku> skuList = new ArrayList<>();
+        if (CollectionsUtil.isNotEmpty(addSkuList)) {
+            skuList.addAll(addSkuList);
+            batchCreateGoodsSku(goods.getId(), addSkuList);
+        }
+        if (CollectionsUtil.isNotEmpty(updateSkuList)) {
+            skuList.addAll(updateSkuList);
+            batchUpdate(updateSkuList);
+        }
+    }
+
     public void batchUpdate(List<GoodsSku> goodsSkuList) {
         if (CollectionsUtil.isNotEmpty(goodsSkuList)) {
             goodsSkuList.forEach(goodsSku -> {

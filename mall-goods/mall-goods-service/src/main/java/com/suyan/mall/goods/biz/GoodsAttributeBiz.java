@@ -5,15 +5,14 @@ import com.suyan.exception.CommonException;
 import com.suyan.mall.goods.constants.ExceptionDefGoods;
 import com.suyan.mall.goods.dao.GoodsAttributeMapper;
 import com.suyan.mall.goods.model.GoodsAttribute;
+import com.suyan.mall.goods.model.GoodsAttributeExample;
 import com.suyan.mall.goods.model.GoodsCategoryAttribute;
 import com.suyan.mall.goods.model.GoodsCategoryAttributeValue;
 import com.suyan.mall.goods.req.GoodsAttributeDTO;
-import com.suyan.result.ResultCode;
 import com.suyan.utils.CollectionsUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,18 +33,6 @@ public class GoodsAttributeBiz {
     private GoodsCategoryAttributeBiz goodsCategoryAttributeBiz;
     @Autowired
     private GoodsCategoryAttributeValueBiz goodsCategoryAttributeValueBiz;
-
-    /**
-     * 删除商品属性
-     *
-     * @param id
-     * @return
-     */
-    public Integer deleteGoodsAttribute(Long id) {
-        // TODO: Describe business logic and implement it
-        getBaseGoodsAttribute(id);
-        return goodsAttributeMapper.logicalDeleteByPrimaryKey(id);
-    }
 
     /**
      * 创建商品属性
@@ -117,31 +104,34 @@ public class GoodsAttributeBiz {
     /**
      * 更新商品属性
      *
-     * @param goodsAttribute
+     * @param attributeList
      * @return
      */
-    public Integer updateGoodsAttribute(GoodsAttribute goodsAttribute) {
-        getBaseGoodsAttribute(goodsAttribute.getId());
-        return goodsAttributeMapper.updateByPrimaryKeySelective(goodsAttribute);
+    public void updateGoodsAttribute(Long goodsId, List<GoodsAttributeDTO> attributeList) {
+        // 这里不匹配，直接删除旧的，在新增
+        deleteGoodsAttribute(goodsId);
+
+        createGoodsAttribute(goodsId, attributeList);
     }
 
     /**
-     * 根据ID获取商品属性信息
+     * 删除商品属性
      *
-     * @param id
+     * @param goodsId
      * @return
      */
-    public GoodsAttribute getGoodsAttribute(Long id) {
-        return getBaseGoodsAttribute(id);
+    public Integer deleteGoodsAttribute(Long goodsId) {
+        GoodsAttributeExample example = new GoodsAttributeExample();
+        example.createCriteria().andIsDeletedEqualTo(false).andGoodsIdEqualTo(goodsId);
+        GoodsAttribute bean = new GoodsAttribute();
+        bean.setIsDeleted(true);
+        return goodsAttributeMapper.updateByExampleSelective(bean, example);
     }
 
-    @Transactional(readOnly = true)
-    public GoodsAttribute getBaseGoodsAttribute(Long id) {
-        GoodsAttribute goodsAttribute = goodsAttributeMapper.selectByPrimaryKey(id);
-        if (goodsAttribute == null || goodsAttribute.getIsDeleted()) {
-            throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品属性");
-        }
-        return goodsAttribute;
+    public List<GoodsAttribute> getGoodsAttributes(Long goodsId) {
+        GoodsAttributeExample example = new GoodsAttributeExample();
+        example.createCriteria().andIsDeletedEqualTo(false).andGoodsIdEqualTo(goodsId);
+        return goodsAttributeMapper.selectByExample(example);
     }
 
 }

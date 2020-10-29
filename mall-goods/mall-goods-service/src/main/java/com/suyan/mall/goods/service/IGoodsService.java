@@ -38,7 +38,7 @@ public interface IGoodsService {
      * @param goodsDTO
      * @return
      */
-    int updateGoods(GoodsDTO goodsDTO);
+    void updateGoods(GoodsDTO goodsDTO);
 
     /**
      * 根据ID获取商品信息

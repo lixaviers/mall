@@ -4,7 +4,9 @@ import com.suyan.mall.goods.biz.GoodsAttributeBiz;
 import com.suyan.mall.goods.biz.GoodsBiz;
 import com.suyan.mall.goods.biz.GoodsDescriptionBiz;
 import com.suyan.mall.goods.biz.GoodsSkuBiz;
+import com.suyan.mall.goods.convertor.GoodsAttributeConvertor;
 import com.suyan.mall.goods.convertor.GoodsConvertor;
+import com.suyan.mall.goods.convertor.GoodsSkuConvertor;
 import com.suyan.mall.goods.model.Goods;
 import com.suyan.mall.goods.model.GoodsDescription;
 import com.suyan.mall.goods.req.GoodsDTO;
@@ -68,13 +70,35 @@ public class GoodsServiceImpl implements IGoodsService {
     }
 
     @Override
-    public int updateGoods(GoodsDTO goodsDTO) {
-        return goodsBiz.updateGoods(GoodsConvertor.toGoods(goodsDTO));
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public void updateGoods(GoodsDTO goodsDTO) {
+        // 编辑商品
+        Goods goods = GoodsConvertor.toGoods(goodsDTO);
+        Goods goodsLast = goodsBiz.updateGoods(goods);
+        // 编辑商品sku
+        goodsSkuBiz.updateGoodsSku(goods, goodsLast.getIsMoreSpec());
+
+        // 编辑商品详情
+        GoodsDescription goodsDescription = new GoodsDescription();
+        goodsDescription.setGoodsId(goodsDTO.getId());
+        goodsDescription.setDescription(goodsDTO.getDescription());
+        goodsDescriptionBiz.updateGoodsDescription(goodsDescription);
+
+        // 编辑商品属性
+        goodsAttributeBiz.updateGoodsAttribute(goodsDTO.getId(), goodsDTO.getAttributeList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public GoodsVO getGoods(Long id) {
-        return GoodsConvertor.toGoodsVO(goodsBiz.getGoods(id));
+        GoodsVO goodsVO = GoodsConvertor.toGoodsVO(goodsBiz.getGoods(id));
+        // 商品sku
+        goodsVO.setSkuList(GoodsSkuConvertor.toGoodsSkuVOList(goodsSkuBiz.getGoodsSku(id)));
+        // 商品详情
+        goodsVO.setDescription(goodsDescriptionBiz.getGoodsDescription(id));
+        // 商品属性
+        goodsVO.setAttributeList(GoodsAttributeConvertor.toGoodsAttributeVOList(goodsAttributeBiz.getGoodsAttributes(id)));
+        return goodsVO;
     }
 
     @Override

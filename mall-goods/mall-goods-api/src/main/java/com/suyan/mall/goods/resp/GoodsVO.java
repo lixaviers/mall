@@ -1,5 +1,6 @@
 package com.suyan.mall.goods.resp;
 
+import com.suyan.mall.goods.req.GoodsAttributeDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -163,5 +164,11 @@ public class GoodsVO implements Serializable {
      */
     @ApiModelProperty("商品详情")
     private String description;
+
+    /**
+     * 商品属性
+     */
+    @ApiModelProperty("商品属性")
+    private List<GoodsAttributeVO> attributeList;
 
 }

@@ -10,7 +10,6 @@ import com.suyan.mall.goods.enums.GoodsStatusEnum;
 import com.suyan.mall.goods.es.model.GoodsES;
 import com.suyan.mall.goods.es.repository.GoodsRepository;
 import com.suyan.mall.goods.model.Goods;
-import com.suyan.mall.goods.model.GoodsDescription;
 import com.suyan.mall.goods.model.GoodsExample;
 import com.suyan.mall.goods.model.GoodsSku;
 import com.suyan.mall.goods.req.GoodsQueryDTO;
@@ -21,7 +20,6 @@ import com.suyan.mall.user.resp.b.UserInfoVO;
 import com.suyan.mall.user.utils.UserUtil;
 import com.suyan.query.QueryResultVO;
 import com.suyan.result.ResultCode;
-import com.suyan.utils.CollectionsUtil;
 import com.suyan.utils.JsonUtil;
 import com.suyan.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +41,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @CopyRright (c): <素焉代码生成工具>
@@ -122,95 +119,18 @@ public class GoodsBiz {
      * @param goods
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Integer updateGoods(Goods goods) {
+    public Goods updateGoods(Goods goods) {
         // 查询商品
         Goods goodsLast = getBaseGoods(goods.getId());
         if (!goodsLast.getShopId().equals(goods.getShopId())) {
             // 非本店铺商品
             throw new CommonException(ResultCode.NO_PERMISSION_OPERATE, "此商品");
         }
-
-        // 添加的sku列表
-        List<GoodsSku> addSkuList = null;
-        // 编辑的sku列表
-        List<GoodsSku> updateSkuList = null;
-        // 删除的sku id列表
-        List<Long> deletedSkuIdList = null;
-
-        // 查询sku
-        List<GoodsSku> oldSkuList = goodsSkuBiz.getGoodsSku(goods.getId());
-        List<Long> oldSkuIdList = oldSkuList.stream().map(GoodsSku::getId).collect(Collectors.toList());
-        // 编辑后的sku
-        List<GoodsSku> newSkuList = goods.getSkuList();
-        if (goodsLast.getIsMoreSpec()) {
-
-            if (goods.getIsMoreSpec()) {
-                // 之前多规格，编辑还是多规格
-
-                // 获取传入sku列表 id不为空 的列表
-                List<GoodsSku> updateList = newSkuList.stream().filter(item -> item.getId() != null).collect(Collectors.toList());
-                // 获取传入sku列表 id为空 的列表
-                addSkuList = newSkuList.stream().filter(item -> item.getId() == null).collect(Collectors.toList());
-                // 前端的参数不可信，需要重新过滤下
-                List<GoodsSku> filterAddList = updateList.stream().filter(item -> !oldSkuIdList.contains(item.getId())).collect(Collectors.toList());
-                updateSkuList = updateList.stream().filter(item -> oldSkuIdList.contains(item.getId())).collect(Collectors.toList());
-                if (CollectionsUtil.isNotEmpty(filterAddList)) {
-                    if (CollectionsUtil.isNotEmpty(addSkuList)) {
-                        addSkuList.addAll(filterAddList);
-                    } else {
-                        addSkuList = filterAddList;
-                    }
-                }
-
-                if (CollectionsUtil.isEmpty(updateSkuList)) {
-                    // 编辑商品的为空，删除之前所有的sku
-                    deletedSkuIdList = oldSkuIdList;
-                } else {
-                    List<Long> updateSkuIdList = updateSkuList.stream().map(GoodsSku::getId).collect(Collectors.toList());
-                    deletedSkuIdList = oldSkuIdList.stream().filter(id -> !updateSkuIdList.contains(id)).collect(Collectors.toList());
-                }
-            } else {
-                // 之前多规格，编辑为单规格
-                deletedSkuIdList = oldSkuIdList;
-                addSkuList = newSkuList;
-            }
-        } else {
-            if (goods.getIsMoreSpec()) {
-                // 之前单规格，编辑为多规格
-                deletedSkuIdList = oldSkuIdList;
-                addSkuList = newSkuList;
-            } else {
-                // 之前单规格，编辑为单规格
-                GoodsSku goodsSku = newSkuList.get(0);
-                goodsSku.setId(oldSkuIdList.get(0));
-                updateSkuList = Arrays.asList(goodsSku);
-            }
-
-        }
-        // 删除sku
-        goodsSkuBiz.deleteGoodsSku(deletedSkuIdList);
         // 处理信息
         dealInfo(goods);
 
-        List<GoodsSku> skuList = new ArrayList<>();
-        if (CollectionsUtil.isNotEmpty(addSkuList)) {
-            skuList.addAll(addSkuList);
-            goodsSkuBiz.batchCreateGoodsSku(goods.getId(), addSkuList);
-        }
-        if (CollectionsUtil.isNotEmpty(updateSkuList)) {
-            skuList.addAll(updateSkuList);
-            goodsSkuBiz.batchUpdate(updateSkuList);
-        }
-        goods.setSkuList(skuList);
-
-        // 编辑商品详情
-        GoodsDescription goodsDescription = new GoodsDescription();
-        goodsDescription.setGoodsId(goods.getId());
-        goodsDescription.setDescription(goods.getDescription());
-        goodsDescriptionBiz.updateGoodsDescription(goodsDescription);
-
-        return goodsBizMapper.updateByPrimaryKeySelective(goods);
+        goodsBizMapper.updateByPrimaryKeySelective(goods);
+        return goodsLast;
     }
 
     /**
@@ -242,7 +162,6 @@ public class GoodsBiz {
         return goods;
     }
 
-    @Transactional(readOnly = true)
     public Goods getGoods(Long id) {
         UserInfoVO shopUser = UserUtil.getShopUser();
         Goods goods = getBaseGoods(id);
@@ -250,11 +169,6 @@ public class GoodsBiz {
             // 非本店铺商品不能查看
             throw new CommonException(ResultCode.DATA_NOT_EXIST, "商品");
         }
-        // 商品详情
-        goods.setDescription(goodsDescriptionBiz.getGoodsDescription(id));
-        // 商品sku
-        List<GoodsSku> skuList = goodsSkuBiz.getGoodsSku(id);
-        goods.setSkuList(skuList);
         return goods;
     }
 
