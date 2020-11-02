@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2020.
+ * 项目名称：素焉商城
+ * 创建人：素焉
+ * 开源地址: https://github.com/lixaviers/mall
+ */
 package com.suyan.mall.user.service.impl;
 
 import com.suyan.mall.operation.feignClient.b.ShopFeignClient;
@@ -80,6 +86,12 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserInfoVO shopLogin(UserDTO userDTO) {
         User user = UserConvertor.toUser(userDTO);
+        /*String body = JSON.toJSONString(userDTO);
+        String topic = RocketMqTopicConstant.MqTagEnum.USER_LOGIN.getTopic();
+        String tag = RocketMqTopicConstant.MqTagEnum.USER_LOGIN.getTag();
+        String key = StringUtils.createMqKey(topic, tag, userDTO.getMobile(), body);
+        MqMessageDataDTO mqMessageData = new MqMessageDataDTO(topic, tag, key, body);
+        UserInfoVO userInfoVO = UserConvertor.toUserInfoVO(userBiz.shopLogin(mqMessageData, user));*/
         UserInfoVO userInfoVO = UserConvertor.toUserInfoVO(userBiz.shopLogin(user));
         try {
             // 获取用户店铺

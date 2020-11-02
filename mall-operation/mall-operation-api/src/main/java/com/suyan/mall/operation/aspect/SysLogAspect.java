@@ -1,4 +1,10 @@
-package com.suyan.mall.operation.annotation;
+/*
+ * Copyright (c) 2020.
+ * 项目名称：素焉商城
+ * 创建人：素焉
+ * 开源地址: https://github.com/lixaviers/mall
+ */
+package com.suyan.mall.operation.aspect;
 
 import com.suyan.mall.operation.async.SystemLogAsync;
 import com.suyan.mall.user.utils.UserUtil;

@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2020.
+ * 项目名称：素焉商城
+ * 创建人：素焉
+ * 开源地址: https://github.com/lixaviers/mall
+ */
 package com.suyan.result;
 
 public enum ResultCode {
@@ -75,6 +81,11 @@ public enum ResultCode {
     API_INVLID_DATA_FORMAT(803, "数据格式不符合要求"),
     API_INVLID_API(804, "api【%s】不存在"),
     EXTERNAL_SYSTEM_ERROR(805, "调用外部系统[%s]出错"),
+
+    MESSAGE_900_ERROR(900, "消息目标接口参数不能为空"),
+    MESSAGE_901_ERROR(901, "Mq编码转换异常, MessageKey=%s"),
+    MESSAGE_902_ERROR(902, "延迟级别错误, Topic=%s, MessageKey=%s"),
+    MESSAGE_903_ERROR(903, "MQ重试%d次,仍然发送失败, Topic=%s, MessageKey=%s"),
 
     /**
      * 公用错误

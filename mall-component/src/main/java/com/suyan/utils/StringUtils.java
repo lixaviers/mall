@@ -1,4 +1,12 @@
+/*
+ * Copyright (c) 2020.
+ * 项目名称：素焉商城
+ * 创建人：素焉
+ * 开源地址: https://github.com/lixaviers/mall
+ */
 package com.suyan.utils;
+
+import com.google.common.base.Preconditions;
 
 import java.util.Random;
 
@@ -152,6 +160,30 @@ public class StringUtils {
             return start;
         }
         return end - new Random().nextInt(end - start + 1);
+    }
+
+    private static final int REF_NO_MAX_LENGTH = 100;
+
+    /**
+     * 创建mq key
+     *
+     * @param topic
+     * @param tag
+     * @param refNo
+     * @param body
+     * @return
+     */
+    public static String createMqKey(String topic, String tag, String refNo, String body) {
+        String temp = refNo;
+        Preconditions.checkArgument(org.apache.commons.lang3.StringUtils.isNotEmpty(topic), "topic is null");
+        Preconditions.checkArgument(org.apache.commons.lang3.StringUtils.isNotEmpty(tag), "tag is null");
+        Preconditions.checkArgument(org.apache.commons.lang3.StringUtils.isNotEmpty(refNo), "refNo is null");
+        Preconditions.checkArgument(org.apache.commons.lang3.StringUtils.isNotEmpty(body), "body is null");
+
+        if (refNo.length() > REF_NO_MAX_LENGTH) {
+            temp = org.apache.commons.lang3.StringUtils.substring(refNo, 0, REF_NO_MAX_LENGTH) + "...";
+        }
+        return topic + "_" + tag + "_" + temp + "-" + body.hashCode();
     }
 
 }

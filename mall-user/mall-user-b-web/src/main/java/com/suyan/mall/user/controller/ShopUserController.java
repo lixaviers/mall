@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2020.
+ * 项目名称：素焉商城
+ * 创建人：素焉
+ * 开源地址: https://github.com/lixaviers/mall
+ */
 package com.suyan.mall.user.controller;
 
 import com.suyan.annotation.PassLogin;
@@ -30,7 +36,7 @@ import java.util.UUID;
 @Slf4j
 @RequestMapping("/b/shopUser")
 @RestController
-@Api(value = "/b/shopUser", tags = "用户管理接口")
+@Api(tags = "用户管理接口")
 public class ShopUserController extends BaseController {
 
     @Autowired

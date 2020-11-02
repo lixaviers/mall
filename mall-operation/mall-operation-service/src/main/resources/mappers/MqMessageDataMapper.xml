@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suyan.mall.operation.dao.MqMessageDataMapper">
+    <resultMap id="BaseResultMap" type="com.suyan.mall.operation.model.MqMessageData">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="message_group" jdbcType="VARCHAR" property="messageGroup" />
+    <result column="message_key" jdbcType="VARCHAR" property="messageKey" />
+    <result column="message_topic" jdbcType="VARCHAR" property="messageTopic" />
+    <result column="message_tag" jdbcType="VARCHAR" property="messageTag" />
+    <result column="message_body" jdbcType="VARCHAR" property="messageBody" />
+    <result column="message_type" jdbcType="TINYINT" property="messageType" />
+    <result column="order_type" jdbcType="TINYINT" property="orderType" />
+    <result column="message_status" jdbcType="TINYINT" property="messageStatus" />
+    <result column="delay_level" jdbcType="INTEGER" property="delayLevel" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, message_group, message_key, message_topic, message_tag, message_body, message_type, 
+    order_type, message_status, delay_level, create_time, update_time, is_deleted
+  </sql>
+  <select id="selectByExample" parameterType="com.suyan.mall.operation.model.MqMessageDataExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_mq_message_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_mq_message_data
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_mq_message_data
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.suyan.mall.operation.model.MqMessageDataExample">
+    delete from tb_mq_message_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.suyan.mall.operation.model.MqMessageData">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      select LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_mq_message_data (message_group, message_key, message_topic, 
+      message_tag, message_body, message_type, 
+      order_type, message_status, delay_level, 
+      create_time, update_time, is_deleted
+      )
+    values (#{messageGroup,jdbcType=VARCHAR}, #{messageKey,jdbcType=VARCHAR}, #{messageTopic,jdbcType=VARCHAR}, 
+      #{messageTag,jdbcType=VARCHAR}, #{messageBody,jdbcType=VARCHAR}, #{messageType,jdbcType=TINYINT}, 
+      #{orderType,jdbcType=TINYINT}, #{messageStatus,jdbcType=TINYINT}, #{delayLevel,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.suyan.mall.operation.model.MqMessageData">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      select LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_mq_message_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="messageGroup != null">
+        message_group,
+      </if>
+      <if test="messageKey != null">
+        message_key,
+      </if>
+      <if test="messageTopic != null">
+        message_topic,
+      </if>
+      <if test="messageTag != null">
+        message_tag,
+      </if>
+      <if test="messageBody != null">
+        message_body,
+      </if>
+      <if test="messageType != null">
+        message_type,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="messageStatus != null">
+        message_status,
+      </if>
+      <if test="delayLevel != null">
+        delay_level,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="messageGroup != null">
+        #{messageGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="messageKey != null">
+        #{messageKey,jdbcType=VARCHAR},
+      </if>
+      <if test="messageTopic != null">
+        #{messageTopic,jdbcType=VARCHAR},
+      </if>
+      <if test="messageTag != null">
+        #{messageTag,jdbcType=VARCHAR},
+      </if>
+      <if test="messageBody != null">
+        #{messageBody,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null">
+        #{messageType,jdbcType=TINYINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=TINYINT},
+      </if>
+      <if test="messageStatus != null">
+        #{messageStatus,jdbcType=TINYINT},
+      </if>
+      <if test="delayLevel != null">
+        #{delayLevel,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.suyan.mall.operation.model.MqMessageDataExample" resultType="java.lang.Long">
+    select count(*) from tb_mq_message_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_mq_message_data
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.messageGroup != null">
+        message_group = #{record.messageGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageKey != null">
+        message_key = #{record.messageKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageTopic != null">
+        message_topic = #{record.messageTopic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageTag != null">
+        message_tag = #{record.messageTag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageBody != null">
+        message_body = #{record.messageBody,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageType != null">
+        message_type = #{record.messageType,jdbcType=TINYINT},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=TINYINT},
+      </if>
+      <if test="record.messageStatus != null">
+        message_status = #{record.messageStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.delayLevel != null">
+        delay_level = #{record.delayLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_mq_message_data
+    set id = #{record.id,jdbcType=BIGINT},
+      message_group = #{record.messageGroup,jdbcType=VARCHAR},
+      message_key = #{record.messageKey,jdbcType=VARCHAR},
+      message_topic = #{record.messageTopic,jdbcType=VARCHAR},
+      message_tag = #{record.messageTag,jdbcType=VARCHAR},
+      message_body = #{record.messageBody,jdbcType=VARCHAR},
+      message_type = #{record.messageType,jdbcType=TINYINT},
+      order_type = #{record.orderType,jdbcType=TINYINT},
+      message_status = #{record.messageStatus,jdbcType=TINYINT},
+      delay_level = #{record.delayLevel,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suyan.mall.operation.model.MqMessageData">
+    update tb_mq_message_data
+    <set>
+      <if test="messageGroup != null">
+        message_group = #{messageGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="messageKey != null">
+        message_key = #{messageKey,jdbcType=VARCHAR},
+      </if>
+      <if test="messageTopic != null">
+        message_topic = #{messageTopic,jdbcType=VARCHAR},
+      </if>
+      <if test="messageTag != null">
+        message_tag = #{messageTag,jdbcType=VARCHAR},
+      </if>
+      <if test="messageBody != null">
+        message_body = #{messageBody,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null">
+        message_type = #{messageType,jdbcType=TINYINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=TINYINT},
+      </if>
+      <if test="messageStatus != null">
+        message_status = #{messageStatus,jdbcType=TINYINT},
+      </if>
+      <if test="delayLevel != null">
+        delay_level = #{delayLevel,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suyan.mall.operation.model.MqMessageData">
+    update tb_mq_message_data
+    set message_group = #{messageGroup,jdbcType=VARCHAR},
+      message_key = #{messageKey,jdbcType=VARCHAR},
+      message_topic = #{messageTopic,jdbcType=VARCHAR},
+      message_tag = #{messageTag,jdbcType=VARCHAR},
+      message_body = #{messageBody,jdbcType=VARCHAR},
+      message_type = #{messageType,jdbcType=TINYINT},
+      order_type = #{orderType,jdbcType=TINYINT},
+      message_status = #{messageStatus,jdbcType=TINYINT},
+      delay_level = #{delayLevel,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+    <update id="logicalDeleteByPrimaryKey">
+        UPDATE tb_mq_message_data
+        SET
+            is_deleted=1
+        WHERE id = #{id,jdbcType=BIGINT} 
+    </update>
+
+    <select id="selectByPrimaryKeyForUpdate" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_mq_message_data
+        WHERE id = #{id,jdbcType=BIGINT} 
+        AND is_deleted=0
+        FOR UPDATE
+    </select>
+    
+    <insert id="insertBatch" parameterType="java.util.List">
+        <trim prefix="insert into tb_mq_message_data (" suffix=") values" suffixOverrides=",">
+            message_group,
+            message_key,
+            message_topic,
+            message_tag,
+            message_body,
+            message_type,
+            order_type,
+            message_status,
+            delay_level,
+        </trim>
+        <foreach collection="modelList" item="bean" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{bean.messageGroup,jdbcType=VARCHAR} ,
+            #{bean.messageKey,jdbcType=VARCHAR} ,
+            #{bean.messageTopic,jdbcType=VARCHAR} ,
+            #{bean.messageTag,jdbcType=VARCHAR} ,
+            #{bean.messageBody,jdbcType=VARCHAR} ,
+            #{bean.messageType,jdbcType=TINYINT} ,
+            #{bean.orderType,jdbcType=TINYINT} ,
+            #{bean.messageStatus,jdbcType=TINYINT} ,
+            #{bean.delayLevel,jdbcType=INTEGER} ,
+            </trim>
+        </foreach>
+    </insert>
+
+
+</mapper>

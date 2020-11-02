@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2020.
+ * 项目名称：素焉商城
+ * 创建人：素焉
+ * 开源地址: https://github.com/lixaviers/mall
+ */
 package com.suyan.mall.message.service.impl;
 
 import com.suyan.mall.message.biz.ChannelBiz;
@@ -65,6 +71,7 @@ public class MessageRecordServiceImpl implements IMessageRecordService {
 
         smsMessageDTO.setVerCode(code);
         smsMessageDTO.setChannelId(channel.getId());
+
         messageRecordBiz.sendVerCode(smsMessageDTO);
         result.setData(code);
         return result;
