@@ -2,8 +2,6 @@
 采用Spring Cloud Gateway，AuthGatewayFilterFactory类为验证用户信息
 <br>
 
-### 异常范围定义
-
 | 功能列表                                 | 状态                                                  |
 | --------------------------------------- | --------------------------------------- |
 | 验证用户信息 | 已完成 AuthGatewayFilterFactory类 |
