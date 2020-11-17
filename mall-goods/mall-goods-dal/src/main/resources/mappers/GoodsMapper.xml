@@ -5,6 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="shop_id" jdbcType="BIGINT" property="shopId" />
     <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_class_id" jdbcType="BIGINT" property="goodsClassId" />
     <result column="goods_category_id" jdbcType="INTEGER" property="goodsCategoryId" />
     <result column="brand_id" jdbcType="INTEGER" property="brandId" />
     <result column="is_more_spec" jdbcType="BIT" property="isMoreSpec" />
@@ -82,9 +83,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, shop_id, goods_name, goods_category_id, brand_id, is_more_spec, spec_value, original_price, 
-    list_price, minimum_quantity, express_freight, picture_urls, inventory, sales, per_person_limit, 
-    view_count, goods_status, create_time, update_time, is_deleted
+    id, shop_id, goods_name, goods_class_id, goods_category_id, brand_id, is_more_spec, 
+    spec_value, original_price, list_price, minimum_quantity, express_freight, picture_urls, 
+    inventory, sales, per_person_limit, view_count, goods_status, create_time, update_time, 
+    is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.suyan.mall.goods.model.GoodsExample" resultMap="BaseResultMap">
     select
@@ -121,20 +123,20 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       select LAST_INSERT_ID()
     </selectKey>
-    insert into tb_goods (shop_id, goods_name, goods_category_id, 
-      brand_id, is_more_spec, spec_value, 
-      original_price, list_price, minimum_quantity, 
-      express_freight, picture_urls, inventory, 
-      sales, per_person_limit, view_count, 
-      goods_status, create_time, update_time, 
-      is_deleted)
-    values (#{shopId,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, #{goodsCategoryId,jdbcType=INTEGER}, 
-      #{brandId,jdbcType=INTEGER}, #{isMoreSpec,jdbcType=BIT}, #{specValue,jdbcType=VARCHAR}, 
-      #{originalPrice,jdbcType=DECIMAL}, #{listPrice,jdbcType=DECIMAL}, #{minimumQuantity,jdbcType=INTEGER}, 
-      #{expressFreight,jdbcType=DECIMAL}, #{pictureUrls,jdbcType=VARCHAR}, #{inventory,jdbcType=INTEGER}, 
-      #{sales,jdbcType=INTEGER}, #{perPersonLimit,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, 
-      #{goodsStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{isDeleted,jdbcType=BIT})
+    insert into tb_goods (shop_id, goods_name, goods_class_id, 
+      goods_category_id, brand_id, is_more_spec, 
+      spec_value, original_price, list_price, 
+      minimum_quantity, express_freight, picture_urls, 
+      inventory, sales, per_person_limit, 
+      view_count, goods_status, create_time, 
+      update_time, is_deleted)
+    values (#{shopId,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, #{goodsClassId,jdbcType=BIGINT}, 
+      #{goodsCategoryId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER}, #{isMoreSpec,jdbcType=BIT}, 
+      #{specValue,jdbcType=VARCHAR}, #{originalPrice,jdbcType=DECIMAL}, #{listPrice,jdbcType=DECIMAL}, 
+      #{minimumQuantity,jdbcType=INTEGER}, #{expressFreight,jdbcType=DECIMAL}, #{pictureUrls,jdbcType=VARCHAR}, 
+      #{inventory,jdbcType=INTEGER}, #{sales,jdbcType=INTEGER}, #{perPersonLimit,jdbcType=INTEGER}, 
+      #{viewCount,jdbcType=INTEGER}, #{goodsStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.suyan.mall.goods.model.Goods">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -147,6 +149,9 @@
       </if>
       <if test="goodsName != null">
         goods_name,
+      </if>
+      <if test="goodsClassId != null">
+        goods_class_id,
       </if>
       <if test="goodsCategoryId != null">
         goods_category_id,
@@ -206,6 +211,9 @@
       </if>
       <if test="goodsName != null">
         #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsClassId != null">
+        #{goodsClassId,jdbcType=BIGINT},
       </if>
       <if test="goodsCategoryId != null">
         #{goodsCategoryId,jdbcType=INTEGER},
@@ -278,6 +286,9 @@
       <if test="record.goodsName != null">
         goods_name = #{record.goodsName,jdbcType=VARCHAR},
       </if>
+      <if test="record.goodsClassId != null">
+        goods_class_id = #{record.goodsClassId,jdbcType=BIGINT},
+      </if>
       <if test="record.goodsCategoryId != null">
         goods_category_id = #{record.goodsCategoryId,jdbcType=INTEGER},
       </if>
@@ -339,6 +350,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       shop_id = #{record.shopId,jdbcType=BIGINT},
       goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      goods_class_id = #{record.goodsClassId,jdbcType=BIGINT},
       goods_category_id = #{record.goodsCategoryId,jdbcType=INTEGER},
       brand_id = #{record.brandId,jdbcType=INTEGER},
       is_more_spec = #{record.isMoreSpec,jdbcType=BIT},
@@ -368,6 +380,9 @@
       </if>
       <if test="goodsName != null">
         goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsClassId != null">
+        goods_class_id = #{goodsClassId,jdbcType=BIGINT},
       </if>
       <if test="goodsCategoryId != null">
         goods_category_id = #{goodsCategoryId,jdbcType=INTEGER},
@@ -427,6 +442,7 @@
     update tb_goods
     set shop_id = #{shopId,jdbcType=BIGINT},
       goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_class_id = #{goodsClassId,jdbcType=BIGINT},
       goods_category_id = #{goodsCategoryId,jdbcType=INTEGER},
       brand_id = #{brandId,jdbcType=INTEGER},
       is_more_spec = #{isMoreSpec,jdbcType=BIT},
@@ -486,6 +502,10 @@
             <if test="goodsNameLike != null and goodsNameLike != '' ">AND goods_name LIKE concat(#{goodsNameLike,jdbcType=VARCHAR},'%')</if>
             <if test="goodsNameList != null and goodsNameList.size > 0">
                 <foreach item="item" separator="," open="AND goods_name in (" close=")" collection="goodsNameList">#{item,jdbcType=VARCHAR}</foreach>
+            </if>
+            <if test="goodsClassId!=null">AND goods_class_id = #{goodsClassId,jdbcType=BIGINT}</if>
+            <if test="goodsClassIdList != null and goodsClassIdList.size > 0">
+                <foreach item="item" separator="," open="AND goods_class_id in (" close=")" collection="goodsClassIdList">#{item,jdbcType=BIGINT}</foreach>
             </if>
             <if test="goodsCategoryId!=null">AND goods_category_id = #{goodsCategoryId,jdbcType=INTEGER}</if>
             <if test="goodsCategoryIdList != null and goodsCategoryIdList.size > 0">
@@ -548,6 +568,7 @@
         <trim prefix="insert into tb_goods (" suffix=") values" suffixOverrides=",">
             shop_id,
             goods_name,
+            goods_class_id,
             goods_category_id,
             brand_id,
             is_more_spec,
@@ -567,6 +588,7 @@
             <trim prefix="(" suffix=")" suffixOverrides=",">
             #{bean.shopId,jdbcType=BIGINT} ,
             #{bean.goodsName,jdbcType=VARCHAR} ,
+            #{bean.goodsClassId,jdbcType=BIGINT} ,
             #{bean.goodsCategoryId,jdbcType=INTEGER} ,
             #{bean.brandId,jdbcType=INTEGER} ,
             #{bean.isMoreSpec,jdbcType=BOOLEAN} ,
@@ -585,5 +607,12 @@
         </foreach>
     </insert>
 
+    <select id="selectByGoodsClassId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_goods
+        WHERE  goods_class_id = #{goodsClassId,jdbcType=BIGINT}
+    AND is_deleted = 0
+    </select>
 
 </mapper>

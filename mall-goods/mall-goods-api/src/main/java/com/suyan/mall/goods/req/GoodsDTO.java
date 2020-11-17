@@ -40,6 +40,12 @@ public class GoodsDTO implements Serializable {
     private Long shopId;
 
     /**
+     * 商品分类id
+     */
+    @ApiModelProperty("商品分类id")
+    private Long goodsClassId;
+
+    /**
      * 商品名称
      */
     @ApiModelProperty("商品名称")

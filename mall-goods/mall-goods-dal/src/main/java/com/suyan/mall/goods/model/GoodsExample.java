@@ -1,9 +1,3 @@
-/*
- * Copyright (c) 2020.
- * 项目名称：素焉商城
- * 创建人：素焉
- * 开源地址: https://github.com/lixaviers/mall
- */
 package com.suyan.mall.goods.model;
 
 import java.math.BigDecimal;
@@ -299,6 +293,66 @@ public class GoodsExample {
 
         public Criteria andGoodsNameNotBetween(String value1, String value2) {
             addCriterion("goods_name not between", value1, value2, "goodsName");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsClassIdIsNull() {
+            addCriterion("goods_class_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsClassIdIsNotNull() {
+            addCriterion("goods_class_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsClassIdEqualTo(Long value) {
+            addCriterion("goods_class_id =", value, "goodsClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsClassIdNotEqualTo(Long value) {
+            addCriterion("goods_class_id <>", value, "goodsClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsClassIdGreaterThan(Long value) {
+            addCriterion("goods_class_id >", value, "goodsClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsClassIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("goods_class_id >=", value, "goodsClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsClassIdLessThan(Long value) {
+            addCriterion("goods_class_id <", value, "goodsClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsClassIdLessThanOrEqualTo(Long value) {
+            addCriterion("goods_class_id <=", value, "goodsClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsClassIdIn(List<Long> values) {
+            addCriterion("goods_class_id in", values, "goodsClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsClassIdNotIn(List<Long> values) {
+            addCriterion("goods_class_id not in", values, "goodsClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsClassIdBetween(Long value1, Long value2) {
+            addCriterion("goods_class_id between", value1, value2, "goodsClassId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsClassIdNotBetween(Long value1, Long value2) {
+            addCriterion("goods_class_id not between", value1, value2, "goodsClassId");
             return (Criteria) this;
         }
 

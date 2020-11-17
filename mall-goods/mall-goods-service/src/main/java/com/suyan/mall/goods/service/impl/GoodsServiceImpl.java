@@ -6,10 +6,7 @@
  */
 package com.suyan.mall.goods.service.impl;
 
-import com.suyan.mall.goods.biz.GoodsAttributeBiz;
-import com.suyan.mall.goods.biz.GoodsBiz;
-import com.suyan.mall.goods.biz.GoodsDescriptionBiz;
-import com.suyan.mall.goods.biz.GoodsSkuBiz;
+import com.suyan.mall.goods.biz.*;
 import com.suyan.mall.goods.convertor.GoodsAttributeConvertor;
 import com.suyan.mall.goods.convertor.GoodsConvertor;
 import com.suyan.mall.goods.convertor.GoodsSkuConvertor;
@@ -48,6 +45,8 @@ public class GoodsServiceImpl implements IGoodsService {
     private GoodsDescriptionBiz goodsDescriptionBiz;
     @Autowired
     private GoodsAttributeBiz goodsAttributeBiz;
+    @Autowired
+    private GoodsClassBiz goodsClassBiz;
 
     @Override
     public int deleteGoods(Long id) {

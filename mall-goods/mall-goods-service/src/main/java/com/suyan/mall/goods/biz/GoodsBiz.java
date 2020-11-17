@@ -83,6 +83,7 @@ public class GoodsBiz {
         dealInfo(goods);
 
         goods.setGoodsStatus(GoodsStatusEnum.NORMAL.getValue());
+        // 商品分类
         goodsBizMapper.insertSelective(goods);
         return goods.getId();
     }
@@ -296,6 +297,11 @@ public class GoodsBiz {
         GoodsExample example = new GoodsExample();
         example.createCriteria().andIsDeletedEqualTo(false).andIdIn(idList);
         return goodsBizMapper.selectByExample(example);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Goods> getByGoodsClassId(Long goodsClassId) {
+        return goodsBizMapper.selectByGoodsClassId(goodsClassId);
     }
 
 }

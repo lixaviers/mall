@@ -54,18 +54,6 @@ public class MqMessageDataBiz {
     }
 
     /**
-     * 批量创建
-     *
-     * @param mqMessageDataList
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public int batchCreateMqMessageData(List<MqMessageData> mqMessageDataList) {
-        // TODO: Describe business logic and implement it
-        return mqMessageDataMapper.insertBatch(mqMessageDataList);
-    }
-
-    /**
      * 更新消息数据
      *
      * @param mqMessageData

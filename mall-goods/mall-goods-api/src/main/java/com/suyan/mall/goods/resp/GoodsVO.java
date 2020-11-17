@@ -6,7 +6,6 @@
  */
 package com.suyan.mall.goods.resp;
 
-import com.suyan.mall.goods.req.GoodsAttributeDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -43,6 +42,12 @@ public class GoodsVO implements Serializable {
      */
     @ApiModelProperty("商品名称")
     private String goodsName;
+
+    /**
+     * 商品分类id
+     */
+    @ApiModelProperty("商品分类id")
+    private Long goodsClassId;
 
     /**
      * 类目id

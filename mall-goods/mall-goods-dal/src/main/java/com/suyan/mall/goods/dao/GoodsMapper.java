@@ -47,6 +47,8 @@ public interface GoodsMapper {
 
     int insertBatch(@Param("modelList") List<Goods> modelList);
 
+    
+    List<Goods> selectByGoodsClassId(@Param("goodsClassId") Long goodsClassId);
 
 
 }

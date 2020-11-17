@@ -7,6 +7,7 @@
 package com.suyan.mall.goods.req;
 
 import com.suyan.query.QueryDTO;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+@ApiModel("商品查询")
 public class GoodsQueryDTO extends QueryDTO {
 
     /**
@@ -42,6 +44,12 @@ public class GoodsQueryDTO extends QueryDTO {
 
     @ApiModelProperty("商品名称模糊字段")
     private String goodsNameLike;
+
+    @ApiModelProperty("分类id")
+    private Long goodsClassId;
+
+    @ApiModelProperty("分类id列表")
+    private List<Long> goodsClassIdList;
 
     @ApiModelProperty("类目id")
     private Integer goodsCategoryId;

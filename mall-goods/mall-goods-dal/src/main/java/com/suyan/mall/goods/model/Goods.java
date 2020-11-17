@@ -32,6 +32,11 @@ public class Goods {
     private String goodsName;
 
     /**
+     * 分类id
+     */
+    private Long goodsClassId;
+
+    /**
      * 类目id
      */
     private Integer goodsCategoryId;
